@@ -3,12 +3,12 @@ import { request } from '@/services/request'
 import { AuthServices } from '@/services/auth'
 import { type TRule, type TUser } from '@/types/user'
 import { type TResponseData } from '@/types/http'
-import { getCookies, setCookies } from '@/utils/cookies'
 import { getRedirectUrl } from '@/utils/url'
+import { getCookies, setCookies } from '@/utils/cookies'
 
 export class UserStore {
   token: string | null = null
-  rules: TRule[] = []
+  rules: TRule[] | null = null
   loading: boolean = false
   error: TError | null = null
   success: boolean = false
@@ -38,16 +38,14 @@ export class UserStore {
 
   init = (): void => {
     const token = getCookies('token')
-    const redirect = getCookies('redirect')
 
     if (token) {
       this.setToken(token)
       this.authServices.fetchAuth()
-    }
-
-    if (!token && !redirect) {
+    } else {
       const { href } = window.location
-      setCookies({ redirect: href.includes('/user/auth') ? `${getRedirectUrl('auth')}/user/apps` : href })
+      setCookies({ redirect: href })
+      window.location.href = `${getRedirectUrl('auth')}/user/auth`
     }
   }
 
@@ -81,14 +79,13 @@ export class UserStore {
       }
     }
     if (resp.user) this.user = resp.user
-    if (resp.rules) {
-      this.rules = resp.rules as TRule[]
-    }
+    if (resp.rules) this.rules = resp.rules
     if (resp.success) this.success = resp.success
     if (resp.error) {
       this.error = resp.error
       if (resp.error.key === 'authError') {
-        setCookies({ redirect: href.includes('/user/auth') ? `${getRedirectUrl('auth')}/user/apps` : href })
+        setCookies({ redirect: href })
+        window.location.href = `${getRedirectUrl('auth')}/user/auth`
         this.setToken(null)
       }
     }
