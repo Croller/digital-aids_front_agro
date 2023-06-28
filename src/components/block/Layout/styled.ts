@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { BREAKPOINTS, FONTS, PALETTE, THEME, Z_INDEX } from '@/styles/constants'
+import { HamburgerSvg } from '@/assets/images'
 
 export const Wrapper = styled.div<{ collapsed: boolean }>`
   display: block;
@@ -10,7 +11,7 @@ export const Wrapper = styled.div<{ collapsed: boolean }>`
     width: 250px;
 
     @media screen and (min-width: ${BREAKPOINTS.medium}) {
-      display: block;
+      display: flex;
       width: ${({ collapsed }) => collapsed ? '250px' : '60px'};
     }
   }
@@ -56,9 +57,13 @@ export const Sider = styled.aside`
   z-index: 1002;
   margin-top: 0;
   background-color: ${THEME.slider.bg};
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 0 1rem;
 
   @media screen and (min-width: ${BREAKPOINTS.medium}) {
-    display: block;
+    display: flex;
   }
 `
 
@@ -68,19 +73,19 @@ export const Logo = styled.div`
   align-items: center;
   height: 70px;
   padding: 0 1.3rem;
-  text-align: center;
-  color: ${PALETTE.white};
+  color: ${PALETTE.primary};
   font-size: 24px;
-  font-family: ${FONTS.bold};
+  font-family: ${FONTS.medium};
 `
 
 export const Menu = styled.div<{ collapsed: boolean }>`
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top: 4rem;
+  margin-top: auto;
 
   > div {
     justify-content: ${({ collapsed }) => collapsed ? 'flex-start' : 'center'};
@@ -100,14 +105,21 @@ export const Item = styled.div<{ active: boolean }>`
   font-size: 1rem;
   font-family: ${FONTS.medium};
   cursor: pointer;
-  background-color: ${(p) => p.active ? '#A0A8C4' : 'transparent'};
 
   &:not(:last-child) {
     margin-bottom: 4rem;
   }
 
   &:hover {
-    background-color: #A0A8C4;
+    > svg {
+      path:first-child {
+        fill: ${PALETTE.primary};
+      }
+    }
+
+    > span {
+      color: ${PALETTE.primary};
+    }
   }
 
   > svg {
@@ -115,19 +127,18 @@ export const Item = styled.div<{ active: boolean }>`
     height: 24px;
 
     path:first-child {
-      fill: ${PALETTE.white}
+      fill: #8496A8;
     }
   }
 `
 
 export const Text = styled.span`
-  color: ${PALETTE.white};
+  color: #8496A8;
   margin-left: .5rem;
 `
 
-export const Container = styled.section<{ noPadding: boolean }>`
+export const Container = styled.section`
   min-height: 100vh;
-  padding: ${(p) => p.noPadding ? '70px 0 0' : 'calc(70px + 1.25rem) calc(2.5rem * .5) 60px calc(2.5rem * .5)'};
   background-color: ${THEME.bg};
 `
 
@@ -143,6 +154,16 @@ export const Header = styled.header`
   justify-content: space-between;
   align-items: center;
   z-index: 100;
+`
+
+export const HamburgerSvgStyled = styled(HamburgerSvg)`
+  width: 24px;
+  cursor: pointer;
+  transform: rotate(180deg);
+
+  path {
+    fill: ${PALETTE.primary};
+  }
 `
 
 export const Content = styled.div`

@@ -14,8 +14,7 @@ export const ButtonStyled = styled.button<{ theme: string }>`
   padding: ${THEME.button.padding};
   background-color: transparent;
   border-radius: ${THEME.button.border.radius};
-  border: 1px solid ${PALETTE.purple};
-  color: ${THEME.button.font.color};
+  border: 1px solid ${PALETTE.primary};
 
   &:focus {
     outline: none;
@@ -41,6 +40,14 @@ export const ButtonStyled = styled.button<{ theme: string }>`
 
   ${p => p.theme === 'text' && css`
     background-color: transparent;
+    color: #00000066;
+    padding: 0;
+    border-width: 0;
+  `}
+
+  ${p => p.theme === 'link' && css`
+    background-color: transparent;
+    color: ${THEME.button.bg};
     padding: 0;
     border-width: 0;
   `}

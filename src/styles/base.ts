@@ -19,11 +19,7 @@ import MontserratExtraBoldItalic from '@/assets/fonts/Montserrat-ExtraBoldItalic
 import MontserratBlack from '@/assets/fonts/Montserrat-Black.ttf'
 import MontserratBlackItalic from '@/assets/fonts/Montserrat-BlackItalic.ttf'
 
-import {
-  FONTS,
-  PALETTE,
-  THEME
-} from './constants'
+import { THEME } from './constants'
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -34,6 +30,7 @@ export const GlobalStyle = createGlobalStyle`
     color: ${THEME.body.color};
     background-color: ${THEME.bg};
     overflow-x: hidden;
+    padding: ${THEME.body.padding};
   }
 
   .h1,.h2,.h3,.h4,.h5,.h6,h1,h2,h3,h4,h5,h6 {
@@ -165,13 +162,9 @@ export const GlobalStyle = createGlobalStyle`
       cursor: pointer;
 
       .ant-message-custom-content {
-        font-size: 20px;
+        font-size: .8rem;
         display: flex;
         align-items: center;
-
-        .anticon {
-          font-size: 20px;
-        }
       }
     }
   }

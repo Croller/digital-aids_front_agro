@@ -3,14 +3,15 @@ import { request } from '@/services/request'
 import { AuthServices } from '@/services/auth'
 import { type TRule, type TUser } from '@/types/user'
 import { type TResponseData } from '@/types/http'
-import { getRedirectUrl } from '@/utils/url'
 import { getCookies, setCookies } from '@/utils/cookies'
+import { getRedirectUrl } from '@/utils/url'
 
 export class UserStore {
   token: string | null = null
-  rules: TRule[] | null = null
+  rules: TRule[] = []
   loading: boolean = false
   error: TError | null = null
+  success: boolean = false
   user: TUser = {
     id: '',
     surname: '',
@@ -37,14 +38,16 @@ export class UserStore {
 
   init = (): void => {
     const token = getCookies('token')
+    const redirect = getCookies('redirect')
 
     if (token) {
       this.setToken(token)
       this.authServices.fetchAuth()
-    } else {
+    }
+
+    if (!token && !redirect) {
       const { href } = window.location
-      setCookies({ redirect: href })
-      window.location.href = `${getRedirectUrl('auth')}/user/auth`
+      setCookies({ redirect: href.includes('/user/auth') ? `${getRedirectUrl('auth')}/user/apps` : href })
     }
   }
 
@@ -62,6 +65,10 @@ export class UserStore {
     this.error = error
   }
 
+  setSuccess = (bool: boolean): void => {
+    this.success = bool
+  }
+
   setResponse = (resp: TResponseData): void => {
     const { href } = window.location
     const redirect = getCookies('redirect')
@@ -74,12 +81,14 @@ export class UserStore {
       }
     }
     if (resp.user) this.user = resp.user
-    if (resp.rules) this.rules = resp.rules
+    if (resp.rules) {
+      this.rules = resp.rules as TRule[]
+    }
+    if (resp.success) this.success = resp.success
     if (resp.error) {
       this.error = resp.error
       if (resp.error.key === 'authError') {
-        setCookies({ redirect: href })
-        window.location.href = `${getRedirectUrl('auth')}/user/auth`
+        setCookies({ redirect: href.includes('/user/auth') ? `${getRedirectUrl('auth')}/user/apps` : href })
         this.setToken(null)
       }
     }

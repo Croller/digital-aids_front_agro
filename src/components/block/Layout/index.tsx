@@ -1,8 +1,10 @@
 import React, { memo, useState } from 'react'
 import { BREAKPOINTS } from '@/styles/constants'
+import { ProfileSvg } from '@/assets/images'
 import { useTranslation } from 'react-i18next'
 import { useStores } from '@/stores'
 import { useNavigate } from 'react-router-dom'
+import { Account } from './components/Account'
 import {
   Wrapper,
   Overlay,
@@ -12,6 +14,7 @@ import {
   Item,
   Text,
   Header,
+  HamburgerSvgStyled,
   Container,
   Content
 } from './styled'
@@ -23,15 +26,14 @@ interface ILayout {
 }
 
 export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
-  const { userStore: { isRule, setToken } } = useStores()
+  const { userStore: { setToken } } = useStores()
   const [collapsed, setCollapsed] = useState(false)
   const [t] = useTranslation()
   const navigate = useNavigate()
-  const env = process.env.NODE_ENV ?? ''
-  const isDev = env === 'development'
+  const isDev = process.env.NODE_ENV === 'development'
   const isUserRepo = window.location.href.includes('/user')
   const host = isDev ? `http://${process.env.LOCAL_IP ?? ''}:${process.env.AUTH_PORT ?? ''}` : `https://${process.env.HOST ?? ''}`
-  const path = isUserRepo ? '' : host
+
   window.addEventListener('resize', () => { setCollapsed(false) })
 
   const onRoute = (url: string): void => {
@@ -43,8 +45,6 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
 
   const isActive = (url: string): boolean => window.location.href.includes(url)
 
-  const noPadding = (): boolean => ['/geo/map'].some((path: string) => window.location.href.includes(path))
-
   return (
     <Wrapper collapsed={collapsed}>
       {collapsed && innerWidth < Number(BREAKPOINTS.medium.replace('px', '')) && (
@@ -52,28 +52,30 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
       )}
       <Sider>
         <Logo>
-          {collapsed ? 'T1 - Aero' : 'T1'}
+          {collapsed ? 'DA - Account' : 'DA'}
         </Logo>
         <Menu collapsed={collapsed}>
-          {/* {isRule('root') && (
-            <Item onClick={() => { onRoute('/user/admin') }}>
-              <UserCircleSvg />
-              <Text>{t('common.words.users')}</Text>
-            </Item>
-          )} */}
-          <Item
-            active={isActive('/user/apps')}
-            onClick={() => { onRoute('/user/apps') }}
-          >
-            <Text>{t('common.words.apps')}</Text>
-          </Item>
           {menu}
         </Menu>
+        <Menu collapsed={collapsed}>
+          <Item
+            active={isActive('/user/account')}
+            onClick={() => { onRoute('/user/account') }}
+          >
+            <ProfileSvg />
+            <Text>{t('common.words.account')}</Text>
+          </Item>
+        </Menu>
       </Sider>
-      <Container noPadding={noPadding()}>
-        <Header>
+      <Container>
+        {/* <Header>
+          <HamburgerSvgStyled onClick={() => { setCollapsed(!collapsed) }} />
           {header}
-        </Header>
+          <Account
+            isRule={isRule}
+            onRoute={onRoute}
+          />
+        </Header> */}
         <Content>
           {children}
         </Content>
