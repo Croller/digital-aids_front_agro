@@ -1,0 +1,20 @@
+{
+  "processors": ["stylelint-processor-styled-components"],
+  "extends": [
+    "stylelint-config-recommended",
+    "stylelint-config-styled-components"
+  ],
+  "syntax": "scss",
+  "overrides": [
+    {
+      "files": ["**/styled.ts"],
+      "customSyntax": "@stylelint/postcss-css-in-js",
+      "rules": {
+        "at-rule-no-unknown": true
+      }
+    }
+  ],
+  "rules": {
+    "declaration-block-trailing-semicolon": "always"
+  }
+}
