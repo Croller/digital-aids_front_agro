@@ -12,13 +12,13 @@ export const Z_INDEX = {
 export const PALETTE = {
   white: '#FFFFFF',
   black: '#000000',
-  bg: '#F3F3F9',
-  purple: '#405189',
+  bg: '#F3F3F6',
+  primary: '#405189',
   heading: '#495057',
   overlay: '#21252959',
   text: '#212529',
   red: '#DD584D',
-  green: '#09A18C',
+  green: '#219653',
   grey: '#CED4DA',
   border: '#E9EBEC',
   hover: '#F3F6F9'
@@ -42,17 +42,18 @@ export const THEME = {
     sub: '#878A99'
   },
   body: {
-    size: '.8125rem',
+    size: '14px',
     family: FONTS.regular,
-    color: PALETTE.text
+    color: PALETTE.text,
+    padding: '.25rem'
   },
   button: {
-    bg: PALETTE.purple,
+    bg: PALETTE.primary,
     disabled: PALETTE.grey,
     padding: '.5rem .9rem',
     font: {
       size: '0.8rem',
-      color: PALETTE.purple,
+      color: PALETTE.primary,
       family: FONTS.medium
     },
     border: {
@@ -60,7 +61,7 @@ export const THEME = {
     }
   },
   slider: {
-    bg: '#405189'
+    bg: PALETTE.bg
   },
   card: {
     bg: PALETTE.white,
@@ -160,7 +161,7 @@ export const THEME = {
     }
   },
   checkbox: {
-    bg: PALETTE.purple,
+    bg: PALETTE.bg,
     font: {
       size: '0.85rem',
       color: PALETTE.black,

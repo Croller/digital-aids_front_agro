@@ -4,7 +4,7 @@ import { ButtonStyled, SpinStyled } from './styled'
 
 interface IButton {
   type?: 'button' | 'submit' | 'reset'
-  theme?: 'default' | 'primary' | 'text'
+  theme?: 'default' | 'primary' | 'text' | 'link'
   disabled?: boolean
   loading?: boolean
   onClick?: () => void
