@@ -45,7 +45,7 @@ export const THEME = {
     size: '14px',
     family: FONTS.regular,
     color: PALETTE.text,
-    padding: '.25rem'
+    padding: '0 .25rem'
   },
   button: {
     bg: PALETTE.primary,
