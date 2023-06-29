@@ -20,6 +20,7 @@ export const PALETTE = {
   red: '#DD584D',
   green: '#219653',
   grey: '#CED4DA',
+  icon: '#8496A8',
   border: '#E9EBEC',
   hover: '#F3F6F9'
 }

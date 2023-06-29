@@ -1,23 +1,24 @@
 import React, { memo, useState } from 'react'
 import { BREAKPOINTS } from '@/styles/constants'
-import { ProfileSvg } from '@/assets/images'
+import { BoltSvg, LogoSvg, TileMapPng } from '@/assets/images'
 import { useTranslation } from 'react-i18next'
 import { useStores } from '@/stores'
 import { useNavigate } from 'react-router-dom'
-import { Account } from './components/Account'
 import {
   Wrapper,
   Overlay,
   Sider,
   Logo,
   Menu,
+  Footer,
   Item,
   Text,
+  Avatar,
   Header,
-  HamburgerSvgStyled,
   Container,
   Content
 } from './styled'
+import { items } from './constants'
 
 interface ILayout {
   header?: React.ReactNode
@@ -26,8 +27,8 @@ interface ILayout {
 }
 
 export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
-  const { userStore: { setToken } } = useStores()
-  const [collapsed, setCollapsed] = useState(false)
+  const { userStore: { setToken, user } } = useStores()
+  const [collapsed, setCollapsed] = useState(true)
   const [t] = useTranslation()
   const navigate = useNavigate()
   const isDev = process.env.NODE_ENV === 'development'
@@ -52,20 +53,30 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
       )}
       <Sider>
         <Logo>
-          {collapsed ? 'DA - Account' : 'DA'}
+          <LogoSvg />
+          {collapsed && t('common.words.app')}
         </Logo>
         <Menu collapsed={collapsed}>
+          {items.map((item) => (
+            <Item
+              active={isActive(item.path)}
+              onClick={() => { onRoute(item.path) }}
+            >
+              {item.icon}
+              <Text>{t(`common.layout.${item.key}`)}</Text>
+            </Item>
+          ))}
           {menu}
         </Menu>
-        <Menu collapsed={collapsed}>
+        <Footer collapsed={collapsed}>
           <Item
             active={isActive('/user/account')}
             onClick={() => { onRoute('/user/account') }}
           >
-            <ProfileSvg />
-            <Text>{t('common.words.account')}</Text>
+            <Avatar url={TileMapPng} />
+            <Text>Test{`${user.middlename} ${user.name}`}</Text>
           </Item>
-        </Menu>
+        </Footer>
       </Sider>
       <Container>
         {/* <Header>

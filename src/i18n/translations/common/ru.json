@@ -1,5 +1,15 @@
 {
   "words": {
-
+    "app": "Агро"
+  },
+  "layout": {
+    "summary": "Сводка",
+    "fields": "Мои поля",
+    "rotation": "Севоборот",
+    "services": "Услуги",
+    "reports": "Отчёты",
+    "telemetry": "Телеметрия",
+    "weather": "Погода",
+    "base": "База знаний"
   }
 }
