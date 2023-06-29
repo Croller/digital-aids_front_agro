@@ -135,8 +135,11 @@ export const Item = styled.div<{ active: boolean }>`
   }
 
   ${p => p.active && css`
-    color: ${PALETTE.primary};
     background-color: ${PALETTE.white};
+
+    > span {
+      color: ${PALETTE.primary};
+    }
 
     > svg {
       path {
@@ -182,5 +185,6 @@ export const Header = styled.header`
 
 export const Content = styled.div`
   height: 100%;
+  padding-left: .25rem;
   -webkit-overflow-scrolling: touch;
 `

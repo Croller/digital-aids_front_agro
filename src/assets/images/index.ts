@@ -7,6 +7,15 @@ import ServicesSvg from '@/assets/images/svg/services.svg'
 import TelemetrySvg from '@/assets/images/svg/telemetry.svg'
 import FieldsSvg from '@/assets/images/svg/fields.svg'
 import BookSvg from '@/assets/images/svg/book.svg'
+import GearSvg from '@/assets/images/svg/gear.svg'
+import ShevronSvg from '@/assets/images/svg/shevron.svg'
+import LocationSvg from '@/assets/images/svg/location.svg'
+import MinusSvg from '@/assets/images/svg/minus.svg'
+import PlusSvg from '@/assets/images/svg/plus.svg'
+
+import FieldsDrawSvg from '@/assets/images/svg/custom/fields/draw.svg'
+import FieldsSelectSvg from '@/assets/images/svg/custom/fields/select.svg'
+import FieldsUploadSvg from '@/assets/images/svg/custom/fields/upload.svg'
 
 import TileMapPng from '@/assets/images/png/tile_map.png'
 import TileSatellitePng from '@/assets/images/png/tile_satellite.png'
@@ -21,6 +30,15 @@ export {
   TelemetrySvg,
   FieldsSvg,
   BookSvg,
+  GearSvg,
+  ShevronSvg,
+  LocationSvg,
+  MinusSvg,
+  PlusSvg,
+
+  FieldsDrawSvg,
+  FieldsSelectSvg,
+  FieldsUploadSvg,
 
   TileMapPng,
   TileSatellitePng

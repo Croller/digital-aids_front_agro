@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components'
-import { Spin } from 'antd'
 import { PALETTE, THEME } from '@/styles/constants'
 
 export const ButtonStyled = styled.button<{ theme: string }>`
@@ -34,8 +33,8 @@ export const ButtonStyled = styled.button<{ theme: string }>`
   }
 
   ${p => p.theme === 'primary' && css`
-    background-color: ${THEME.button.bg};
-    color: ${PALETTE.white};
+    background-color: ${THEME.button.primary.bg};
+    color: ${THEME.button.primary.font.color};
   `}
 
   ${p => p.theme === 'text' && css`
@@ -52,9 +51,4 @@ export const ButtonStyled = styled.button<{ theme: string }>`
     border-width: 0;
   `}
 
-`
-
-export const SpinStyled = styled(Spin)`
-  margin-right: 1rem;
-  color: ${PALETTE.white};
 `

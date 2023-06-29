@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react'
 import { BREAKPOINTS } from '@/styles/constants'
-import { BoltSvg, LogoSvg, TileMapPng } from '@/assets/images'
+import { LogoSvg, TileMapPng } from '@/assets/images'
 import { useTranslation } from 'react-i18next'
 import { useStores } from '@/stores'
 import { useNavigate } from 'react-router-dom'
@@ -54,16 +54,17 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
       <Sider>
         <Logo>
           <LogoSvg />
-          {collapsed && t('common.words.app')}
+          {collapsed && t('words.app')}
         </Logo>
         <Menu collapsed={collapsed}>
           {items.map((item) => (
             <Item
+              key={`_item_${item.key}`}
               active={isActive(item.path)}
               onClick={() => { onRoute(item.path) }}
             >
               {item.icon}
-              <Text>{t(`common.layout.${item.key}`)}</Text>
+              <Text>{t(`layout.${item.key}`)}</Text>
             </Item>
           ))}
           {menu}

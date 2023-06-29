@@ -1,5 +1,4 @@
 import React from 'react'
-
 import {
   BoltSvg,
   WeatherSvg,
@@ -11,45 +10,47 @@ import {
   BookSvg
 } from '@/assets/images'
 
+const APP = process.env.APP_NAME ?? ''
+
 export const items: { key: string, icon: React.ReactElement, path: string }[] = [
   {
     key: 'summary',
     icon: <BoltSvg />,
-    path: '/summary'
+    path: `/${APP}/summary`
   },
   {
     key: 'fields',
     icon: <FieldsSvg />,
-    path: '/fields'
+    path: `/${APP}/fields`
   },
   {
     key: 'rotation',
     icon: <RotateSvg />,
-    path: '/rotation'
+    path: `/${APP}/rotation`
   },
   {
     key: 'services',
     icon: <ServicesSvg />,
-    path: '/services'
+    path: `/${APP}/services`
   },
   {
     key: 'reports',
     icon: <ReportSvg />,
-    path: '/reports'
+    path: `/${APP}/reports`
   },
   {
     key: 'telemetry',
     icon: <TelemetrySvg />,
-    path: '/telemetry'
+    path: `/${APP}/telemetry`
   },
   {
     key: 'weather',
     icon: <WeatherSvg />,
-    path: '/weather'
+    path: `/${APP}/weather`
   },
   {
     key: 'base',
     icon: <BookSvg />,
-    path: '/base'
+    path: `/${APP}/base`
   }
 ]
