@@ -41,7 +41,7 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
     if (url.includes('/user/auth')) {
       setToken(null)
     }
-    isUserRepo ? navigate(url) : window.location.href = `${host}${url}`
+    !isUserRepo ? navigate(url) : window.location.href = `${host}${url}`
   }
 
   const isActive = (url: string): boolean => window.location.href.includes(url)

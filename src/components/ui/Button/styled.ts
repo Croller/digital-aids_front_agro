@@ -9,14 +9,20 @@ export const ButtonStyled = styled.button<{ theme: string }>`
   font-size: ${THEME.button.font.size};
   font-family: ${THEME.button.font.family};
   color: ${THEME.button.font.color};
-  cursor: pointer;
   padding: ${THEME.button.padding};
-  background-color: transparent;
+  background-color: ${THEME.button.bg};
   border-radius: ${THEME.button.border.radius};
-  border: 1px solid ${PALETTE.primary};
+  border-width: 0;
+  cursor: pointer;
 
   &:focus {
     outline: none;
+  }
+
+  > svg {
+    path {
+      fill: ${THEME.button.font.color};
+    }
   }
 
   ${p => p.disabled && css`
@@ -26,29 +32,39 @@ export const ButtonStyled = styled.button<{ theme: string }>`
     border-width: 0;
   `}
 
-  .ant-spin {
-    .anticon {
-      font-size: 18px;
-    }
-  }
-
   ${p => p.theme === 'primary' && css`
-    background-color: ${THEME.button.primary.bg};
     color: ${THEME.button.primary.font.color};
+    background-color: ${THEME.button.primary.bg};
+
+    > svg {
+      path {
+        fill: ${THEME.button.primary.font.color};
+      }
+    }
   `}
 
   ${p => p.theme === 'text' && css`
-    background-color: transparent;
-    color: #00000066;
-    padding: 0;
-    border-width: 0;
+    background-color: ${THEME.button.text.bg};
+    color: ${THEME.button.text.font.color};
+    padding: ${THEME.button.text.padding};
+
+    > svg {
+      path {
+        fill: ${THEME.button.text.font.color};
+      }
+    }
   `}
 
   ${p => p.theme === 'link' && css`
-    background-color: transparent;
-    color: ${THEME.button.bg};
-    padding: 0;
-    border-width: 0;
+  background-color: ${THEME.button.link.bg};
+    color: ${THEME.button.link.font.color};
+    padding: ${THEME.button.link.padding};
+
+    > svg {
+      path {
+        fill: ${THEME.button.link.font.color};
+      }
+    }
   `}
 
 `

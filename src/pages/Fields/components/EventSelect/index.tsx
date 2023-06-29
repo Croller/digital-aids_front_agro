@@ -23,10 +23,10 @@ const items: { key: string, icon: React.ReactElement }[] = [
 ]
 
 interface IEventSelect {
-  onClick: (key: string) => void
+  onSelect: (key: string) => void
 }
 
-export const EventSelect: React.FC<IEventSelect> = memo(({ onClick }) => {
+export const EventSelect: React.FC<IEventSelect> = memo(({ onSelect }) => {
   const { t } = useTranslation()
 
   return (
@@ -34,7 +34,7 @@ export const EventSelect: React.FC<IEventSelect> = memo(({ onClick }) => {
       {items.map((item) => (
         <Item
           key={`_item_${item.key}`}
-          onClick={() => { onClick(item.key) }}
+          onClick={() => { onSelect(item.key) }}
         >
           {item.icon}
           <Text>

@@ -14,8 +14,12 @@
     "weather": "Weather",
     "base": "Knowledge base"
   },
+  "summary": {
+    "text": {
+      "create": "You have not added any fields. Add your fields and get an extensive summary of the most important events across all your fields."
+    }
+  },
   "fields": {
-    "title": "My fields",
     "text": {
       "create": "You have not added any fields yet. Add your fields and get full information about their status",
       "select": "Select the fields you need on the map"

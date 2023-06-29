@@ -66,6 +66,20 @@ export const THEME = {
       font: {
         color: PALETTE.white
       }
+    },
+    text: {
+      bg: 'transparent',
+      padding: 0,
+      font: {
+        color: PALETTE.black
+      }
+    },
+    link: {
+      bg: 'transparent',
+      padding: 0,
+      font: {
+        color: PALETTE.primary
+      }
     }
   },
   slider: {
