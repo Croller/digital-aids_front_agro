@@ -4,7 +4,7 @@ import { HamburgerSvg } from '@/assets/images'
 
 export const Wrapper = styled.div<{ collapsed: boolean }>`
   display: block;
-
+  padding: .25rem 0;
 
   > aside {
     display: ${({ collapsed }) => collapsed ? 'block' : 'none'};
@@ -60,7 +60,7 @@ export const Sider = styled.aside`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  padding: 0 0 1rem;
+  padding: 1rem 0;
 
   @media screen and (min-width: ${BREAKPOINTS.medium}) {
     display: flex;
@@ -71,8 +71,6 @@ export const Logo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 70px;
-  padding: 0 1.3rem;
   color: ${PALETTE.primary};
   font-size: 24px;
   font-family: ${FONTS.medium};
@@ -138,7 +136,7 @@ export const Text = styled.span`
 `
 
 export const Container = styled.section`
-  min-height: 100vh;
+  max-height: 100%;
   background-color: ${THEME.bg};
 `
 
