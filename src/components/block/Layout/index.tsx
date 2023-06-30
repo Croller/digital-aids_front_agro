@@ -13,6 +13,8 @@ import {
   Footer,
   Item,
   Text,
+  Company,
+  Info,
   Avatar,
   Header,
   Container,
@@ -78,6 +80,14 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
             <Text>Test{`${user.middlename} ${user.name}`}</Text>
           </Item>
         </Footer>
+        <Company collapsed={collapsed}>
+          <Info>
+            DA ©
+          </Info>
+          <Info>
+            2023
+          </Info>
+        </Company>
       </Sider>
       <Container>
         {/* <Header>

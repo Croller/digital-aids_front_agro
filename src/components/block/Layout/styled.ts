@@ -6,12 +6,12 @@ export const Wrapper = styled.div<{ collapsed: boolean }>`
   padding: .25rem 0;
 
   > aside {
-    display: ${({ collapsed }) => collapsed ? 'block' : 'none'};
+    display: ${p => p.collapsed ? 'block' : 'none'};
     width: 250px;
 
     @media screen and (min-width: ${BREAKPOINTS.medium}) {
       display: flex;
-      width: ${({ collapsed }) => collapsed ? '14.875rem' : '60px'};
+      width: ${p => p.collapsed ? '14.875rem' : '60px'};
     }
   }
 
@@ -22,12 +22,12 @@ export const Wrapper = styled.div<{ collapsed: boolean }>`
       left: 0px;
 
       @media screen and (min-width: ${BREAKPOINTS.medium}) {
-        left: ${({ collapsed }) => collapsed ? '14.875rem' : '60px'};
+        left: ${p => p.collapsed ? '14.875rem' : '60px'};
       }
     }
 
     @media screen and (min-width: ${BREAKPOINTS.medium}) {
-      margin-left: ${({ collapsed }) => collapsed ? '14.875rem' : '60px'};
+      margin-left: ${p => p.collapsed ? '14.875rem' : '60px'};
     }
   }
 `
@@ -91,11 +91,11 @@ export const Menu = styled.div<{ collapsed: boolean }>`
   padding: 0 .5rem;
 
   > div {
-    justify-content: ${({ collapsed }) => collapsed ? 'flex-start' : 'center'};
-    padding: ${({ collapsed }) => collapsed ? '.5rem;' : '.8rem 0'};
+    justify-content: ${p => p.collapsed ? 'flex-start' : 'center'};
+    padding: ${p => p.collapsed ? '.5rem;' : '.8rem 0'};
 
     > span {
-      display: ${({ collapsed }) => collapsed ? 'block' : 'none'};
+      display: ${p => p.collapsed ? 'block' : 'none'};
     }
   }
 
@@ -162,6 +162,28 @@ export const Avatar = styled.div<{ url: string }>`
 export const Text = styled.span`
   color: ${PALETTE.black};
   margin-left: .63rem;
+`
+
+export const Company = styled.div<{ collapsed: boolean }>`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: ${p => p.collapsed ? 'space-between' : 'center'};
+  padding: 0 .5rem;
+  margin-top: .5rem;
+
+
+  > div:last-child {
+    margin-left: auto;
+    display: ${p => p.collapsed ? 'block' : 'none'};
+  }
+`
+
+export const Info = styled.div`
+  font-size: 0.75rem;
+  font-family: ${FONTS.regular};
+  color: ${PALETTE.icon};
+  padding: 0 .5rem;
 `
 
 export const Container = styled.section`
