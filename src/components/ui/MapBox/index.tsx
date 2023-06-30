@@ -1,17 +1,17 @@
-/* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect, useRef } from 'react'
 import * as turf from '@turf/turf'
-import mapboxgl, { Map, type MapMouseEvent, type EventData, type LngLatBoundsLike } from 'mapbox-gl'
-import { getScale } from './utils/common'
+import mapboxgl, { Map, type MapMouseEvent, type EventData, type LngLatBoundsLike, AnyLayer } from 'mapbox-gl'
+import { getScale } from './utils/getScale'
+import { getPixelColor } from './utils/getPixelColor'
+import { mapStyleConfig, styleImage } from './constants'
+import { Style } from './components/Style'
+import { type TLayer } from '@/components/ui/MapBox/type'
 import {
   Wrapper,
   Scale,
   Coordinates
 } from './styled'
-import { type TLayer } from '@/components/ui/MapBox/types/mapbox'
-import { getPixelColor } from './utils/getPixelColor'
-import { mapStyleConfig, styleImage } from './constants'
-import { Style } from './components/Style'
+import { Navigate } from './components/Navigate'
 
 interface IMapBox {
   className?: string
@@ -19,8 +19,10 @@ interface IMapBox {
   width?: string
   config?: any
   showInfo?: boolean
-  changeStyle?: boolean
+  showStyle?: boolean
+  showNav?: boolean
   layers: TLayer[]
+  configStyle?: string | null
   onClick?: (obj: {
     coordinates: { x: number, y: number }
     layers: any | null
@@ -29,12 +31,14 @@ interface IMapBox {
 
 export const MapBox: React.FC<IMapBox> = ({
   className = '',
-  height = '100vh',
-  width = '100vw',
+  height = '100%',
+  width = '100%',
   config = null,
   showInfo = true,
-  changeStyle = true,
+  showStyle = true,
+  showNav = true,
   layers = [],
+  configStyle = null,
   onClick
 }) => {
   const ref = useRef(null)
@@ -43,10 +47,30 @@ export const MapBox: React.FC<IMapBox> = ({
   const [coords, setCoords] = useState({ x: 0, y: 0 })
   const [scale, setScale] = useState(0)
 
+  const mapStyle = {
+    ...mapStyleConfig,
+    layers: mapStyleConfig.layers.reduce((layers: any[], layer: any) => {
+      if (layer.id === configStyle) {
+        return [...layers, {
+          ...layer,
+          layout: {
+            visibility: 'visible'
+          }
+        }]
+      }
+      return [...layers, {
+        ...layer,
+        layout: {
+          visibility: 'none'
+        }
+      }]
+    }, [])
+  }
+
   const init = {
     container: 'mapbox',
     // style: 'mapbox://styles/croller/ckpm77kfx7d3g17vxskgpx1ty',
-    style: mapStyleConfig,
+    style: mapStyle,
     zoom: 7,
     // center: [37.6155600, 55.7522200],
     bounds: [[21.773329482659875, 72.78393526534538], [170.66004823266013, 42.60248863563612]],
@@ -133,7 +157,7 @@ export const MapBox: React.FC<IMapBox> = ({
   const mapLoad = (): void => {
     setTimeout(() => {
       map?.resize()
-      setScale(getScale(map, turf))
+      map && setScale(getScale(map))
       setLayers([...layers])
     })
   }
@@ -167,7 +191,7 @@ export const MapBox: React.FC<IMapBox> = ({
     map?.on('contextmenu', () => {})
     map?.on('moveend', () => {})
     map?.on('wheel', () => {
-      setScale(getScale(map, turf))
+      setScale(getScale(map))
     })
   }
 
@@ -190,13 +214,14 @@ export const MapBox: React.FC<IMapBox> = ({
     <Wrapper
       id="mapbox"
       ref={ref}
-      height={height || '100vh'}
+      height={height}
       width={width}
       className={`t-map ${className}`}
     >
+      {showNav && <Navigate map={map} />}
+      {showStyle && <Style value={configStyle} source={styleImage} onChange={setMapStyle}/>}
       {showInfo && (
         <>
-          <Style source={styleImage} onChange={setMapStyle}/>
           <Coordinates onClick={() => { setMapStyle('yandexSat') }}>{`X: ${coords.x.toFixed(6)} Y: ${coords.y.toFixed(6)}`}</Coordinates>
           <Scale>{`М 1:${scale}`}</Scale>
         </>

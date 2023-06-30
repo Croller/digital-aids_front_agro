@@ -37,6 +37,8 @@ export const Name = styled.div`
   font-size: .8rem;
   color: ${PALETTE.black};
   background-color: ${PALETTE.white};
+  border-bottom-left-radius: .2rem;
+  border-bottom-right-radius: .2rem;
 `
 
 export const List = styled.div<{ show: boolean }>`

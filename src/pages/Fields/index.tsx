@@ -44,7 +44,7 @@ export default memo((): React.ReactElement => {
             />
           )}
       </LeftPanel>
-      <MapboxStyled height='calc(100vh - .5rem)' layers={[]}/>
+      <MapboxStyled configStyle="googleSat" layers={[]}/>
     </Wrapper>
   )
 })
