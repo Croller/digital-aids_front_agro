@@ -6,8 +6,9 @@ export type TLayer = {
     type: 'raster' | 'fill' | 'line' | 'sky' | 'circle'
     source: string
     'source-layer'?: string
-    minzoom: number
-    maxzoom: number
+    minzoom?: number
+    maxzoom?: number
+    filter?: string[]
     layout: {
       visibility: 'visible' | 'none'
       'line-join'?: string
@@ -25,12 +26,14 @@ export type TLayer = {
       'circle-stroke-color'?: string
     }
   }
-  source: {
+  source?: {
     type: 'raster' | 'geojson' | 'vector'
-    data: FeatureCollection | Feature | Feature[] | string
+    data?: FeatureCollection | Feature | Feature[] | string
     tiles?: string[]
     url?: string
     tileSize?: number
     scheme?: 'tms'
+    bounds?: number[]
   }
+  before?: string
 }

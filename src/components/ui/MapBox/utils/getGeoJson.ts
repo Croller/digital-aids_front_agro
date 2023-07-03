@@ -1,7 +1,7 @@
 import { type Feature, feature } from '@turf/turf'
 
-export const getGeoJson = (src: Feature): Feature | null => {
-  const { properties, geometry } = src
+export const getGeoJson = (src: Feature & { source: string }): Feature & { source: string } | null => {
+  const { properties, geometry, source } = src
   if (!properties) return null
   const prop = Object.keys(properties as any).reduce((obj, key) => {
     let value = properties[key]
@@ -16,5 +16,6 @@ export const getGeoJson = (src: Feature): Feature | null => {
     }
     return { ...obj, [key]: value }
   }, {})
-  return feature(geometry, prop)
+  const fe = feature(geometry, prop)
+  return { ...fe, source }
 }

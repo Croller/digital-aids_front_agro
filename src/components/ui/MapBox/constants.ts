@@ -12,6 +12,11 @@ export const styleImage: { key: string, name: string, image: string }[] = [
     image: TileMapPng
   },
   {
+    key: 'scanexSat',
+    name: 'Scanex',
+    image: TileSatellitePng
+  },
+  {
     key: 'googleSat',
     name: 'Google',
     image: TileSatellitePng
@@ -34,9 +39,15 @@ export const mapStyleConfig: mapboxgl.Style = {
       tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
       tileSize: 256
     },
+    scanexSat: {
+      type: 'raster',
+      // eslint-disable-next-line max-len
+      tiles: ['https://maps.kosmosnimki.ru/TileSender.ashx?ModeKey=tile&ftc=osm&x={x}&y={y}&z={z}&srs=3857&sw=1&LayerName=4EE5E84381E94E369784464FD41EED5A&key=N%2BAz7iqqkgEre1TcrZ09kjGG7KYIRZb8VI6E3K5EhXugkv3rRQMm2Zc74w7S1ILtcOdN5T4X82%2ByqFPT7KuvQofBVHe3o7j3Od1ZUiyB9JI%3D'],
+      tileSize: 256
+    },
     googleSat: {
       type: 'raster',
-      tiles: ['https://mt2.google.com/vt/lyrs=s,h&hl=en&x={x}&y={y}&z={z}'],
+      tiles: ['https://mt2.google.com/vt/lyrs=s,h&hl=ru&x={x}&y={y}&z={z}'],
       tileSize: 256
     }
   },
@@ -53,6 +64,14 @@ export const mapStyleConfig: mapboxgl.Style = {
       id: 'osm',
       type: 'raster',
       source: 'osm',
+      layout: {
+        visibility: 'none'
+      }
+    },
+    {
+      id: 'scanexSat',
+      type: 'raster',
+      source: 'scanexSat',
       layout: {
         visibility: 'none'
       }

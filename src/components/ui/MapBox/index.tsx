@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import * as turf from '@turf/turf'
-import mapboxgl, { Map, type MapMouseEvent, type EventData, type LngLatBoundsLike, AnyLayer } from 'mapbox-gl'
+import mapboxgl, { Map, type MapMouseEvent, type EventData, type LngLatBoundsLike } from 'mapbox-gl'
 import { getScale } from './utils/getScale'
 import { getPixelColor } from './utils/getPixelColor'
 import { mapStyleConfig, styleImage } from './constants'
@@ -12,6 +12,7 @@ import {
   Coordinates
 } from './styled'
 import { Navigate } from './components/Navigate'
+import { getGeoJson } from './utils/getGeoJson'
 
 interface IMapBox {
   className?: string
@@ -21,11 +22,12 @@ interface IMapBox {
   showInfo?: boolean
   showStyle?: boolean
   showNav?: boolean
+  zoomOnClick?: boolean
   layers: TLayer[]
   configStyle?: string | null
   onClick?: (obj: {
     coordinates: { x: number, y: number }
-    layers: any | null
+    features: any[] | null
   }) => void
 }
 
@@ -37,6 +39,7 @@ export const MapBox: React.FC<IMapBox> = ({
   showInfo = true,
   showStyle = true,
   showNav = true,
+  zoomOnClick = true,
   layers = [],
   configStyle = null,
   onClick
@@ -49,22 +52,24 @@ export const MapBox: React.FC<IMapBox> = ({
 
   const mapStyle = {
     ...mapStyleConfig,
-    layers: mapStyleConfig.layers.reduce((layers: any[], layer: any) => {
-      if (layer.id === configStyle) {
+    layers: !configStyle
+      ? mapStyleConfig.layers
+      : mapStyleConfig.layers.reduce((layers: any[], layer: any) => {
+        if (layer.id === configStyle) {
+          return [...layers, {
+            ...layer,
+            layout: {
+              visibility: 'visible'
+            }
+          }]
+        }
         return [...layers, {
           ...layer,
           layout: {
-            visibility: 'visible'
+            visibility: 'none'
           }
         }]
-      }
-      return [...layers, {
-        ...layer,
-        layout: {
-          visibility: 'none'
-        }
-      }]
-    }, [])
+      }, [])
   }
 
   const init = {
@@ -88,14 +93,54 @@ export const MapBox: React.FC<IMapBox> = ({
 
   const getCoords = (e: MapMouseEvent): { x: number, y: number } => ({ x: e.lngLat.lat, y: e.lngLat.lng })
 
-  const getLayer = (e: MapMouseEvent & EventData, substr: string = '_layer'): any | null => {
-    const filtred = map?.queryRenderedFeatures(e.point).filter(f => f.layer.id.includes(substr))
-    return filtred && filtred.length === 0 ? null : filtred
+  const getFeaturesByClick = (e: MapMouseEvent & EventData, substr: string = '_layer'): any | null => {
+    const filtred = map?.queryRenderedFeatures(e.point).filter(f => {
+      // highlight feature if layer _select exist
+      if (f.layer.id.includes(substr)) {
+        const { layers } = map?.getStyle()
+        const layerNameSelect = f.layer.id.replace('_layer', '_select')
+        if (layers.some((f) => f.id === layerNameSelect)) {
+          map?.setFilter(layerNameSelect, ['==', 'DN', f.properties?.DN])
+        }
+
+        return true
+      }
+      return false
+    })
+    const features = filtred && filtred.length === 0 ? null : filtred
+
+    // zoomOnClick to feature
+    features && zoomOnClick && setZoomTo(features as turf.Feature[])
+    // setMask
+    // features && setMask(features[0] as turf.Feature)
+    return features
   }
 
-  const setZoomTo = (arr: turf.Feature[]): void => {
-    if (!arr) return
-    const bounds = turf.bbox(turf.featureCollection(arr))
+  // const setMask = (feature: turf.Feature, id: string = 'ndvi_layer'): void => {
+  //   const ly = layers.find((f) => f.layer.id === id)
+  //   const bounds = turf.bbox(feature)
+
+  //   removeLayer(id)
+  //   console.log('id', id);
+  //   console.log('bounds', bounds);
+
+  //   if (ly && ly?.source as mapboxgl.AnySourceData) {
+  //     const source = { ...ly.source, bounds }
+  //     map?.addSource(ly?.layer.source, source as mapboxgl.AnySourceData)
+  //     map?.addLayer(ly.layer as mapboxgl.AnyLayer)
+  //   }
+  // }
+
+  const removeLayer = (id: string): void => {
+    const layer = map?.getLayer(id)
+    const source = map?.getSource(id)
+
+    layer && map?.removeLayer(id)
+    source && map?.removeSource(id)
+  }
+
+  const setZoomTo = (features: turf.Feature[]): void => {
+    const bounds = turf.bbox(turf.featureCollection(features))
     map?.fitBounds(bounds as LngLatBoundsLike, {
       padding: {
         top: 150,
@@ -120,37 +165,38 @@ export const MapBox: React.FC<IMapBox> = ({
     mapLoad()
   }
 
+  const setLayerConfig = (item: TLayer): void => {
+    map?.setLayoutProperty(item.layer.id, 'visibility', item.layer.layout.visibility)
+
+    map?.on('mousemove', item.layer.id, () => {
+      const canvas = map?.getCanvas()
+      canvas.style.cursor = 'pointer'
+    })
+    map?.on('mouseleave', item.layer.id, () => {
+      const canvas = map?.getCanvas()
+      canvas.style.cursor = ''
+    })
+  }
+
   const setLayers = (layers: TLayer[]): void => {
     console.log('mapbox layers', layers)
     layers.forEach((item) => {
+      const before = item.before ?? ''
+
+      if (!item.source) {
+        map?.addLayer(item.layer as mapboxgl.AnyLayer, before)
+        setLayerConfig(item)
+        return
+      }
+
       const source = map?.getSource(item.layer.source)
       if (!source) {
         map?.addSource(item.layer.source, item.source as mapboxgl.AnySourceData)
-        map?.addLayer(item.layer as mapboxgl.AnyLayer, '')
-
-        map?.on('mousemove', item.layer.id, (e) => {
-          const canvas = map?.getCanvas()
-          canvas.style.cursor = 'pointer'
-          // console.log(`${layer.id}_da_hover`, e.features);
-          // map?.setFeatureState(
-          //   { source: `${layer.id}_da_layer` },
-          //   { hover: true },
-          // );
-          // map?.setFilter(`${layer.id}_da_hover`, ['==', 'id', e.features[0].properties.id])
-        })
-        map?.on('mouseleave', item.layer.id, () => {
-          const canvas = map?.getCanvas()
-          canvas.style.cursor = ''
-          // map?.setFilter(`${item.layer.id}_hover`, ['==', 'id', ''])
-        // map?.setFeatureState(
-        //   { source: `${layer.id}_da_layer` },
-        //   { hover: false },
-        // );
-        })
+        map?.addLayer(item.layer as mapboxgl.AnyLayer, before)
+        setLayerConfig(item)
       } else if (source && source.type === 'geojson') {
         source.setData(item.source.data as any)
       }
-      map?.setLayoutProperty(item.layer.id, 'visibility', item.layer.layout.visibility)
     })
   }
 
@@ -176,14 +222,15 @@ export const MapBox: React.FC<IMapBox> = ({
       setIsLoad(true)
     })
     map?.on('click', (e) => {
+      const features = getFeaturesByClick(e)
       if (onClick) {
         onClick({
           coordinates: getCoords(e),
-          layers: getLayer(e)
+          features: features ? features.map((feature: any) => getGeoJson(feature)) : null
         })
       }
       map && getPixelColor(map, e)
-      console.log(getLayer(e))
+      console.log('features', features ? features.map((feature: any) => getGeoJson(feature)) : null)
     })
     map?.on('mousemove', (e) => {
       setCoords(getCoords(e))

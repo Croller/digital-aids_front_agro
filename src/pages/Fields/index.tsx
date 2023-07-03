@@ -2,6 +2,8 @@ import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/Button'
 import { EventSelect } from './components/EventSelect'
+import { FieldCreate } from './components/FieldCreate'
+import { layers } from './constants'
 import {
   Wrapper,
   LeftPanel,
@@ -10,7 +12,6 @@ import {
   Note,
   MapboxStyled
 } from './styled'
-import { FieldCreate } from './components/FieldCreate'
 
 export default memo((): React.ReactElement => {
   const { t } = useTranslation()
@@ -44,7 +45,7 @@ export default memo((): React.ReactElement => {
             />
           )}
       </LeftPanel>
-      <MapboxStyled configStyle="googleSat" layers={[]}/>
+      <MapboxStyled configStyle="googleSat" layers={layers}/>
     </Wrapper>
   )
 })
