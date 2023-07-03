@@ -1,17 +1,13 @@
-import en_common from '@/i18n/translations/common/en.json'
-import ru_common from '@/i18n/translations/common/ru.json'
+import en from '@/i18n/translations/en.json'
+import ru from '@/i18n/translations/ru.json'
 
 export const resources = {
   en: {
     name: 'English',
-    translation: {
-      common: en_common,
-    }
+    translation: en
   },
   ru: {
     name: 'Русский',
-    translation: {
-      common: ru_common,
-    }
+    translation: ru
   }
 }

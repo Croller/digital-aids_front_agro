@@ -19,7 +19,9 @@ export const PALETTE = {
   text: '#212529',
   red: '#DD584D',
   green: '#219653',
-  grey: '#CED4DA',
+  grey: '#F7F7F8',
+  icon: '#8496A8',
+  note: '#8496A8',
   border: '#E9EBEC',
   hover: '#F3F6F9'
 }
@@ -48,16 +50,36 @@ export const THEME = {
     padding: '0 .25rem'
   },
   button: {
-    bg: PALETTE.primary,
-    disabled: PALETTE.grey,
-    padding: '.5rem .9rem',
+    bg: PALETTE.grey,
+    disabled: '#fff',
+    padding: '.56rem 1rem',
     font: {
-      size: '0.8rem',
+      size: '1rem',
       color: PALETTE.primary,
       family: FONTS.medium
     },
     border: {
-      radius: '.25rem'
+      radius: '50rem'
+    },
+    primary: {
+      bg: PALETTE.primary,
+      font: {
+        color: PALETTE.white
+      }
+    },
+    text: {
+      bg: 'transparent',
+      padding: 0,
+      font: {
+        color: PALETTE.black
+      }
+    },
+    link: {
+      bg: 'transparent',
+      padding: 0,
+      font: {
+        color: PALETTE.primary
+      }
     }
   },
   slider: {
