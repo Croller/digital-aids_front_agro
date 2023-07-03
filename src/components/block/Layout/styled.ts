@@ -1,18 +1,17 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { BREAKPOINTS, FONTS, PALETTE, THEME, Z_INDEX } from '@/styles/constants'
-import { HamburgerSvg } from '@/assets/images'
 
 export const Wrapper = styled.div<{ collapsed: boolean }>`
   display: block;
   padding: .25rem 0;
 
   > aside {
-    display: ${({ collapsed }) => collapsed ? 'block' : 'none'};
+    display: ${p => p.collapsed ? 'block' : 'none'};
     width: 250px;
 
     @media screen and (min-width: ${BREAKPOINTS.medium}) {
       display: flex;
-      width: ${({ collapsed }) => collapsed ? '250px' : '60px'};
+      width: ${p => p.collapsed ? '14.875rem' : '60px'};
     }
   }
 
@@ -23,12 +22,12 @@ export const Wrapper = styled.div<{ collapsed: boolean }>`
       left: 0px;
 
       @media screen and (min-width: ${BREAKPOINTS.medium}) {
-        left: ${({ collapsed }) => collapsed ? '250px' : '60px'};
+        left: ${p => p.collapsed ? '14.875rem' : '60px'};
       }
     }
 
     @media screen and (min-width: ${BREAKPOINTS.medium}) {
-      margin-left: ${({ collapsed }) => collapsed ? '250px' : '60px'};
+      margin-left: ${p => p.collapsed ? '14.875rem' : '60px'};
     }
   }
 `
@@ -53,14 +52,14 @@ export const Sider = styled.aside`
   position: fixed;
   top: 0;
   bottom: 0;
-  max-width: 250px;
+  max-width: 13.875rem;
   z-index: 1002;
   margin-top: 0;
   background-color: ${THEME.slider.bg};
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  padding: 1rem 0;
+  padding: 1rem .5rem;
 
   @media screen and (min-width: ${BREAKPOINTS.medium}) {
     display: flex;
@@ -68,52 +67,58 @@ export const Sider = styled.aside`
 `
 
 export const Logo = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  color: ${PALETTE.primary};
-  font-size: 24px;
+  color: ${PALETTE.black};
+  font-size: 1.875rem;
   font-family: ${FONTS.medium};
+
+  > svg {
+    width: 2.24888rem;
+    height: 2.24888rem;
+    margin-left: .5rem;
+    margin-right: .48em;
+  }
 `
 
 export const Menu = styled.div<{ collapsed: boolean }>`
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin-top: auto;
+  flex-direction: column;
+  margin-top: 1.5rem;
+  padding: 0 .5rem;
 
   > div {
-    justify-content: ${({ collapsed }) => collapsed ? 'flex-start' : 'center'};
-    padding: ${({ collapsed }) => collapsed ? '.8rem 1rem' : '.8rem 0'};
+    justify-content: ${p => p.collapsed ? 'flex-start' : 'center'};
+    padding: ${p => p.collapsed ? '.5rem;' : '.8rem 0'};
 
     > span {
-      display: ${({ collapsed }) => collapsed ? 'block' : 'none'};
+      display: ${p => p.collapsed ? 'block' : 'none'};
     }
   }
+
+`
+
+export const Footer = styled(Menu)`
+  margin-top: auto;
 `
 
 export const Item = styled.div<{ active: boolean }>`
-  width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   font-size: 1rem;
   font-family: ${FONTS.medium};
+  color: ${PALETTE.black};
+  background-color: transparent;
   cursor: pointer;
-
-  &:not(:last-child) {
-    margin-bottom: 4rem;
-  }
+  padding: .5rem;
+  border-radius: 0.375rem;
 
   &:hover {
-    > svg {
-      path:first-child {
-        fill: ${PALETTE.primary};
-      }
-    }
+    background-color: ${PALETTE.white};
 
     > span {
       color: ${PALETTE.primary};
@@ -121,18 +126,64 @@ export const Item = styled.div<{ active: boolean }>`
   }
 
   > svg {
-    width: 26px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
 
-    path:first-child {
-      fill: #8496A8;
+    path {
+      fill: ${PALETTE.icon};
     }
   }
+
+  ${p => p.active && css`
+    background-color: ${PALETTE.white};
+
+    > span {
+      color: ${PALETTE.primary};
+    }
+
+    > svg {
+      path {
+        fill: ${PALETTE.primary};
+      }
+    }
+  `}
+`
+
+export const Avatar = styled.div<{ url: string }>`
+  display: block;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: url(${p => p.url}) no-repeat;
+  background-color: #fff;
+  background-size: cover;
 `
 
 export const Text = styled.span`
-  color: #8496A8;
-  margin-left: .5rem;
+  color: ${PALETTE.black};
+  margin-left: .63rem;
+`
+
+export const Company = styled.div<{ collapsed: boolean }>`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: ${p => p.collapsed ? 'space-between' : 'center'};
+  padding: 0 .5rem;
+  margin-top: .5rem;
+
+
+  > div:last-child {
+    margin-left: auto;
+    display: ${p => p.collapsed ? 'block' : 'none'};
+  }
+`
+
+export const Info = styled.div`
+  font-size: 0.75rem;
+  font-family: ${FONTS.regular};
+  color: ${PALETTE.icon};
+  padding: 0 .5rem;
 `
 
 export const Container = styled.section`
@@ -154,17 +205,8 @@ export const Header = styled.header`
   z-index: 100;
 `
 
-export const HamburgerSvgStyled = styled(HamburgerSvg)`
-  width: 24px;
-  cursor: pointer;
-  transform: rotate(180deg);
-
-  path {
-    fill: ${PALETTE.primary};
-  }
-`
-
 export const Content = styled.div`
   height: 100%;
+  padding-left: .25rem;
   -webkit-overflow-scrolling: touch;
 `

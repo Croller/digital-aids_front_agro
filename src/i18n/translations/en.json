@@ -1,0 +1,61 @@
+{
+  "words": {
+    "app": "Agro",
+    "add": "Add",
+    "cancel": "Cancel"
+  },
+  "layout": {
+    "summary": "Summary",
+    "fields": "My fields",
+    "rotation": "Rotation",
+    "services": "Services",
+    "reports": "Reports",
+    "telemetry": "Telemetry",
+    "weather": "Weather",
+    "base": "Knowledge base"
+  },
+  "summary": {
+    "text": {
+      "create": "You have not added any fields. Add your fields and get an extensive summary of the most important events across all your fields."
+    }
+  },
+  "fields": {
+    "text": {
+      "create": "You have not added any fields yet. Add your fields and get full information about their status",
+      "select": "Select the fields you need on the map"
+    },
+    "create": {
+      "title": "Field selection",
+      "select": "Select on the map",
+      "draw": "Draw fields",
+      "upload": "Load from file"
+    },
+    "weather": {
+      "title": "Weather",
+      "wind": "Wind",
+      "humidity": "Humidity",
+      "dewpoint": "Dew point",
+      "pressure": "Pressure",
+      "cloudiness": "Cloudiness"
+    },
+    "status": {
+      "title": "General condition of the field",
+      "fact": "Fact",
+      "target": "Цель",
+      "vegetation": "Vegetation",
+      "humidity": "Humidity",
+      "pests": "Pests",
+      "diseases": "Diseases",
+      "relief": "Relief",
+      "following": "Following the schedule",
+      "forecast": "Yield forecast"
+    },
+    "services": {
+      "title": "Services",
+      "Pest": "Pest control"
+    },
+    "notes": {
+      "title": "Notes"
+    }
+  }
+}
