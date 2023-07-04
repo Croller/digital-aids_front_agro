@@ -39,6 +39,7 @@
     "**/services/*.ts",
     "**/stores/*.ts",
     "**/types/*.ts",
+    "**/styles/*.ts",
     "**/config.ts",
     "**/type.ts",
     "**/server.ts",
