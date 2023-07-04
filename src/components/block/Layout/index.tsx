@@ -76,7 +76,7 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
             onClick={() => { onRoute('/user/account') }}
           >
             <Avatar url={TileMapPng} />
-            <Text>Test{`${user.middlename} ${user.name}`}</Text>
+            <Text>{`${user.middlename} ${user.name}`}</Text>
           </Item>
         </Footer>
         <Company collapsed={collapsed}>
