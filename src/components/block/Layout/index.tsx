@@ -16,7 +16,6 @@ import {
   Company,
   Info,
   Avatar,
-  Header,
   Container,
   Content
 } from './styled'
@@ -43,7 +42,7 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
     if (url.includes('/user/auth')) {
       setToken(null)
     }
-    !isUserRepo ? navigate(url) : window.location.href = `${host}${url}`
+    isUserRepo ? navigate(url) : window.location.href = `${host}${url}`
   }
 
   const isActive = (url: string): boolean => window.location.href.includes(url)
@@ -53,7 +52,7 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
       {collapsed && innerWidth < Number(BREAKPOINTS.medium.replace('px', '')) && (
         <Overlay onClick={() => { setCollapsed(false) }}/>
       )}
-      <Sider>
+      <Sider collapsed={collapsed}>
         <Logo>
           <LogoSvg />
           {collapsed && t('words.app')}
@@ -90,14 +89,6 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
         </Company>
       </Sider>
       <Container>
-        {/* <Header>
-          <HamburgerSvgStyled onClick={() => { setCollapsed(!collapsed) }} />
-          {header}
-          <Account
-            isRule={isRule}
-            onRoute={onRoute}
-          />
-        </Header> */}
         <Content>
           {children}
         </Content>

@@ -134,7 +134,7 @@ module.exports = {
     maxAssetSize: 512000
   },
   devServer: {
-    host: '0.0.0.0',
+    host: process.env.LOCAL_IP,
     port: process.env.LOCAL_PORT,
     open: false,
     hot: true,
@@ -142,9 +142,9 @@ module.exports = {
     proxy: {
       ...['/api', '/socket.io'].reduce((obj, key) => ({
         ...obj,
-        [key]: `http://0.0.0.0:${process.env.SERVER_PORT}`
+        [key]: `http://${process.env.LOCAL_IP}:${process.env.SERVER_PORT}`
       }), {}),
-      '/static': `https://0.0.0.0:${process.env.VOLUME_PORT}`,
+      '/static': `https://${process.env.LOCAL_IP}:${process.env.VOLUME_PORT}`,
       secure: true,
       changeOrigin: true
     }
