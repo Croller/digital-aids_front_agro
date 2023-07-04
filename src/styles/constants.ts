@@ -44,7 +44,7 @@ export const THEME = {
     sub: '#878A99'
   },
   body: {
-    size: '14px',
+    size: '16px',
     family: FONTS.regular,
     color: PALETTE.text,
     padding: '0 .25rem'

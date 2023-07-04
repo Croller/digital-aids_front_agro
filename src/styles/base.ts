@@ -22,6 +22,10 @@ import MontserratBlackItalic from '@/assets/fonts/Montserrat-BlackItalic.ttf'
 import { THEME } from './constants'
 
 export const GlobalStyle = createGlobalStyle`
+  html {
+    font-size: ${THEME.body.size};
+  }
+
   body {
     height: 100%;
     margin: 0;

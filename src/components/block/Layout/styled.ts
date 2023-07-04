@@ -7,7 +7,7 @@ export const Wrapper = styled.div<{ collapsed: boolean }>`
 
   > aside {
     display: ${p => p.collapsed ? 'block' : 'none'};
-    width: 250px;
+    width: 14.875rem;
 
     @media screen and (min-width: ${BREAKPOINTS.medium}) {
       display: flex;
@@ -19,7 +19,7 @@ export const Wrapper = styled.div<{ collapsed: boolean }>`
     margin-left: 0px;
 
     @media screen and (min-width: ${BREAKPOINTS.medium}) {
-      margin-left: ${p => p.collapsed ? '14.875rem' : '60px'};
+      margin-left: ${p => p.collapsed ? '15.875rem' : '60px'};
     }
   }
 `
@@ -48,9 +48,9 @@ export const Sider = styled.aside<{ collapsed: boolean }>`
   flex-direction: column;
   align-items: ${p => p.collapsed ? 'flex-start' : 'center'};
   justify-content: space-around;
-  max-width: 13.875rem;
+  width: 14.875rem;
   margin-top: 0;
-  padding: 1rem .5rem;
+  padding: .5rem;
   background-color: ${THEME.slider.bg};
 
   > div:first-child > svg {
@@ -66,7 +66,9 @@ export const Logo = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 0 1rem;
+  box-sizing: border-box;
+  width: 100%;
+  padding: .5rem;
   color: ${PALETTE.black};
   font-size: 1.875rem;
   font-family: ${FONTS.medium};
@@ -81,8 +83,9 @@ export const Logo = styled.div`
 export const Menu = styled.div<{ collapsed: boolean }>`
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
   margin-top: 1.5rem;
-  padding: 0 .5rem;
 
   > div {
     justify-content: ${p => p.collapsed ? 'flex-start' : 'center'};
@@ -107,6 +110,7 @@ export const Item = styled.div<{ active: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
   padding: .5rem;
   color: ${PALETTE.black};
   font-size: 1.1875rem;
@@ -166,9 +170,10 @@ export const Company = styled.div<{ collapsed: boolean }>`
   display: flex;
   flex-direction: row;
   justify-content: ${p => p.collapsed ? 'space-between' : 'center'};
+  box-sizing: border-box;
+  width: 100%;
   margin-top: .5rem;
-  padding: 0 .5rem;
-
+  padding: .5rem;
 
   > div:last-child {
     display: ${p => p.collapsed ? 'block' : 'none'};
@@ -177,14 +182,12 @@ export const Company = styled.div<{ collapsed: boolean }>`
 `
 
 export const Info = styled.div`
-  padding: 0 .5rem;
   color: ${PALETTE.icon};
   font-size: 0.75rem;
   font-family: ${FONTS.regular};
 `
 
 export const Container = styled.section`
-  max-height: 100%;
   background-color: ${THEME.bg};
 `
 
