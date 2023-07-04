@@ -26,10 +26,10 @@ export const ButtonStyled = styled.button<{ theme: string }>`
   }
 
   ${p => p.disabled && css`
-    background-color: ${THEME.button.disabled} !important;
-    cursor: not-allowed !important;
     color: ${PALETTE.white};
+    background-color: ${THEME.button.disabled} !important;
     border-width: 0;
+    cursor: not-allowed !important;
   `}
 
   ${p => p.theme === 'primary' && css`
@@ -44,9 +44,9 @@ export const ButtonStyled = styled.button<{ theme: string }>`
   `}
 
   ${p => p.theme === 'text' && css`
-    background-color: ${THEME.button.text.bg};
-    color: ${THEME.button.text.font.color};
     padding: ${THEME.button.text.padding};
+    color: ${THEME.button.text.font.color};
+    background-color: ${THEME.button.text.bg};
 
     > svg {
       path {
@@ -56,9 +56,9 @@ export const ButtonStyled = styled.button<{ theme: string }>`
   `}
 
   ${p => p.theme === 'link' && css`
-  background-color: ${THEME.button.link.bg};
-    color: ${THEME.button.link.font.color};
     padding: ${THEME.button.link.padding};
+    color: ${THEME.button.link.font.color};
+    background-color: ${THEME.button.link.bg};
 
     > svg {
       path {

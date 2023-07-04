@@ -10,19 +10,19 @@ const button = css`
     height: 1.5rem;
 
     path {
-      fill: ${PALETTE.white}
+      fill: ${PALETTE.white};
     }
   }
 `
 
 export const Wrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  right: 1rem;
-  top: 50%;
   transform: translateY(-50%);
-  z-index: 1;
   row-gap: 1rem;
 
   > button {
@@ -39,8 +39,8 @@ export const Block = styled.div`
     ${button}
 
     &:first-child {
-      border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
     }
 
     &:last-child {

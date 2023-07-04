@@ -9,18 +9,18 @@ export const Wrapper = styled.div`
 export const Header = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 `
 
 export const Title = styled.div`
-  font-family: ${FONTS.medium};
   font-size: 1.5rem;
+  font-family: ${FONTS.medium};
 `
 
 export const Note = styled.p`
-  font-family: ${FONTS.regular};
-  color: ${PALETTE.note};
   margin: 20.19rem 0;
+  color: ${PALETTE.note};
+  font-family: ${FONTS.regular};
   text-align: center;
 `

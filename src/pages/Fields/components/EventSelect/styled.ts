@@ -4,20 +4,20 @@ import { FONTS, PALETTE } from '@/styles/constants'
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 1.5rem;
   padding: 1rem;
-  border-radius: 1rem;
   background-color: ${PALETTE.grey};
+  border-radius: 1rem;
+  row-gap: 1.5rem;
 `
 
 export const Item = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  border-radius: 0.75rem;
+  justify-content: space-between;
   padding-right: 1rem;
   background-color: transparent;
+  border-radius: 0.75rem;
   cursor: pointer;
 
   > svg:last-child {
@@ -26,8 +26,8 @@ export const Item = styled.div`
 `
 
 export const Text = styled.div`
-  font-family: ${FONTS.medium};
-  font-size: 1.25rem;
-  color: ${PALETTE.black};
   margin-left: 1rem;
+  color: ${PALETTE.black};
+  font-size: 1.25rem;
+  font-family: ${FONTS.medium};
 `
