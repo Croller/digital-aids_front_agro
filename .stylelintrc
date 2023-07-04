@@ -39,6 +39,8 @@
     "**/services/*.ts",
     "**/stores/*.ts",
     "**/types/*.ts",
+    "**/config.ts",
+    "**/type.ts",
     "**/server.ts",
     "**/resources.ts",
     "**/constants.ts",
