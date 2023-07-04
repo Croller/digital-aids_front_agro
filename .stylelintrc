@@ -2,8 +2,10 @@
   "processors": ["stylelint-processor-styled-components"],
   "extends": [
     "stylelint-config-recommended",
-    "stylelint-config-styled-components"
+    "stylelint-config-styled-components",
+    "stylelint-config-rational-order"
   ],
+  "plugins": ["stylelint-order"],
   "syntax": "scss",
   "overrides": [
     {
@@ -15,6 +17,36 @@
     }
   ],
   "rules": {
-    "declaration-block-trailing-semicolon": "always"
-  }
+    "declaration-block-trailing-semicolon": "always",
+    "block-closing-brace-empty-line-before": null,
+    "block-closing-brace-newline-after": null,
+    "block-closing-brace-newline-before": null,
+    "block-closing-brace-space-before": null,
+    "block-opening-brace-newline-after": null,
+    "block-opening-brace-space-after": null,
+    "block-opening-brace-space-before": null,
+    "declaration-block-semicolon-newline-after": null,
+    "declaration-block-semicolon-space-after": null,
+    "declaration-block-semicolon-space-before": null,
+    "color-hex-case": "upper",
+    "color-hex-length": "long",
+    "no-empty-source": true,
+    "no-duplicate-selectors": null,
+    "declaration-block-no-duplicate-properties": true
+  },
+  "ignoreFiles": [
+    "**/.eslintrc.js",
+    "**/services/*.ts",
+    "**/stores/*.ts",
+    "**/types/*.ts",
+    "**/server.ts",
+    "**/resources.ts",
+    "**/constants.ts",
+    "**/index.ts",
+    "**/*.html",
+    "**/*.js",
+    "**/*.tsx",
+    "**/*.svg",
+    "**/*.d.ts"
+  ]
 }

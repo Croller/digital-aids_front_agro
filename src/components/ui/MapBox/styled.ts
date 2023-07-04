@@ -3,17 +3,17 @@ import { FONTS, PALETTE } from '@/styles/constants'
 
 const absolute = css`
   position: absolute;
-  background-color: ${PALETTE.white};
-  color: ${PALETTE.black};
   z-index: 100;
+  color: ${PALETTE.black};
   font-family: ${FONTS.regular};
+  background-color: ${PALETTE.white};
 `
 
 export const Wrapper = styled.div<{ width: string, height: string }>`
   position: relative;
   display: block;
-  height: ${p => p.height};
   width: ${p => p.width};
+  height: ${p => p.height};
   font-family: ${FONTS.regular};
 
   .mapboxgl-ctrl-attrib {
