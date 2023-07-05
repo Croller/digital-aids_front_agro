@@ -2,7 +2,7 @@ import { type TLayer } from '@/components/ui/MapBox/type'
 
 const url = `https://${process.env.HOST ?? ''}/static/satellite`
 
-export const layers: TLayer[] = [
+export const layersConfig: TLayer[] = [
   {
     layer: {
       id: 'ndvi_layer',
@@ -35,7 +35,7 @@ export const layers: TLayer[] = [
         'line-width': 0.7
       },
       layout: {
-        visibility: 'visible'
+        visibility: 'none'
       },
       minzoom: 8,
       maxzoom: 0
@@ -58,7 +58,7 @@ export const layers: TLayer[] = [
         'fill-opacity': 0
       },
       layout: {
-        visibility: 'visible'
+        visibility: 'none'
       },
       minzoom: 8,
       maxzoom: 0
@@ -76,7 +76,7 @@ export const layers: TLayer[] = [
         'fill-opacity': 0.4
       },
       layout: {
-        visibility: 'visible'
+        visibility: 'none'
       },
       minzoom: 8,
       maxzoom: 0

@@ -24,8 +24,8 @@ interface IMapBox {
   showNav?: boolean
   zoomOnClick?: boolean
   layers?: TLayer[]
-  selected?: any[]
-  configStyle?: string | null
+  selected?: any[] | null
+  defaultStyle?: string | null
   selectKey?: string | 'id'
   onClick?: (obj: TMapClick) => void
 }
@@ -41,7 +41,7 @@ export const MapBox: React.FC<IMapBox> = ({
   zoomOnClick = true,
   layers,
   selected,
-  configStyle = null,
+  defaultStyle = null,
   selectKey = 'id',
   onClick
 }) => {
@@ -53,10 +53,10 @@ export const MapBox: React.FC<IMapBox> = ({
 
   const mapStyle = {
     ...mapStyleConfig,
-    layers: !configStyle
+    layers: !defaultStyle
       ? mapStyleConfig.layers
       : mapStyleConfig.layers.reduce((layers: any[], layer: any) => {
-        if (layer.id === configStyle) {
+        if (layer.id === defaultStyle) {
           return [...layers, {
             ...layer,
             layout: {
@@ -96,7 +96,7 @@ export const MapBox: React.FC<IMapBox> = ({
 
   const getCoords = (e: MapMouseEvent): { x: number, y: number } => ({ x: e.lngLat.lat, y: e.lngLat.lng })
 
-  const getFeaturesByClick = (e: MapMouseEvent & EventData, substr: string = '_layer'): any | null => {
+  const getFeaturesByClick = (e: MapMouseEvent & EventData, substr: string = '_layer'): mapboxgl.MapboxGeoJSONFeature[] | null => {
     const filtred = map?.queryRenderedFeatures(e.point).filter(f => {
       // highlight feature if layer _select exist
       if (f.layer.id.includes(substr)) {
@@ -113,7 +113,7 @@ export const MapBox: React.FC<IMapBox> = ({
       }
       return false
     })
-    const features = filtred && filtred.length === 0 ? null : filtred
+    const features = filtred && filtred.length > 0 ? filtred : null
 
     // zoomOnClick to feature
     features && zoomOnClick && setZoomTo(features as turf.Feature[])
@@ -172,8 +172,12 @@ export const MapBox: React.FC<IMapBox> = ({
     setIsLoad(true)
   }
 
-  const setLayerConfig = (item: TLayer): void => {
+  const setLayerVisibility = (item: TLayer): void => {
     map?.setLayoutProperty(item.layer.id, 'visibility', item.layer.layout.visibility)
+  }
+
+  const setLayerConfig = (item: TLayer): void => {
+    setLayerVisibility(item)
 
     map?.on('mousemove', item.layer.id, () => {
       const canvas = map?.getCanvas()
@@ -190,7 +194,10 @@ export const MapBox: React.FC<IMapBox> = ({
     layers.forEach((item) => {
       const before = item.before ?? ''
 
-      if (map?.getLayer(item.layer.id)) return
+      if (map?.getLayer(item.layer.id)) {
+        setLayerVisibility(item)
+        return
+      }
 
       if (!item.source) {
         map?.addLayer(item.layer as mapboxgl.AnyLayer, before)
@@ -208,7 +215,7 @@ export const MapBox: React.FC<IMapBox> = ({
       }
 
       if (item.layer.id.includes('_select') && selected) {
-        map?.setFilter(item.layer.id, ['==', selectKey, selected])
+        setHighlight(selected)
       }
     })
   }
@@ -288,7 +295,7 @@ export const MapBox: React.FC<IMapBox> = ({
       className={`t-map ${className}`}
     >
       {showNav && <Navigate map={map} />}
-      {showStyle && <Style value={configStyle} source={styleImage} onChange={setMapStyle}/>}
+      {showStyle && <Style value={defaultStyle} source={styleImage} onChange={setMapStyle}/>}
       {showInfo && (
         <>
           <Coordinates onClick={() => { setMapStyle('yandexSat') }}>{`X: ${coords.x.toFixed(6)} Y: ${coords.y.toFixed(6)}`}</Coordinates>

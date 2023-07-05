@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/Button'
 import { EventSelect } from './components/EventSelect'
 import { FieldCreate } from './components/FieldCreate'
-import { layers } from './constants'
-import { type TMapClick } from '@/components/ui/MapBox/type'
+import { layersConfig } from './constants'
 import { arrExludeExist } from '@/components/ui/MapBox/utils/arrExludeExist'
+import { toggleLayer } from '@/components/ui/MapBox/utils/setLayer'
+import { type TLayer, type TMapClick } from '@/components/ui/MapBox/type'
 import {
   Wrapper,
   LeftPanel,
@@ -20,15 +21,23 @@ export default memo((): React.ReactElement => {
   const keyID = 'DN'
   const { t } = useTranslation()
   const [eventCreate, setEventCreate] = useState<string | null>(null)
-  const [selected, setSelected] = useState<any[]>([])
+  const [selected, setSelected] = useState<any[] | null>(null)
+  const [layers, setLayers] = useState<TLayer[]>(layersConfig)
 
-  const handleOnClick = (obj: TMapClick): void => {
+  const onSelectEvent = (key: string): void => {
+    setEventCreate(key)
+
+    if (key === 'select') {
+      setLayers(toggleLayer(layers, 'vectorLine_layer'))
+    }
+  }
+
+  const onClickMap = (obj: TMapClick): void => {
     const { features } = obj
 
     features && setSelected((curr) => {
-      console.log(arrExludeExist(features, curr, keyID))
-
-      return arrExludeExist(features, curr, keyID)
+      const arr = arrExludeExist(features, curr ?? [], keyID)
+      return arr.length !== 0 ? arr : null
     })
   }
 
@@ -49,11 +58,12 @@ export default memo((): React.ReactElement => {
               <Note>
                 {t('fields.text.create')}
               </Note>
-              <EventSelect onSelect={setEventCreate}/>
+              <EventSelect onSelect={onSelectEvent}/>
             </>
           )
           : (
             <FieldCreate
+              features={selected}
               event={eventCreate}
               onSubmit={() => { setEventCreate(null) }}
               onCancel={() => { setEventCreate(null) }}
@@ -62,11 +72,11 @@ export default memo((): React.ReactElement => {
       </LeftPanel>
       <MapPanel>
         <MapboxStyled
-          configStyle="googleSat"
+          defaultStyle="googleSat"
           layers={layers}
           selectKey={keyID}
           selected={selected}
-          onClick={handleOnClick}
+          onClick={onClickMap}
         />
       </MapPanel>
     </Wrapper>
