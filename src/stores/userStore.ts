@@ -3,7 +3,7 @@ import { request } from '@/services/request'
 import { AuthServices } from '@/services/auth'
 import { type TRule, type TUser } from '@/types/user'
 import { type TResponseData } from '@/types/http'
-import { getDomain, getRedirectUrl } from '@/utils/url'
+import { getRedirectUrl } from '@/utils/url'
 import { getCookies, setCookies } from '@/utils/cookies'
 
 export class UserStore {
@@ -48,7 +48,7 @@ export class UserStore {
     } else {
       const { href } = window.location
       setCookies({ redirect: href })
-      window.location.href = `${getDomain()}/user/auth?redirect=${href}`
+      window.location.href = `https://${process.env.HOST ?? ''}/user/auth?redirect=${href}`
       // window.location.href = `${getRedirectUrl('auth')}/user/auth`
     }
 
