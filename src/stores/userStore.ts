@@ -44,7 +44,6 @@ export class UserStore {
       this.authServices.fetchAuth()
     } else if (window.location.href.split('?token=')[1]) {
       this.setToken(window.location.href.split('?token=')[1])
-      window.history.pushState('test', 'test', window.location.href.split('?token=')[0])
       this.authServices.fetchAuth()
     } else {
       const { href } = window.location
@@ -55,7 +54,7 @@ export class UserStore {
     }
 
     if (window.location.href.split('?token=')[1]) {
-      window.history.pushState('test', 'test', window.location.href.split('?token=')[0])
+      window.history.pushState('', '', window.location.href.split('?token=')[0])
     }
   }
 
