@@ -1,5 +1,5 @@
 import axios, { type AxiosRequestConfig } from 'axios'
-import { getApiUrl } from '@/utils/url'
+import { getDomain } from '@/utils/url'
 import { type TResponse } from '@/types/http'
 
 export class Request {
@@ -12,7 +12,7 @@ export class Request {
     }
   })
 
-  getUrl = (url: string): string => `${getApiUrl()}/api/${url}`
+  getUrl = (url: string): string => `${getDomain()}/api/${url}`
 
   setToken = (token: string | null, language: string = 'en'): void => {
     if (!token) return

@@ -1,12 +1,12 @@
 import { io } from 'socket.io-client'
-import { getApiUrl } from '@/utils/url'
+import { getDomain } from '@/utils/url'
 
 export class SocketServices {
   socket: any = null
   port = process.env.SERVER_PORT ?? ''
   app = process.env.APP_NAME ?? ''
   isDev = process.env.NODE_ENV === 'development'
-  url = this.isDev ? `http://0.0.0.0:${this.port}` : getApiUrl()
+  url = this.isDev ? `http://0.0.0.0:${this.port}` : getDomain()
 
   create = (id: string = 'test'): void => {
     this.socket = io(this.url, {
