@@ -48,7 +48,7 @@ export class UserStore {
     } else {
       const { href } = window.location
       setCookies({ redirect: href })
-      window.location.href = `https://${getDomain()}/user/auth?redirect=${href}`
+      window.location.href = `${getDomain()}/user/auth?redirect=${href}`
       // window.location.href = `${getRedirectUrl('auth')}/user/auth`
     }
 
