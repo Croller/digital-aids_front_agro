@@ -37,6 +37,10 @@ export const Note = styled.p`
   font-family: ${FONTS.regular};
 `
 
+export const MapPanel = styled.div`
+  width: 100%;
+`
+
 export const MapboxStyled = styled(MapBox)`
   canvas {
     border-radius: 0.75rem;

@@ -37,3 +37,14 @@ export type TLayer = {
   }
   before?: string
 }
+
+export type TCoords = {
+  x: number
+  y: number
+}
+
+export type TMapClick = {
+  point: TCoords
+  features: any[] | null
+  color: string | null
+}

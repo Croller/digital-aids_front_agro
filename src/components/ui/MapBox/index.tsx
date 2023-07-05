@@ -5,14 +5,14 @@ import { getScale } from './utils/getScale'
 import { getPixelColor } from './utils/getPixelColor'
 import { mapStyleConfig, styleImage } from './constants'
 import { Style } from './components/Style'
-import { type TLayer } from '@/components/ui/MapBox/type'
+import { Navigate } from './components/Navigate'
+import { getGeoJson } from './utils/getGeoJson'
+import { type TMapClick, type TLayer, type TCoords } from '@/components/ui/MapBox/type'
 import {
   Wrapper,
   Scale,
   Coordinates
 } from './styled'
-import { Navigate } from './components/Navigate'
-import { getGeoJson } from './utils/getGeoJson'
 
 interface IMapBox {
   className?: string
@@ -23,12 +23,11 @@ interface IMapBox {
   showStyle?: boolean
   showNav?: boolean
   zoomOnClick?: boolean
-  layers: TLayer[]
+  layers?: TLayer[]
+  selected?: any[]
   configStyle?: string | null
-  onClick?: (obj: {
-    coordinates: { x: number, y: number }
-    features: any[] | null
-  }) => void
+  selectKey?: string | 'id'
+  onClick?: (obj: TMapClick) => void
 }
 
 export const MapBox: React.FC<IMapBox> = ({
@@ -40,15 +39,17 @@ export const MapBox: React.FC<IMapBox> = ({
   showStyle = true,
   showNav = true,
   zoomOnClick = true,
-  layers = [],
+  layers,
+  selected,
   configStyle = null,
+  selectKey = 'id',
   onClick
 }) => {
   const ref = useRef(null)
   const [map, setMap] = useState<Map | null>(null)
-  const [isLoad, setIsLoad] = useState(false)
-  const [coords, setCoords] = useState({ x: 0, y: 0 })
-  const [scale, setScale] = useState(0)
+  const [isLoad, setIsLoad] = useState<boolean>(false)
+  const [coords, setCoords] = useState<TCoords>({ x: 0, y: 0 })
+  const [scale, setScale] = useState<number>(0)
 
   const mapStyle = {
     ...mapStyleConfig,
@@ -76,9 +77,11 @@ export const MapBox: React.FC<IMapBox> = ({
     container: 'mapbox',
     // style: 'mapbox://styles/croller/ckpm77kfx7d3g17vxskgpx1ty',
     style: mapStyle,
-    zoom: 7,
+    zoom: 16,
+    // zoom: 7,
     // center: [37.6155600, 55.7522200],
-    bounds: [[21.773329482659875, 72.78393526534538], [170.66004823266013, 42.60248863563612]],
+    bounds: [[39.45421866221761, 54.48868621476663], [39.72758827237692, 54.60404640588854]],
+    // bounds: [[21.773329482659875, 72.78393526534538], [170.66004823266013, 42.60248863563612]],
     minZoom: 0,
     doubleClickZoom: false,
     dragPan: true,
@@ -97,12 +100,15 @@ export const MapBox: React.FC<IMapBox> = ({
     const filtred = map?.queryRenderedFeatures(e.point).filter(f => {
       // highlight feature if layer _select exist
       if (f.layer.id.includes(substr)) {
-        const { layers } = map?.getStyle()
-        const layerNameSelect = f.layer.id.replace('_layer', '_select')
-        if (layers.some((f) => f.id === layerNameSelect)) {
-          map?.setFilter(layerNameSelect, ['==', 'DN', f.properties?.DN])
+        // highlight is no selected
+        if (!selected) {
+          const { layers } = map?.getStyle()
+          const layerNameSelect = f.layer.id.replace('_layer', '_select')
+          if (layers.some((f) => f.id === layerNameSelect)) {
+            const prop = f.properties ? f.properties[selectKey] : ''
+            map?.setFilter(layerNameSelect, ['==', selectKey, prop])
+          }
         }
-
         return true
       }
       return false
@@ -152,6 +158,7 @@ export const MapBox: React.FC<IMapBox> = ({
   }
 
   const setMapStyle = (key: string): void => {
+    setIsLoad(false)
     const changed: mapboxgl.Style = {
       ...mapStyleConfig,
       layers: mapStyleConfig.layers.map((layer) => ({
@@ -162,7 +169,7 @@ export const MapBox: React.FC<IMapBox> = ({
       }))
     }
     map?.setStyle(changed)
-    mapLoad()
+    setIsLoad(true)
   }
 
   const setLayerConfig = (item: TLayer): void => {
@@ -183,6 +190,8 @@ export const MapBox: React.FC<IMapBox> = ({
     layers.forEach((item) => {
       const before = item.before ?? ''
 
+      if (map?.getLayer(item.layer.id)) return
+
       if (!item.source) {
         map?.addLayer(item.layer as mapboxgl.AnyLayer, before)
         setLayerConfig(item)
@@ -197,65 +206,78 @@ export const MapBox: React.FC<IMapBox> = ({
       } else if (source && source.type === 'geojson') {
         source.setData(item.source.data as any)
       }
+
+      if (item.layer.id.includes('_select') && selected) {
+        map?.setFilter(item.layer.id, ['==', selectKey, selected])
+      }
     })
   }
 
-  const mapLoad = (): void => {
-    setTimeout(() => {
-      map?.resize()
-      map && setScale(getScale(map))
-      setLayers([...layers])
+  const setHighlight = (arr: string[]): void => {
+    if (!map) return
+    const { layers } = map?.getStyle()
+    const ids = arr.reduce((acc: string[], feature: any) => (feature.properties ? [...acc, feature.properties[selectKey]] : acc), [])
+    layers.forEach((layer) => {
+      if (layer.id.includes('_select')) {
+        map?.setFilter(layer.id, ['in', selectKey, ...ids])
+      }
     })
   }
 
   const mapInit = (): void => {
     mapboxgl.accessToken = settings.token
-    const map = new Map(settings.init)
-    setMap(map)
+    setMap(new Map(settings.init))
   }
 
-  const mapOn = (): void => {
+  useEffect(() => {
+    ref.current && mapInit()
+
+    return () => {
+      map?.remove()
+      setMap(null)
+    }
+  }, [])
+
+  useEffect(() => {
     map?.on('load', () => {
       setIsLoad(true)
     })
     map?.on('styledata', () => {
       setIsLoad(true)
     })
-    map?.on('click', (e) => {
-      const features = getFeaturesByClick(e)
-      if (onClick) {
-        onClick({
-          coordinates: getCoords(e),
-          features: features ? features.map((feature: any) => getGeoJson(feature)) : null
-        })
-      }
-      map && getPixelColor(map, e)
-      console.log('features', features ? features.map((feature: any) => getGeoJson(feature)) : null)
-    })
     map?.on('mousemove', (e) => {
       setCoords(getCoords(e))
     })
-    map?.on('contextmenu', () => {})
-    map?.on('moveend', () => {})
     map?.on('wheel', () => {
       setScale(getScale(map))
     })
-  }
-
-  useEffect(() => {
-    ref.current && mapInit()
-    return () => { map?.remove(); setMap(null) }
-  }, [])
-
-  useEffect(() => {
-    map && mapOn()
+    map?.on('click', function (e) {
+      if (onClick) {
+        const features = getFeaturesByClick(e)
+        const geojson = features ? features.map((feature: any) => getGeoJson(feature)) : null
+        onClick({
+          point: getCoords(e),
+          features: geojson,
+          color: getPixelColor(map, e)
+        })
+      }
+    })
+    map?.on('contextmenu', () => {})
+    map?.on('moveend', () => {})
   }, [map])
 
   useEffect(() => {
     if (isLoad) {
-      mapLoad()
+      map?.resize()
+      map && setScale(getScale(map))
+
+      layers && setLayers(layers)
     }
   }, [isLoad, layers])
+
+  useEffect(() => {
+    isLoad && selected && setHighlight(selected)
+  }, [isLoad, selected])
 
   return (
     <Wrapper
