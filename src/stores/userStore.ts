@@ -42,10 +42,20 @@ export class UserStore {
     if (token) {
       this.setToken(token)
       this.authServices.fetchAuth()
+    } else if (window.location.href.split('?token=')[1]) {
+      this.setToken(window.location.href.split('?token=')[1])
+      window.history.pushState('test', 'test', window.location.href.split('?token=')[0])
+      this.authServices.fetchAuth()
     } else {
       const { href } = window.location
+      const HOST = process.env.HOST ?? ''
       setCookies({ redirect: href })
-      window.location.href = `${getRedirectUrl('auth')}/user/auth`
+      window.location.href = `https://${HOST}/user/auth?redirect=${href}`
+      // window.location.href = `${getRedirectUrl('auth')}/user/auth`
+    }
+
+    if (window.location.href.split('?token=')[1]) {
+      window.history.pushState('test', 'test', window.location.href.split('?token=')[0])
     }
   }
 
