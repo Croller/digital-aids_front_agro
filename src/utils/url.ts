@@ -2,7 +2,7 @@ const host = process.env.HOST ?? ''
 const env = process.env.NODE_ENV ?? ''
 const isDev = env === 'development'
 
-export const getApiUrl = (): string => {
+export const getDomain = (): string => {
   if (isDev) return ''
   return `https://${host}`
 }
