@@ -11,12 +11,14 @@ import { type TPolygon } from '@/types/geojson'
 import {
   Wrapper,
   LeftPanel,
+  Block,
   Header,
   Title,
   Note,
   MapPanel,
   MapboxStyled
 } from './styled'
+import { Status } from './components/Status'
 
 export default memo((): React.ReactElement => {
   const keyID = 'DN'
@@ -24,7 +26,7 @@ export default memo((): React.ReactElement => {
   const [eventCreate, setEventCreate] = useState<string | null>(null)
   const [selected, setSelected] = useState<any[] | null>(null)
   const [layers, setLayers] = useState<TLayer[]>(layersConfig)
-  const [fields, setFields] = useState<TLayer[] | null>(null)
+  const [fields, setFields] = useState<TPolygon[] | null>(null)
 
   const editSelected = (features: TPolygon[]): void => setSelected((curr) => {
     const arr = arrExludeExist(features, curr ?? [], keyID)
@@ -62,32 +64,39 @@ export default memo((): React.ReactElement => {
 
   return (
     <Wrapper>
-      <LeftPanel>
+      <LeftPanel existFields={!!fields}>
         {!eventCreate
           ? (
             <>
-              <Header>
-                <Title>
-                  {t('layout.fields')}
-                </Title>
-                <Button theme='primary' onClick={onCreateNew}>
-                  {t('words.add')}
-                </Button>
-              </Header>
-              {!fields
-                ? (
-                  <>
-                    <Note>
-                      {t('fields.text.create')}
-                    </Note>
-                    <EventSelect onSelect={onSelectEvent}/>
-                  </>
-                )
-                : (
-                  <div>
-                    status
-                  </div>
-                )}
+              <Block>
+                <Header>
+                  <Title>
+                    {t('layout.fields')}
+                  </Title>
+                  {fields && (
+                    <Button theme='primary' onClick={onCreateNew}>
+                      {t('form.controls.add')}
+                    </Button>
+                  )}
+                </Header>
+                {!fields
+                  ? (
+                    <>
+                      <Note>
+                        {t('fields.text.create')}
+                      </Note>
+                      <EventSelect onSelect={onSelectEvent}/>
+                    </>
+                  )
+                  : (
+                    <Status features={fields ?? []} />
+                  )}
+              </Block>
+              {fields && (
+                <Block>
+                  test
+                </Block>
+              )}
             </>
           )
           : (

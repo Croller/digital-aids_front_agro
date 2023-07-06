@@ -4,6 +4,11 @@ import { FONTS, PALETTE } from '@/styles/constants'
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  padding: 1rem;
+  background-color: ${PALETTE.white};
+  border-radius: 0.75rem;
+
 `
 
 export const Header = styled.div`

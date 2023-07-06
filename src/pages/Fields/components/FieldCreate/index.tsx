@@ -31,13 +31,13 @@ export const FieldCreate: React.FC<IFieldCreate> = memo(({
     <Wrapper>
       <Header>
         <Button onClick={() => onCancel(null)}>
-          {t('words.cancel')}
+          {t('form.controls.cancel')}
         </Button>
         <Title>
           {t('fields.create.title')}
         </Title>
         <Button theme='primary' onClick={onSave}>
-          {t('words.add')}
+          {t('form.controls.add')}
         </Button>
       </Header>
       <Content>

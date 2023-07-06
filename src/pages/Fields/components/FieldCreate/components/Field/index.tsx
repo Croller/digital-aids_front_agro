@@ -1,5 +1,7 @@
 import React, { memo } from 'react'
 import { DeleteSvg } from '@/assets/images'
+import { MapBoxStatic } from '@/components/ui/MapBox'
+import { area } from '@turf/turf'
 import { type TPolygon } from '@/types/geojson'
 import {
   Wrapper,
@@ -8,8 +10,6 @@ import {
   Col,
   Delete
 } from './styled'
-import { area } from '@turf/turf'
-import { MapBoxStatic } from '@/components/ui/MapBox'
 
 interface IField {
   feature: TPolygon

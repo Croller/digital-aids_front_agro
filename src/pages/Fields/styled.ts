@@ -9,9 +9,15 @@ export const Wrapper = styled.div`
   column-gap: .25rem;
 `
 
-export const LeftPanel = styled.div`
+export const LeftPanel = styled.div<{ existFields: boolean }>`
+  display: flex;
+  flex-direction: ${p => p.existFields ? 'column' : 'unset'};
   width: 100%;
   max-width: 29.5rem;
+  row-gap: .25rem;
+`
+
+export const Block = styled.div`
   padding: 1rem;
   background-color: ${PALETTE.white};
   border-radius: 0.75rem;
