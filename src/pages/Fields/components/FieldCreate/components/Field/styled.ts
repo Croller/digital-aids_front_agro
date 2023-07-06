@@ -12,11 +12,12 @@ export const Wrapper = styled.div`
   column-gap: .5rem;
 `
 
-export const Map = styled.div`
+export const Map = styled.img`
   display: flex;
   flex-direction: column;
   width: 4.25rem;
   height: 4.25rem;
+  border-radius: 0.375rem;
 `
 
 export const Info = styled.div`

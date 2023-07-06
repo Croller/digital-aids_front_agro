@@ -9,6 +9,7 @@ import {
   Delete
 } from './styled'
 import { area } from '@turf/turf'
+import { MapBoxStatic } from '@/components/ui/MapBox'
 
 interface IField {
   feature: TPolygon
@@ -17,20 +18,18 @@ interface IField {
 }
 
 export const Field: React.FC<IField> = memo(({ feature, onChange, onDelete }) => {
-  const getArea = area(feature) * 0.0001
+  const getArea = (area(feature) * 0.0001).toFixed(2)
 
   return (
     <Wrapper>
-      <Map>
-        {feature.properties.DN}
-      </Map>
+      <Map src={MapBoxStatic(feature)} />
       <Info>
         <Col>
           <div>1</div>
           <div>2</div>
         </Col>
         <Col>
-          <div>{getArea}га</div>
+          <div>{`${getArea} га`}</div>
           <div>2</div>
         </Col>
       </Info>

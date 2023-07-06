@@ -8,6 +8,7 @@ import { Style } from './components/Style'
 import { Navigate } from './components/Navigate'
 import { getGeoJson } from './utils/getGeoJson'
 import { type TMapClick, type TLayer, type TCoords } from '@/components/ui/MapBox/type'
+import { type TPolygon } from '@/types/geojson'
 import {
   Wrapper,
   Scale,
@@ -30,6 +31,22 @@ interface IMapBox {
   onClick?: (obj: TMapClick) => void
 }
 
+const API_KEY = process.env.API_KEY_MAPBOX ?? ''
+
+export const MapBoxStatic = (feature: TPolygon, width: number = 600, height: number = 600): string => {
+  const obj = {
+    type: 'Feature',
+    geometry: feature.geometry,
+    properties: {
+      'fill-color': '#00FFFF',
+      'fill-opacity': 0.4
+    }
+  }
+  const stringify = encodeURI(JSON.stringify(obj)) // geojson(${stringify})
+  const bbox = turf.bbox(feature).toString()
+  return `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/[${bbox}]/${width}x${height}?access_token=${API_KEY}`
+}
+
 export const MapBox: React.FC<IMapBox> = ({
   className = '',
   height = '100%',
@@ -45,6 +62,7 @@ export const MapBox: React.FC<IMapBox> = ({
   selectKey = 'id',
   onClick
 }) => {
+  mapboxgl.accessToken = API_KEY
   const ref = useRef(null)
   const [map, setMap] = useState<Map | null>(null)
   const [isLoad, setIsLoad] = useState<boolean>(false)
@@ -73,7 +91,7 @@ export const MapBox: React.FC<IMapBox> = ({
       }, [])
   }
 
-  const init = {
+  const settings = config || {
     container: 'mapbox',
     // style: 'mapbox://styles/croller/ckpm77kfx7d3g17vxskgpx1ty',
     style: mapStyle,
@@ -87,11 +105,6 @@ export const MapBox: React.FC<IMapBox> = ({
     dragPan: true,
     dragRotate: false,
     preserveDrawingBuffer: true
-  }
-
-  const settings = {
-    token: process.env.API_KEY_MAPBOX ?? '',
-    init: (config || init)
   }
 
   const getCoords = (e: MapMouseEvent): { x: number, y: number } => ({ x: e.lngLat.lat, y: e.lngLat.lng })
@@ -137,13 +150,13 @@ export const MapBox: React.FC<IMapBox> = ({
   //   }
   // }
 
-  const removeLayer = (id: string): void => {
-    const layer = map?.getLayer(id)
-    const source = map?.getSource(id)
+  // const removeLayer = (id: string): void => {
+  //   const layer = map?.getLayer(id)
+  //   const source = map?.getSource(id)
 
-    layer && map?.removeLayer(id)
-    source && map?.removeSource(id)
-  }
+  //   layer && map?.removeLayer(id)
+  //   source && map?.removeSource(id)
+  // }
 
   const setZoomTo = (features: turf.Feature[]): void => {
     const bounds = turf.bbox(turf.featureCollection(features))
@@ -231,13 +244,8 @@ export const MapBox: React.FC<IMapBox> = ({
     })
   }
 
-  const mapInit = (): void => {
-    mapboxgl.accessToken = settings.token
-    setMap(new Map(settings.init))
-  }
-
   useEffect(() => {
-    ref.current && mapInit()
+    ref.current && setMap(new Map(settings))
 
     return () => {
       map?.remove()
