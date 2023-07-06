@@ -1,8 +1,22 @@
 import styled from 'styled-components'
 import { FONTS, PALETTE } from '@/styles/constants'
 
-export const Wrapper = styled.div`
-  margin-top: 1.5rem;
+export const Wrapper = styled.div<{ collapsed: boolean }>`
+  padding: .5rem;
+  background-color: ${PALETTE.white};
+  border-radius: 0.75rem;
+
+  > div {
+    &:first-child {
+      > svg {
+        transform: rotate(${p => p.collapsed ? '0' : '-90deg'});
+      }
+    }
+
+    &:last-child {
+      display: ${p => p.collapsed ? 'block' : 'none'};
+    }
+  }
 `
 
 export const Header = styled.div`
@@ -10,32 +24,78 @@ export const Header = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: .5rem 1rem;
+
+  > svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: auto;
+  }
 `
 
 export const Title = styled.div`
   color: #151515;
-  font-size: 0.9375rem;
-  font-family: ${FONTS.regular};
+  font-size: 1.125rem;
+  font-family: ${FONTS.medium};
 `
 
-export const Counter = styled.div`
-  margin-left: auto;
-  color: ${PALETTE.icon};
-  font-size: 0.9375rem;
-  font-family: ${FONTS.regular};
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `
 
-export const Graph = styled.div`
+export const Field = styled.div<{ active: boolean }>`
   display: flex;
   flex-direction: row;
-  width: 100%;
-  margin-top: .5rem;
-  column-gap: .12rem;
+  padding: .5rem;
+  background-color: ${p => p.active ? '#F1F1F1' : PALETTE.white};
+  border-radius: 0.5rem;
 `
 
-export const CharItem = styled.div<{ width?: string, color?: string }>`
-  width: ${p => p.width ?? '100%'};
-  height: 1.875rem;
-  background-color: ${p => p.color ?? '#E6E6E6'};
-  border-radius: 0.125rem;
+export const Img = styled.img`
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 0.375rem;
+`
+
+export const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+  row-gap: .25rem;
+  padding: .31rem 0;
+`
+
+export const Name = styled.div`
+  color: ${PALETTE.black};
+  font-size: 1.25rem;
+  font-family: ${FONTS.medium};
+`
+
+export const Detail = styled.div`
+  display: flex;
+  flex-direction: row;
+  row-gap: .25rem;
+
+  > div {
+    &:first-child {
+      padding-left: 0;
+      border-left: unset;
+    }
+
+    &:last-child {
+      padding-right: 0;
+      border-right: unset;
+    }
+  }
+`
+
+export const Desc = styled.div`
+  padding: 0 .5rem;
+  color: #808080;
+  font-size: 1rem;
+  font-family: ${FONTS.regular};
+  border-right: 0.0625rem solid #808080;
+  border-left: 0.0625rem solid #808080;
 `

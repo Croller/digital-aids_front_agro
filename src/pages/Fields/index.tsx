@@ -19,6 +19,7 @@ import {
   MapboxStyled
 } from './styled'
 import { Status } from './components/Status'
+import { FieldsGroup } from './components/FieldsGroup'
 
 export default memo((): React.ReactElement => {
   const keyID = 'DN'
@@ -93,9 +94,7 @@ export default memo((): React.ReactElement => {
                   )}
               </Block>
               {fields && (
-                <Block>
-                  test
-                </Block>
+                <FieldsGroup features={fields} />
               )}
             </>
           )

@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FieldsDrawSvg, FieldsSelectSvg, FieldsUploadSvg, ShevronSvg } from '@/assets/images'
+import { FieldsDrawSvg, FieldsSelectSvg, FieldsUploadSvg, ChevronSvg } from '@/assets/images'
 import {
   Wrapper,
   Item,
@@ -40,7 +40,7 @@ export const EventSelect: React.FC<IEventSelect> = memo(({ onSelect }) => {
           <Text>
             {t(`fields.create.${item.key}`)}
           </Text>
-          <ShevronSvg />
+          <ChevronSvg />
         </Item>
       ))}
     </Wrapper>
