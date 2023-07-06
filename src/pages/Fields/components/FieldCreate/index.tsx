@@ -14,20 +14,18 @@ import {
 interface IFieldCreate {
   features: TPolygon[] | null
   event: string
+  onSave: () => void
   onCancel: (key: null) => void
   onDelete: (feature: TPolygon) => void
 }
 
 export const FieldCreate: React.FC<IFieldCreate> = memo(({
   features,
+  onSave,
   onCancel,
   onDelete
 }) => {
   const { t } = useTranslation()
-
-  const onSubmit = (): void => {
-
-  }
 
   return (
     <Wrapper>
@@ -38,7 +36,7 @@ export const FieldCreate: React.FC<IFieldCreate> = memo(({
         <Title>
           {t('fields.create.title')}
         </Title>
-        <Button theme='primary' onClick={() => onSubmit()}>
+        <Button theme='primary' onClick={onSave}>
           {t('words.add')}
         </Button>
       </Header>

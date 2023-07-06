@@ -24,6 +24,7 @@ export default memo((): React.ReactElement => {
   const [eventCreate, setEventCreate] = useState<string | null>(null)
   const [selected, setSelected] = useState<any[] | null>(null)
   const [layers, setLayers] = useState<TLayer[]>(layersConfig)
+  const [fields, setFields] = useState<TLayer[] | null>(null)
 
   const editSelected = (features: TPolygon[]): void => setSelected((curr) => {
     const arr = arrExludeExist(features, curr ?? [], keyID)
@@ -40,13 +41,24 @@ export default memo((): React.ReactElement => {
     features && editSelected(features)
   }
 
+  const onSave = (): void => {
+    setFields(selected)
+    setEventCreate(null)
+    setLayers(toggleLayer(layers, 'vectorLine_layer', false))
+  }
+
   const onCancel = (): void => {
+    setFields(null) // set store if exist
     setSelected(null)
     setEventCreate(null)
     setLayers(toggleLayer(layers, 'vectorLine_layer', false))
   }
 
   const onDelete = (feature: TPolygon): void => editSelected([feature])
+
+  const onCreateNew = (): void => {
+    setFields(null)
+  }
 
   return (
     <Wrapper>
@@ -58,20 +70,31 @@ export default memo((): React.ReactElement => {
                 <Title>
                   {t('layout.fields')}
                 </Title>
-                <Button theme='primary'>
+                <Button theme='primary' onClick={onCreateNew}>
                   {t('words.add')}
                 </Button>
               </Header>
-              <Note>
-                {t('fields.text.create')}
-              </Note>
-              <EventSelect onSelect={onSelectEvent}/>
+              {!fields
+                ? (
+                  <>
+                    <Note>
+                      {t('fields.text.create')}
+                    </Note>
+                    <EventSelect onSelect={onSelectEvent}/>
+                  </>
+                )
+                : (
+                  <div>
+                    status
+                  </div>
+                )}
             </>
           )
           : (
             <FieldCreate
               features={selected}
               event={eventCreate}
+              onSave={onSave}
               onCancel={onCancel}
               onDelete={onDelete}
             />
