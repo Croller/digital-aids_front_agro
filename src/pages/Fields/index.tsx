@@ -46,6 +46,7 @@ export default memo((): React.ReactElement => {
 
   const onSave = (): void => {
     setFields(selected)
+    setSelected(null)
     setEventCreate(null)
     setLayers(toggleLayer(layers, 'vectorLine_layer', false))
   }
