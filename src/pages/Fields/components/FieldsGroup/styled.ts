@@ -25,6 +25,7 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: .5rem 1rem;
+  cursor: pointer;
 
   > svg {
     width: 1.5rem;
@@ -51,6 +52,7 @@ export const Field = styled.div<{ active: boolean }>`
   padding: .5rem;
   background-color: ${p => p.active ? '#F1F1F1' : PALETTE.white};
   border-radius: 0.5rem;
+  cursor: pointer;
 `
 
 export const Img = styled.img`
@@ -81,12 +83,12 @@ export const Detail = styled.div`
   > div {
     &:first-child {
       padding-left: 0;
-      border-left: unset;
+      border: unset;
     }
 
     &:last-child {
       padding-right: 0;
-      border-right: unset;
+      border: unset;
     }
   }
 `

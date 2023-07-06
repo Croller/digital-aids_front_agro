@@ -21,11 +21,11 @@ interface IFieldsGroup {
 
 export const FieldsGroup: React.FC<IFieldsGroup> = memo(({ features }) => {
   const { t } = useTranslation()
-  const [collapsed, setCollapsed] = useState(true)
+  const [collapsed, setCollapsed] = useState(false)
   const [active, setActive] = useState(true)
 
   return (
-    <Wrapper collapsed={collapsed}>
+    <Wrapper collapsed={collapsed} onClick={() => setCollapsed(!collapsed)}>
       <Header>
         <Title>
           {'Test'}
