@@ -12,6 +12,7 @@ import ShevronSvg from '@/assets/images/svg/shevron.svg'
 import LocationSvg from '@/assets/images/svg/location.svg'
 import MinusSvg from '@/assets/images/svg/minus.svg'
 import PlusSvg from '@/assets/images/svg/plus.svg'
+import DeleteSvg from '@/assets/images/svg/delete.svg'
 
 import FieldsDrawSvg from '@/assets/images/svg/custom/fields/draw.svg'
 import FieldsSelectSvg from '@/assets/images/svg/custom/fields/select.svg'
@@ -35,6 +36,7 @@ export {
   LocationSvg,
   MinusSvg,
   PlusSvg,
+  DeleteSvg,
 
   FieldsDrawSvg,
   FieldsSelectSvg,

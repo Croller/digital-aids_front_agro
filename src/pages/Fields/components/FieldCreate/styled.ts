@@ -18,6 +18,15 @@ export const Title = styled.div`
   font-family: ${FONTS.medium};
 `
 
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 2.19rem;
+  row-gap: 1rem;
+`
+
 export const Note = styled.p`
   margin: 20.19rem 0;
   color: ${PALETTE.note};

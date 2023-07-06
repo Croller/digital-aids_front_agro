@@ -7,6 +7,7 @@ import { layersConfig } from './constants'
 import { arrExludeExist } from '@/components/ui/MapBox/utils/arrExludeExist'
 import { toggleLayer } from '@/components/ui/MapBox/utils/setLayer'
 import { type TLayer, type TMapClick } from '@/components/ui/MapBox/type'
+import { type TPolygon } from '@/types/geojson'
 import {
   Wrapper,
   LeftPanel,
@@ -24,22 +25,28 @@ export default memo((): React.ReactElement => {
   const [selected, setSelected] = useState<any[] | null>(null)
   const [layers, setLayers] = useState<TLayer[]>(layersConfig)
 
-  const onSelectEvent = (key: string): void => {
-    setEventCreate(key)
+  const editSelected = (features: TPolygon[]): void => setSelected((curr) => {
+    const arr = arrExludeExist(features, curr ?? [], keyID)
+    return arr.length !== 0 ? arr : null
+  })
 
-    if (key === 'select') {
-      setLayers(toggleLayer(layers, 'vectorLine_layer'))
-    }
+  const onSelectEvent = (key: string): void => {
+    key === 'select' && setLayers(toggleLayer(layers, 'vectorLine_layer'))
+    setEventCreate(key)
   }
 
   const onClickMap = (obj: TMapClick): void => {
-    const { features } = obj
-
-    features && setSelected((curr) => {
-      const arr = arrExludeExist(features, curr ?? [], keyID)
-      return arr.length !== 0 ? arr : null
-    })
+    const features = obj.features as TPolygon[]
+    features && editSelected(features)
   }
+
+  const onCancel = (): void => {
+    setSelected(null)
+    setEventCreate(null)
+    setLayers(toggleLayer(layers, 'vectorLine_layer', false))
+  }
+
+  const onDelete = (feature: TPolygon): void => editSelected([feature])
 
   return (
     <Wrapper>
@@ -65,8 +72,8 @@ export default memo((): React.ReactElement => {
             <FieldCreate
               features={selected}
               event={eventCreate}
-              onSubmit={() => { setEventCreate(null) }}
-              onCancel={() => { setEventCreate(null) }}
+              onCancel={onCancel}
+              onDelete={onDelete}
             />
           )}
       </LeftPanel>

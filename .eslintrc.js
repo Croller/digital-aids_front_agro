@@ -37,6 +37,7 @@ module.exports = {
     "@typescript-eslint/naming-convention": "off",
     "@typescript-eslint/array-type": 'off',
     '@typescript-eslint/indent': ['error', 2],
+    '@typescript-eslint/no-confusing-void-expression': 'off',
     "arrow-body-style": ["error", "as-needed"],
     "max-len": ["error", { "code": 180 }],
     "no-tabs": ["error", { "allowIndentationTabs": true }],

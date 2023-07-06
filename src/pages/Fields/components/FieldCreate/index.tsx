@@ -2,55 +2,62 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/Button'
 import { Field } from './components/Field'
-import { type Feature } from '@turf/turf'
+import { type TPolygon } from '@/types/geojson'
 import {
   Wrapper,
   Header,
   Title,
+  Content,
   Note
 } from './styled'
 
 interface IFieldCreate {
-  features: Feature[] | null
+  features: TPolygon[] | null
   event: string
-  onSubmit: (key: null) => void
   onCancel: (key: null) => void
+  onDelete: (feature: TPolygon) => void
 }
 
 export const FieldCreate: React.FC<IFieldCreate> = memo(({
   features,
-  onSubmit,
-  onCancel
+  onCancel,
+  onDelete
 }) => {
   const { t } = useTranslation()
+
+  const onSubmit = (): void => {
+
+  }
 
   return (
     <Wrapper>
       <Header>
-        <Button onClick={() => { onCancel(null) }}>
+        <Button onClick={() => onCancel(null)}>
           {t('words.cancel')}
         </Button>
         <Title>
           {t('fields.create.title')}
         </Title>
-        <Button theme='primary' onClick={() => { onSubmit(null) }}>
+        <Button theme='primary' onClick={() => onSubmit()}>
           {t('words.add')}
         </Button>
       </Header>
-
-      {!features
-        ? (
-          <Note>
-            {t('fields.text.select')}
-          </Note>
-        )
-        : features.map((item, i) => (
-          <Field
-            key={`_field_${i + 1}`}
-            feature={item}
-            onDelete={() => {}}
-          />
-        ))}
+      <Content>
+        {!features
+          ? (
+            <Note>
+              {t('fields.text.select')}
+            </Note>
+          )
+          : features.map((item, i) => (
+            <Field
+              key={`_field_${i + 1}`}
+              feature={item}
+              onChange={() => {}}
+              onDelete={onDelete}
+            />
+          ))}
+      </Content>
     </Wrapper>
   )
 })

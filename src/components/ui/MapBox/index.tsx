@@ -283,7 +283,7 @@ export const MapBox: React.FC<IMapBox> = ({
   }, [isLoad, layers])
 
   useEffect(() => {
-    isLoad && selected && setHighlight(selected)
+    isLoad && setHighlight(selected ?? [])
   }, [isLoad, selected])
 
   return (

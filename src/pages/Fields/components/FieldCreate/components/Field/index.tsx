@@ -1,22 +1,42 @@
 import React, { memo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/Button'
-import { type Feature } from '@turf/turf'
+import { DeleteSvg } from '@/assets/images'
+import { type TPolygon } from '@/types/geojson'
 import {
   Wrapper,
+  Map,
+  Info,
+  Col,
+  Delete
 } from './styled'
+import { area } from '@turf/turf'
 
 interface IField {
-  feature: Feature
-  onDelete: (id: string | number) => void
+  feature: TPolygon
+  onChange: (feature: TPolygon) => void
+  onDelete: (feature: TPolygon) => void
 }
 
-export const Field: React.FC<IField> = memo(({ feature, onDelete }) => {
-  const { t } = useTranslation()
+export const Field: React.FC<IField> = memo(({ feature, onChange, onDelete }) => {
+  const getArea = area(feature) * 0.0001
 
   return (
     <Wrapper>
-      {feature.properties?.DN}
+      <Map>
+        {feature.properties.DN}
+      </Map>
+      <Info>
+        <Col>
+          <div>1</div>
+          <div>2</div>
+        </Col>
+        <Col>
+          <div>{getArea}га</div>
+          <div>2</div>
+        </Col>
+      </Info>
+      <Delete theme='text' onClick={() => { onDelete(feature) }}>
+        <DeleteSvg />
+      </Delete>
     </Wrapper>
   )
 })
