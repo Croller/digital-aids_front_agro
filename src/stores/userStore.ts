@@ -49,7 +49,6 @@ export class UserStore {
       const { href } = window.location
       setCookies({ redirect: href })
       window.location.href = `https://${process.env.HOST ?? ''}/user/auth?redirect=${href}`
-      // window.location.href = `${getRedirectUrl('auth')}/user/auth`
     }
 
     if (window.location.href.split('?token=')[1]) {
@@ -93,7 +92,7 @@ export class UserStore {
       this.error = resp.error
       if (resp.error.key === 'authError') {
         setCookies({ redirect: href })
-        window.location.href = `${getRedirectUrl('auth')}/user/auth`
+        window.location.href = `https://${process.env.HOST ?? ''}/user/auth?redirect=${href}`
         this.setToken(null)
       }
     }
