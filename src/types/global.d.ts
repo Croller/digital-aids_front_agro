@@ -15,9 +15,9 @@ declare type TEnum = {
 }
 
 declare type TLocalStorage = {
-  token?: string | null
-  lng?: string
-  redirect?: string | null
+  cr_token?: string | null
+  cr_lng?: string
+  cr_redirect?: string | null
 }
 
 declare type TCookies = TLocalStorage
