@@ -24,7 +24,7 @@ export class RootStore {
   }
 
   init = (): void => {
-    const lng = getCookies('lng')
+    const lng = getCookies('cr_lng')
 
     !lng && this.setLanguage()
   }
@@ -37,6 +37,6 @@ export class RootStore {
     this.language = language
     translate.changeLanguage(language)
     request.setLanguage(this.language)
-    setCookies({ lng: this.language })
+    setCookies({ cr_lng: this.language })
   }
 }
