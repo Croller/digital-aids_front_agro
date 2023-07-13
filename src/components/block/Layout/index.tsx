@@ -28,7 +28,7 @@ interface ILayout {
 }
 
 export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
-  const { userStore: { setToken, user } } = useStores()
+  const { userStore: { user } } = useStores()
   const [collapsed, setCollapsed] = useState(true)
   const [t] = useTranslation()
   const navigate = useNavigate()
@@ -39,9 +39,6 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
   window.addEventListener('resize', () => { setCollapsed(false) })
 
   const onRoute = (url: string): void => {
-    if (url.includes('/user/auth')) {
-      setToken(null)
-    }
     isUserRepo ? navigate(url) : window.location.href = `${host}${url}`
   }
 
