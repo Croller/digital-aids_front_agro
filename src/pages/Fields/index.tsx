@@ -7,7 +7,7 @@ import { layersConfig } from './constants'
 import { arrExludeExist } from '@/components/ui/MapBox/utils/arrExludeExist'
 import { toggleLayer } from '@/components/ui/MapBox/utils/setLayer'
 import { type TLayer, type TMapClick } from '@/components/ui/MapBox/type'
-import { type TPolygon } from '@/types/geojson'
+import { type TFeature } from '@/types/geojson'
 import {
   Wrapper,
   LeftPanel,
@@ -27,9 +27,9 @@ export default memo((): React.ReactElement => {
   const [eventCreate, setEventCreate] = useState<string | null>(null)
   const [selected, setSelected] = useState<any[] | null>(null)
   const [layers, setLayers] = useState<TLayer[]>(layersConfig)
-  const [fields, setFields] = useState<TPolygon[] | null>(null)
+  const [fields, setFields] = useState<TFeature[] | null>(null)
 
-  const editSelected = (features: TPolygon[]): void => setSelected((curr) => {
+  const editSelected = (features: TFeature[]): void => setSelected((curr) => {
     const arr = arrExludeExist(features, curr ?? [], keyID)
     return arr.length !== 0 ? arr : null
   })
@@ -40,7 +40,7 @@ export default memo((): React.ReactElement => {
   }
 
   const onClickMap = (obj: TMapClick): void => {
-    const features = obj.features as TPolygon[]
+    const features = obj.features as TFeature[]
     features && editSelected(features)
   }
 
@@ -58,7 +58,7 @@ export default memo((): React.ReactElement => {
     setLayers(toggleLayer(layers, 'vectorLine_layer', false))
   }
 
-  const onDelete = (feature: TPolygon): void => editSelected([feature])
+  const onDelete = (feature: TFeature): void => editSelected([feature])
 
   const onCreateNew = (): void => {
     setFields(null)

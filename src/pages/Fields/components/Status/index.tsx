@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type TPolygon } from '@/types/geojson'
+import { type TFeature } from '@/types/geojson'
 import {
   Wrapper,
   Header,
@@ -11,7 +11,7 @@ import {
 } from './styled'
 
 interface IStatus {
-  features: TPolygon[]
+  features: TFeature[]
 }
 
 export const Status: React.FC<IStatus> = memo(({ features }) => {

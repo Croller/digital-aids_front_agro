@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type TPolygon } from '@/types/geojson'
+import { type TFeature } from '@/types/geojson'
 import {
   Wrapper,
   Header,
@@ -16,7 +16,7 @@ import {
 import { TriangleSvg } from '@/assets/images'
 
 interface IFieldsGroup {
-  features: TPolygon[]
+  features: TFeature[]
 }
 
 export const FieldsGroup: React.FC<IFieldsGroup> = memo(({ features }) => {

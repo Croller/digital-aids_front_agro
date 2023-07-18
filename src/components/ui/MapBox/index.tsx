@@ -8,7 +8,7 @@ import { Style } from './components/Style'
 import { Navigate } from './components/Navigate'
 import { getGeoJson } from './utils/getGeoJson'
 import { type TMapClick, type TLayer, type TCoords } from '@/components/ui/MapBox/type'
-import { type TPolygon } from '@/types/geojson'
+import { type TFeature } from '@/types/geojson'
 import {
   Wrapper,
   Scale,
@@ -33,7 +33,7 @@ interface IMapBox {
 
 const API_KEY = process.env.API_KEY_MAPBOX ?? ''
 
-export const MapBoxStatic = (feature: TPolygon, width: number = 600, height: number = 600): string => {
+export const MapBoxStatic = (feature: TFeature, width: number = 600, height: number = 600): string => {
   const obj = {
     type: 'Feature',
     geometry: feature.geometry,

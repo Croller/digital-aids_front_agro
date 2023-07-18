@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/Button'
 import { Field } from './components/Field'
-import { type TPolygon } from '@/types/geojson'
+import { type TFeature } from '@/types/geojson'
 import {
   Wrapper,
   Header,
@@ -12,11 +12,11 @@ import {
 } from './styled'
 
 interface IFieldCreate {
-  features: TPolygon[] | null
+  features: TFeature[] | null
   event: string
   onSave: () => void
   onCancel: (key: null) => void
-  onDelete: (feature: TPolygon) => void
+  onDelete: (feature: TFeature) => void
 }
 
 export const FieldCreate: React.FC<IFieldCreate> = memo(({

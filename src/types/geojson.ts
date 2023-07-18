@@ -1,10 +1,12 @@
-import { type MultiPolygon, type Polygon } from '@turf/turf'
+import { type TField } from './field'
 
-export type TPolygon = {
+export type TFeature = {
   type: 'Feature'
-  geometry: Polygon | MultiPolygon
-  properties: {
-    id: number | string
-    DN: number // TODO for python dev, when tiling vector try to change DN -> id name
+  geometry: {
+    type: 'Polygon' | 'MultiPolygon' | 'Line' | 'LineString' | 'MultiLineString' | 'Point' | 'MultiPoint'
+    coordinates: any
   }
+  properties: {
+    id: string
+  } | TField
 }

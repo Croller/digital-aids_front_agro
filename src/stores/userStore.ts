@@ -36,16 +36,13 @@ export class UserStore {
   }
 
   init = (): void => {
-    const token = getCookies('token')
     const [path, pathToken] = window.location.href.split('?token=')
+    const token = getCookies('token') ?? pathToken
 
     if (token) {
       this.setToken(token)
       this.authServices.fetchAuth()
-    } else if (pathToken) {
-      this.setToken(pathToken)
-      this.authServices.fetchAuth()
-      window.history.pushState('', '', path)
+      pathToken && window.history.pushState('', '', path)
     } else {
       const { href } = window.location
       window.location.href = `https://${process.env.HOST ?? ''}/user/auth?redirect=${href}`

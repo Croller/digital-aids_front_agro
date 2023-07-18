@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { DeleteSvg } from '@/assets/images'
 import { MapBoxStatic } from '@/components/ui/MapBox'
 import { area } from '@turf/turf'
-import { type TPolygon } from '@/types/geojson'
+import { type TFeature } from '@/types/geojson'
 import {
   Wrapper,
   Map,
@@ -12,9 +12,9 @@ import {
 } from './styled'
 
 interface IField {
-  feature: TPolygon
-  onChange: (feature: TPolygon) => void
-  onDelete: (feature: TPolygon) => void
+  feature: TFeature
+  onChange: (feature: TFeature) => void
+  onDelete: (feature: TFeature) => void
 }
 
 export const Field: React.FC<IField> = memo(({ feature, onChange, onDelete }) => {
