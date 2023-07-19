@@ -26,9 +26,16 @@ interface IMapBox {
   zoomOnClick?: boolean
   layers?: TLayer[]
   selected?: any[] | null
+  zoomTo?: any[] | null
   defaultStyle?: string | null
   selectKey?: string | 'id'
   onClick?: (obj: TMapClick) => void
+}
+
+interface IMapBoxStatic {
+  feature: TFeature
+  width?: number
+  height: number
 }
 
 const API_KEY = process.env.API_KEY_MAPBOX ?? ''
@@ -58,6 +65,7 @@ export const MapBox: React.FC<IMapBox> = ({
   zoomOnClick = true,
   layers,
   selected,
+  zoomTo,
   defaultStyle = null,
   selectKey = 'id',
   onClick
@@ -98,8 +106,7 @@ export const MapBox: React.FC<IMapBox> = ({
     zoom: 16,
     // zoom: 7,
     // center: [37.6155600, 55.7522200],
-    bounds: [[39.45421866221761, 54.48868621476663], [39.72758827237692, 54.60404640588854]],
-    // bounds: [[21.773329482659875, 72.78393526534538], [170.66004823266013, 42.60248863563612]],
+    bounds: [[21.773329482659875, 72.78393526534538], [170.66004823266013, 42.60248863563612]],
     minZoom: 0,
     doubleClickZoom: false,
     dragPan: true,
@@ -293,6 +300,10 @@ export const MapBox: React.FC<IMapBox> = ({
   useEffect(() => {
     isLoad && setHighlight(selected ?? [])
   }, [isLoad, selected])
+
+  useEffect(() => {
+    isLoad && zoomTo && setZoomTo(zoomTo)
+  }, [isLoad, zoomTo])
 
   return (
     <Wrapper

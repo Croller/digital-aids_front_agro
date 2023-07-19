@@ -1,9 +1,10 @@
-import { type Feature, feature } from '@turf/turf'
+import { feature } from '@turf/turf'
+import { type TFeature } from '@/types/geojson'
 
-export const getGeoJson = (src: Feature & { source: string }): Feature & { source: string } | null => {
+export const getGeoJson = (src: TFeature & { source: string }): TFeature & { source: string } | null => {
   const { properties, geometry, source } = src
   if (!properties) return null
-  const prop = Object.keys(properties as any).reduce((obj, key) => {
+  const prop = Object.keys(properties).reduce((obj, key) => {
     let value = properties[key]
     if (typeof value === 'string') {
       if (value.includes('[')) {

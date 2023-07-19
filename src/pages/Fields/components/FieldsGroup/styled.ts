@@ -24,7 +24,7 @@ export const Header = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: .5rem 1rem;
+  padding: .5rem;
   cursor: pointer;
 
   > svg {

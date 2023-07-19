@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 import { DeleteSvg } from '@/assets/images'
 import { MapBoxStatic } from '@/components/ui/MapBox'
-import { area } from '@turf/turf'
 import { type TFeature } from '@/types/geojson'
+import { type TFieldCreate } from '@/types/field'
 import {
   Wrapper,
   Map,
@@ -12,25 +12,31 @@ import {
 } from './styled'
 
 interface IField {
+  number: number
   feature: TFeature
   onChange: (feature: TFeature) => void
   onDelete: (feature: TFeature) => void
 }
 
-export const Field: React.FC<IField> = memo(({ feature, onChange, onDelete }) => {
-  const getArea = (area(feature) * 0.0001).toFixed(2)
+export const Field: React.FC<IField> = memo(({
+  number,
+  feature,
+  onChange,
+  onDelete
+}) => {
+  const obj: TFieldCreate = feature.properties
 
   return (
     <Wrapper>
       <Map src={MapBoxStatic(feature)} />
       <Info>
         <Col>
-          <div>1</div>
-          <div>2</div>
+          <div>{obj.name}</div>
+          <div>{obj.culture_key}</div>
         </Col>
         <Col>
-          <div>{`${getArea} га`}</div>
-          <div>2</div>
+          <div>{`${obj.square.toFixed(2)} га`}</div>
+          <div>{obj.culture_desc}</div>
         </Col>
       </Info>
       <Delete theme='text' onClick={() => { onDelete(feature) }}>

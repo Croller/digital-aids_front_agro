@@ -50,6 +50,7 @@ export const FieldCreate: React.FC<IFieldCreate> = memo(({
           : features.map((item, i) => (
             <Field
               key={`_field_${i + 1}`}
+              number={i + 1}
               feature={item}
               onChange={() => {}}
               onDelete={onDelete}
