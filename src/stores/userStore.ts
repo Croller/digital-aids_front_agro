@@ -36,13 +36,9 @@ export class UserStore {
   }
 
   init = (): void => {
-    const token = getCookies('token')
     const [path, pathToken] = window.location.href.split('?token=')
 
-    if (token) {
-      this.setToken(token)
-      this.authServices.fetchAuth()
-    } else if (pathToken) {
+    if (pathToken) {
       this.setToken(pathToken)
       this.authServices.fetchAuth()
       window.history.pushState('', '', path)

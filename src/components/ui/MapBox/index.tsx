@@ -5,14 +5,15 @@ import { getScale } from './utils/getScale'
 import { getPixelColor } from './utils/getPixelColor'
 import { mapStyleConfig, styleImage } from './constants'
 import { Style } from './components/Style'
-import { type TLayer } from '@/components/ui/MapBox/type'
+import { Navigate } from './components/Navigate'
+import { getGeoJson } from './utils/getGeoJson'
+import { type TMapClick, type TLayer, type TCoords } from '@/components/ui/MapBox/type'
+import { type TFeature } from '@/types/geojson'
 import {
   Wrapper,
   Scale,
   Coordinates
 } from './styled'
-import { Navigate } from './components/Navigate'
-import { getGeoJson } from './utils/getGeoJson'
 
 interface IMapBox {
   className?: string
@@ -23,12 +24,34 @@ interface IMapBox {
   showStyle?: boolean
   showNav?: boolean
   zoomOnClick?: boolean
-  layers: TLayer[]
-  configStyle?: string | null
-  onClick?: (obj: {
-    coordinates: { x: number, y: number }
-    features: any[] | null
-  }) => void
+  layers?: TLayer[]
+  selected?: any[] | null
+  zoomTo?: any[] | null
+  defaultStyle?: string | null
+  selectKey?: string | 'id'
+  onClick?: (obj: TMapClick) => void
+}
+
+interface IMapBoxStatic {
+  feature: TFeature
+  width?: number
+  height: number
+}
+
+const API_KEY = process.env.API_KEY_MAPBOX ?? ''
+
+export const MapBoxStatic = (feature: TFeature, width: number = 600, height: number = 600): string => {
+  const obj = {
+    type: 'Feature',
+    geometry: feature.geometry,
+    properties: {
+      'fill-color': '#00FFFF',
+      'fill-opacity': 0.4
+    }
+  }
+  const stringify = encodeURI(JSON.stringify(obj)) // geojson(${stringify})
+  const bbox = turf.bbox(feature).toString()
+  return `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/[${bbox}]/${width}x${height}?access_token=${API_KEY}`
 }
 
 export const MapBox: React.FC<IMapBox> = ({
@@ -40,22 +63,26 @@ export const MapBox: React.FC<IMapBox> = ({
   showStyle = true,
   showNav = true,
   zoomOnClick = true,
-  layers = [],
-  configStyle = null,
+  layers,
+  selected,
+  zoomTo,
+  defaultStyle = null,
+  selectKey = 'id',
   onClick
 }) => {
+  mapboxgl.accessToken = API_KEY
   const ref = useRef(null)
   const [map, setMap] = useState<Map | null>(null)
-  const [isLoad, setIsLoad] = useState(false)
-  const [coords, setCoords] = useState({ x: 0, y: 0 })
-  const [scale, setScale] = useState(0)
+  const [isLoad, setIsLoad] = useState<boolean>(false)
+  const [coords, setCoords] = useState<TCoords>({ x: 0, y: 0 })
+  const [scale, setScale] = useState<number>(0)
 
   const mapStyle = {
     ...mapStyleConfig,
-    layers: !configStyle
+    layers: !defaultStyle
       ? mapStyleConfig.layers
       : mapStyleConfig.layers.reduce((layers: any[], layer: any) => {
-        if (layer.id === configStyle) {
+        if (layer.id === defaultStyle) {
           return [...layers, {
             ...layer,
             layout: {
@@ -72,11 +99,12 @@ export const MapBox: React.FC<IMapBox> = ({
       }, [])
   }
 
-  const init = {
+  const settings = config || {
     container: 'mapbox',
     // style: 'mapbox://styles/croller/ckpm77kfx7d3g17vxskgpx1ty',
     style: mapStyle,
-    zoom: 7,
+    zoom: 16,
+    // zoom: 7,
     // center: [37.6155600, 55.7522200],
     bounds: [[21.773329482659875, 72.78393526534538], [170.66004823266013, 42.60248863563612]],
     minZoom: 0,
@@ -86,28 +114,26 @@ export const MapBox: React.FC<IMapBox> = ({
     preserveDrawingBuffer: true
   }
 
-  const settings = {
-    token: process.env.API_KEY_MAPBOX ?? '',
-    init: (config || init)
-  }
-
   const getCoords = (e: MapMouseEvent): { x: number, y: number } => ({ x: e.lngLat.lat, y: e.lngLat.lng })
 
-  const getFeaturesByClick = (e: MapMouseEvent & EventData, substr: string = '_layer'): any | null => {
+  const getFeaturesByClick = (e: MapMouseEvent & EventData, substr: string = '_layer'): mapboxgl.MapboxGeoJSONFeature[] | null => {
     const filtred = map?.queryRenderedFeatures(e.point).filter(f => {
       // highlight feature if layer _select exist
       if (f.layer.id.includes(substr)) {
-        const { layers } = map?.getStyle()
-        const layerNameSelect = f.layer.id.replace('_layer', '_select')
-        if (layers.some((f) => f.id === layerNameSelect)) {
-          map?.setFilter(layerNameSelect, ['==', 'DN', f.properties?.DN])
+        // highlight is no selected
+        if (!selected) {
+          const { layers } = map?.getStyle()
+          const layerNameSelect = f.layer.id.replace('_layer', '_select')
+          if (layers.some((f) => f.id === layerNameSelect)) {
+            const prop = f.properties ? f.properties[selectKey] : ''
+            map?.setFilter(layerNameSelect, ['==', selectKey, prop])
+          }
         }
-
         return true
       }
       return false
     })
-    const features = filtred && filtred.length === 0 ? null : filtred
+    const features = filtred && filtred.length > 0 ? filtred : null
 
     // zoomOnClick to feature
     features && zoomOnClick && setZoomTo(features as turf.Feature[])
@@ -131,13 +157,13 @@ export const MapBox: React.FC<IMapBox> = ({
   //   }
   // }
 
-  const removeLayer = (id: string): void => {
-    const layer = map?.getLayer(id)
-    const source = map?.getSource(id)
+  // const removeLayer = (id: string): void => {
+  //   const layer = map?.getLayer(id)
+  //   const source = map?.getSource(id)
 
-    layer && map?.removeLayer(id)
-    source && map?.removeSource(id)
-  }
+  //   layer && map?.removeLayer(id)
+  //   source && map?.removeSource(id)
+  // }
 
   const setZoomTo = (features: turf.Feature[]): void => {
     const bounds = turf.bbox(turf.featureCollection(features))
@@ -152,6 +178,7 @@ export const MapBox: React.FC<IMapBox> = ({
   }
 
   const setMapStyle = (key: string): void => {
+    setIsLoad(false)
     const changed: mapboxgl.Style = {
       ...mapStyleConfig,
       layers: mapStyleConfig.layers.map((layer) => ({
@@ -162,11 +189,15 @@ export const MapBox: React.FC<IMapBox> = ({
       }))
     }
     map?.setStyle(changed)
-    mapLoad()
+    setIsLoad(true)
+  }
+
+  const setLayerVisibility = (item: TLayer): void => {
+    map?.setLayoutProperty(item.layer.id, 'visibility', item.layer.layout.visibility)
   }
 
   const setLayerConfig = (item: TLayer): void => {
-    map?.setLayoutProperty(item.layer.id, 'visibility', item.layer.layout.visibility)
+    setLayerVisibility(item)
 
     map?.on('mousemove', item.layer.id, () => {
       const canvas = map?.getCanvas()
@@ -183,6 +214,11 @@ export const MapBox: React.FC<IMapBox> = ({
     layers.forEach((item) => {
       const before = item.before ?? ''
 
+      if (map?.getLayer(item.layer.id)) {
+        setLayerVisibility(item)
+        return
+      }
+
       if (!item.source) {
         map?.addLayer(item.layer as mapboxgl.AnyLayer, before)
         setLayerConfig(item)
@@ -197,65 +233,77 @@ export const MapBox: React.FC<IMapBox> = ({
       } else if (source && source.type === 'geojson') {
         source.setData(item.source.data as any)
       }
+
+      if (item.layer.id.includes('_select') && selected) {
+        setHighlight(selected)
+      }
     })
   }
 
-  const mapLoad = (): void => {
-    setTimeout(() => {
-      map?.resize()
-      map && setScale(getScale(map))
-      setLayers([...layers])
+  const setHighlight = (arr: string[]): void => {
+    if (!map) return
+    const { layers } = map?.getStyle()
+    const ids = arr.reduce((acc: string[], feature: any) => (feature.properties ? [...acc, feature.properties[selectKey]] : acc), [])
+    layers.forEach((layer) => {
+      if (layer.id.includes('_select')) {
+        map?.setFilter(layer.id, ['in', selectKey, ...ids])
+      }
     })
   }
 
-  const mapInit = (): void => {
-    mapboxgl.accessToken = settings.token
-    const map = new Map(settings.init)
-    setMap(map)
-  }
+  useEffect(() => {
+    ref.current && setMap(new Map(settings))
 
-  const mapOn = (): void => {
+    return () => {
+      map?.remove()
+      setMap(null)
+    }
+  }, [])
+
+  useEffect(() => {
     map?.on('load', () => {
       setIsLoad(true)
     })
     map?.on('styledata', () => {
       setIsLoad(true)
     })
-    map?.on('click', (e) => {
-      const features = getFeaturesByClick(e)
-      if (onClick) {
-        onClick({
-          coordinates: getCoords(e),
-          features: features ? features.map((feature: any) => getGeoJson(feature)) : null
-        })
-      }
-      map && getPixelColor(map, e)
-      console.log('features', features ? features.map((feature: any) => getGeoJson(feature)) : null)
-    })
     map?.on('mousemove', (e) => {
       setCoords(getCoords(e))
     })
-    map?.on('contextmenu', () => {})
-    map?.on('moveend', () => {})
     map?.on('wheel', () => {
       setScale(getScale(map))
     })
-  }
-
-  useEffect(() => {
-    ref.current && mapInit()
-    return () => { map?.remove(); setMap(null) }
-  }, [])
-
-  useEffect(() => {
-    map && mapOn()
+    map?.on('click', function (e) {
+      if (onClick) {
+        const features = getFeaturesByClick(e)
+        const geojson = features ? features.map((feature: any) => getGeoJson(feature)) : null
+        onClick({
+          point: getCoords(e),
+          features: geojson,
+          color: getPixelColor(map, e)
+        })
+      }
+    })
+    map?.on('contextmenu', () => {})
+    map?.on('moveend', () => {})
   }, [map])
 
   useEffect(() => {
     if (isLoad) {
-      mapLoad()
+      map?.resize()
+      map && setScale(getScale(map))
+
+      layers && setLayers(layers)
     }
   }, [isLoad, layers])
+
+  useEffect(() => {
+    isLoad && setHighlight(selected ?? [])
+  }, [isLoad, selected])
+
+  useEffect(() => {
+    isLoad && zoomTo && setZoomTo(zoomTo)
+  }, [isLoad, zoomTo])
 
   return (
     <Wrapper
@@ -266,7 +314,7 @@ export const MapBox: React.FC<IMapBox> = ({
       className={`t-map ${className}`}
     >
       {showNav && <Navigate map={map} />}
-      {showStyle && <Style value={configStyle} source={styleImage} onChange={setMapStyle}/>}
+      {showStyle && <Style value={defaultStyle} source={styleImage} onChange={setMapStyle}/>}
       {showInfo && (
         <>
           <Coordinates onClick={() => { setMapStyle('yandexSat') }}>{`X: ${coords.x.toFixed(6)} Y: ${coords.y.toFixed(6)}`}</Coordinates>

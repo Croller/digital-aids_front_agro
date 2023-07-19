@@ -1,6 +1,6 @@
 import { type Map, type MapMouseEvent } from 'mapbox-gl'
 
-export const getPixelColor = (map: Map, e: MapMouseEvent): string | undefined => {
+export const getPixelColor = (map: Map, e: MapMouseEvent): string | null => {
   const canvas = map.getCanvas()
   const gl = canvas.getContext('webgl') ?? canvas.getContext('webgl2')
 
@@ -23,8 +23,7 @@ export const getPixelColor = (map: Map, e: MapMouseEvent): string | undefined =>
       data
     )
     const [r, g, b, a] = data
-    const color = `rgba(${r}, ${g}, ${b}, ${a})`
-    console.log(`Color by click: ${color}`)
-    return color
+    return `rgba(${r}, ${g}, ${b}, ${a})`
   }
+  return null
 }

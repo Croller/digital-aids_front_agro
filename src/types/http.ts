@@ -1,4 +1,6 @@
 import { type TRule, type TUser } from './user'
+import { type TGroupField } from './field'
+import { type TFeature } from './geojson'
 
 export type TResponse = {
   data: TResponseData
@@ -10,9 +12,11 @@ export type TResponseData = {
   rules?: TRule[]
   error?: TError
   success?: boolean
+  group_field?: TGroupField[]
+  fields?: TFeature[]
+  culture?: TEnum[]
 }
 
 export type TSocketSubscribe = TSocketChange & {
-  data: {
-  }
+  data: null
 }

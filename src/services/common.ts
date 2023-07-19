@@ -2,6 +2,8 @@ import { request } from '@/services/request'
 import { type DictionaryStore } from '@/stores/dictionaryStore'
 import { type TResponseData } from '@/types/http'
 
+const APP = process.env.APP_NAME ?? ''
+
 export class CommonServices {
   dictionary: DictionaryStore
 
@@ -9,9 +11,9 @@ export class CommonServices {
     this.dictionary = dictionary
   }
 
-  fetchsDictionary = async (name: string): Promise<void> => {
+  fetchDictionary = async (name: string): Promise<void> => {
     this.dictionary.setLoading(true)
-    const resp: TResponseData = await request.get(`geo/dictionary/${name}`)
+    const resp: TResponseData = await request.get(`${APP}/dictionary/${name}`)
     this.dictionary.setResponse(resp)
     this.dictionary.setLoading(false)
   }

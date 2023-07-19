@@ -3,6 +3,7 @@ import { CommonServices } from '@/services/common'
 import { type TResponseData } from '@/types/http'
 
 export class DictionaryStore {
+  culture: TEnum[] | null = null
   loading: boolean = false
 
   commonServices: CommonServices
@@ -12,9 +13,9 @@ export class DictionaryStore {
     this.commonServices = new CommonServices(this)
   }
 
-  setResponse = (resp?: TResponseData): void => {
+  setResponse = (resp: TResponseData): void => {
     this.loading = false
-    if (!resp) return
+    if (resp.culture) this.culture = resp.culture
   }
 
   setLoading = (bool: boolean): void => {

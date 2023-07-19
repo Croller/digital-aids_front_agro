@@ -8,10 +8,12 @@ import TelemetrySvg from '@/assets/images/svg/telemetry.svg'
 import FieldsSvg from '@/assets/images/svg/fields.svg'
 import BookSvg from '@/assets/images/svg/book.svg'
 import GearSvg from '@/assets/images/svg/gear.svg'
-import ShevronSvg from '@/assets/images/svg/shevron.svg'
+import ChevronSvg from '@/assets/images/svg/chevron.svg'
 import LocationSvg from '@/assets/images/svg/location.svg'
 import MinusSvg from '@/assets/images/svg/minus.svg'
 import PlusSvg from '@/assets/images/svg/plus.svg'
+import DeleteSvg from '@/assets/images/svg/delete.svg'
+import TriangleSvg from '@/assets/images/svg/triangle.svg'
 
 import FieldsDrawSvg from '@/assets/images/svg/custom/fields/draw.svg'
 import FieldsSelectSvg from '@/assets/images/svg/custom/fields/select.svg'
@@ -31,10 +33,12 @@ export {
   FieldsSvg,
   BookSvg,
   GearSvg,
-  ShevronSvg,
+  ChevronSvg,
   LocationSvg,
   MinusSvg,
   PlusSvg,
+  DeleteSvg,
+  TriangleSvg,
 
   FieldsDrawSvg,
   FieldsSelectSvg,
