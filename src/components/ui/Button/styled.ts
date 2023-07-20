@@ -12,8 +12,8 @@ export const ButtonStyled = styled.button<{ theme: string }>`
   padding: ${THEME.button.padding};
   background-color: ${THEME.button.bg};
   border-radius: ${THEME.button.border.radius};
-  border-width: 0;
   cursor: pointer;
+  border-width: 0;
 
   &:focus {
     outline: none;
@@ -55,16 +55,28 @@ export const ButtonStyled = styled.button<{ theme: string }>`
     }
   `}
 
-  ${p => p.theme === 'link' && css`
-    padding: ${THEME.button.link.padding};
-    color: ${THEME.button.link.font.color};
-    background-color: ${THEME.button.link.bg};
+  ${p => p.theme === 'negative_text' && css`
+    padding: ${THEME.button.negative_text.padding};
+    color: ${THEME.button.negative_text.font.color};
+    background-color: ${THEME.button.negative_text.bg};
 
     > svg {
       path {
-        fill: ${THEME.button.link.font.color};
+        fill: ${THEME.button.negative_text.font.color};
       }
     }
+  `}
+
+  ${p => p.theme === 'link' && css`
+  padding: ${THEME.button.link.padding};
+  color: ${THEME.button.link.font.color};
+  background-color: ${THEME.button.link.bg};
+
+  > svg {
+    path {
+      fill: ${THEME.button.link.font.color};
+    }
+  }
   `}
 
 `

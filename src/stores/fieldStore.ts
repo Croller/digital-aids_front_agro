@@ -7,7 +7,7 @@ import { type TFeature } from '@/types/geojson'
 
 export class FieldStore {
   fields: TFeature[] | null = null
-  group_field: TGroupField[] | null = null
+  group_fields: TGroupField[] | null = null
   loading: boolean = false
 
   fieldServices: FiledServices
@@ -25,6 +25,10 @@ export class FieldStore {
   }
 
   setResponse = (resp: TResponseData): void => {
+    if (resp.group_fields) {
+      const response = resp.group_fields.length === 0 ? null : resp.group_fields
+      this.group_fields = [...(this.group_fields ?? []), ...(response ?? [])]
+    }
     if (resp.fields) {
       const response = resp.fields.length === 0 ? null : resp.fields
       if (this.fields) {
@@ -34,12 +38,7 @@ export class FieldStore {
       }
     }
     if (resp.group_field) {
-      const response = resp.group_field.length === 0 ? null : resp.group_field
-      if (this.group_field) {
-        this.group_field = [...this.group_field, ...(response ?? [])]
-      } else {
-        this.group_field = response
-      }
+      this.group_fields = [...(this.group_fields ?? []), resp.group_field]
     }
   }
 

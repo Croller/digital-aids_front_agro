@@ -32,8 +32,8 @@ export const Scale = styled.div`
   bottom: 0;
   min-width: 90px;
   text-align: center;
-  border-top-left-radius: .2rem;
-  border-bottom-right-radius: .75rem;
+  border-top-left-radius: 0.2rem;
+  border-bottom-right-radius: 0.75rem;
   padding: 5px 10px;
   z-index: 100;
   font-size: 12px;
@@ -45,8 +45,8 @@ export const Coordinates = styled.div`
   bottom: 0;
   min-width: 175px;
   text-align: left;
-  border-top-right-radius: .2rem;
-  border-bottom-left-radius: .75rem;
+  border-top-right-radius: 0.2rem;
+  border-bottom-left-radius: 0.75rem;
   padding: 5px 5px 5px 25px;
   z-index: 100;
   font-size: 12px;

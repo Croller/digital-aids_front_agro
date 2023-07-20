@@ -20,9 +20,9 @@ export class FiledServices {
     this.fieldStore.setLoading(false)
   }
 
-  fetchCreate = async (fields: TFeature[], group_field: TGroupField): Promise<void> => {
+  fetchCreate = async (fields: TFeature[], group_fields: TGroupField): Promise<void> => {
     this.fieldStore.setLoading(true)
-    const resp: TResponseData = await request.put(`${APP}/field/create`, { fields, group_field })
+    const resp: TResponseData = await request.put(`${APP}/field/create`, { fields, group_fields })
     this.fieldStore.setResponse(resp)
     this.fieldStore.setLoading(false)
   }

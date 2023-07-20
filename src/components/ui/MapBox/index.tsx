@@ -166,15 +166,17 @@ export const MapBox: React.FC<IMapBox> = ({
   // }
 
   const setZoomTo = (features: turf.Feature[]): void => {
-    const bounds = turf.bbox(turf.featureCollection(features))
-    map?.fitBounds(bounds as LngLatBoundsLike, {
-      padding: {
-        top: 150,
-        bottom: 150,
-        left: 200,
-        right: 200
-      }
-    })
+    try {
+      const bounds = turf.bbox(turf.featureCollection(features))
+      map?.fitBounds(bounds as LngLatBoundsLike, {
+        padding: {
+          top: 100,
+          bottom: 100,
+          left: 150,
+          right: 150
+        }
+      })
+    } catch (error) {}
   }
 
   const setMapStyle = (key: string): void => {
@@ -304,6 +306,10 @@ export const MapBox: React.FC<IMapBox> = ({
   useEffect(() => {
     isLoad && zoomTo && setZoomTo(zoomTo)
   }, [isLoad, zoomTo])
+
+  useEffect(() => {
+    isLoad && height && map?.resize()
+  }, [height])
 
   return (
     <Wrapper

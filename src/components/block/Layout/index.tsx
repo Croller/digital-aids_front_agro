@@ -49,7 +49,7 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
       {collapsed && innerWidth < Number(BREAKPOINTS.medium.replace('px', '')) && (
         <Overlay onClick={() => { setCollapsed(false) }}/>
       )}
-      <Sider collapsed={collapsed}>
+      <Sider>
         <Logo>
           <LogoSvg />
           {collapsed && t('words.app')}
@@ -78,7 +78,7 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
         </Footer>
         <Company collapsed={collapsed}>
           <Info>
-            DA ©
+            Т1 Агро ©
           </Info>
           <Info>
             2023

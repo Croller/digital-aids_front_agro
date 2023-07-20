@@ -11,7 +11,7 @@ export class RootStore {
   userStore: UserStore
   fieldStore: FieldStore
   dictionaryStore: DictionaryStore
-  language: string = 'en'
+  language: string = 'ru'
   loading: boolean = false
 
   socketServices: SocketServices
@@ -36,7 +36,7 @@ export class RootStore {
     this.loading = bool
   }
 
-  setLanguage = (language: string | undefined = 'en'): void => {
+  setLanguage = (language: string | undefined = 'ru'): void => {
     this.language = language
     translate.changeLanguage(language)
     request.setLanguage(this.language)

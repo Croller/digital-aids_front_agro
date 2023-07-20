@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/Button'
 import { EventSelect } from './components/EventSelect'
 import { FieldCreate } from './components/FieldCreate'
+import { Timeline } from './components/Timeline'
+import { InfoCard } from './components/InfoCard'
 import { layersConfig } from './constants'
 import { arrExludeExist } from '@/components/ui/MapBox/utils/arrExludeExist'
 import { toggleLayer } from '@/components/ui/MapBox/utils/setLayer'
@@ -12,6 +14,7 @@ import { useStores } from '@/stores'
 import { area } from '@turf/turf'
 import { observer } from 'mobx-react'
 import * as turf from '@turf/turf'
+import { ChevronSvg } from '@/assets/images'
 import { type TLayer, type TMapClick } from '@/components/ui/MapBox/type'
 import { type TFeature } from '@/types/geojson'
 import {
@@ -21,18 +24,30 @@ import {
   Header,
   Title,
   Note,
-  MapPanel,
-  MapboxStyled
+  MapboxStyled,
+  MapboxWrapper,
+  Select,
+  Calendar
 } from './styled'
+
+const mockedData: string[] = [
+  '2023-07-04T13:02:25.195Z',
+  '2023-07-05T13:02:25.195Z',
+  '2023-07-06T13:02:25.195Z',
+  '2023-07-09T13:02:25.195Z',
+  '2023-07-10T13:02:25.195Z',
+  '2023-07-11T13:02:25.195Z'
+]
 
 export default observer((): React.ReactElement => {
   const keyID = 'DN'
   const { t } = useTranslation()
-  const { fieldStore: { fields, group_field, create }, dictionaryStore: { culture } } = useStores()
+  const { fieldStore: { fields, group_fields, create }, dictionaryStore: { culture } } = useStores()
   const [eventCreate, setEventCreate] = useState<string | null>(null)
   const [selected, setSelected] = useState<any[] | null>(null)
   const [layers, setLayers] = useState<TLayer[]>(layersConfig)
   const [isAdd, setIsAdd] = useState<boolean>(false)
+  const [info, setInfo] = useState<TFeature | null>(null)
 
   const editSelected = (features: TFeature[]): void => setSelected((curr) => {
     const edited = features.map((f, i) => ({
@@ -59,8 +74,12 @@ export default observer((): React.ReactElement => {
     features && editSelected(features)
   }
 
+  const onAdd = (): void => {
+    setInfo(null)
+    setIsAdd(!isAdd)
+  }
+
   const onSave = (): void => {
-    // setNewFields(selected)
     selected && create(selected)
     setIsAdd(false)
     setSelected(null)
@@ -76,6 +95,10 @@ export default observer((): React.ReactElement => {
   }
 
   const onDelete = (feature: TFeature): void => editSelected([feature])
+
+  const onSetInfo = (feature: TFeature): void => {
+    setInfo(feature)
+  }
 
   useEffect(() => {
     if (fields) {
@@ -106,7 +129,7 @@ export default observer((): React.ReactElement => {
                     {t('layout.fields')}
                   </Title>
                   {fields && (
-                    <Button theme='primary' onClick={() => setIsAdd(!isAdd)}>
+                    <Button theme='primary' onClick={() => onAdd()}>
                       {t(`form.controls.${isAdd ? 'cancel' : 'add'}`)}
                     </Button>
                   )}
@@ -124,12 +147,14 @@ export default observer((): React.ReactElement => {
                     <Status features={fields ?? []} />
                   )}
               </Block>
-              {!isAdd && fields && culture && group_field?.map((group, g) => (
+              {!isAdd && fields && culture && group_fields && group_fields.map((group, g) => (
                 <FieldsGroup
                   key={`_group_${g + 1}`}
                   culture={culture}
+                  selected={info}
                   group={group}
                   features={fields}
+                  onClick={onSetInfo}
                 />
               ))}
             </>
@@ -144,16 +169,30 @@ export default observer((): React.ReactElement => {
             />
           )}
       </LeftPanel>
-      <MapPanel>
+      <MapboxWrapper info={info}>
+        <Select>
+          NDVI
+          <ChevronSvg />
+        </Select>
+        <Timeline dates={mockedData} selectDate={(value) => { console.log(value) }} />
+        <Calendar />
         <MapboxStyled
           defaultStyle="googleSat"
           layers={layers}
           selectKey={keyID}
           selected={selected}
-          zoomTo={fields}
+          zoomTo={(info && [info]) ?? fields}
           onClick={onClickMap}
+          height={info ? '25rem' : '100%'}
         />
-      </MapPanel>
+        {info && culture && (
+          <InfoCard
+            feature={info}
+            culture={culture}
+            onClose={() => setInfo(null)}
+          />
+        )}
+      </MapboxWrapper>
     </Wrapper>
   )
 })

@@ -20,7 +20,7 @@ export const layersConfig: TLayer[] = [
       scheme: 'tms',
       bounds: [0, 0, 0, 0],
       tiles: [
-        `${url}/c34d6454-9a81-4ce9-92a9-4236506214da/ndvi/tile/{z}/{x}/{y}.png`
+        `${url}/481a8105-233f-47a1-a830-e7dbb653e93e/ndvi/tile/{z}/{x}/{y}.png`
       ]
     }
   },
@@ -43,10 +43,26 @@ export const layersConfig: TLayer[] = [
     source: {
       type: 'vector',
       tiles: [
-        `${url}/c34d6454-9a81-4ce9-92a9-4236506214da/polygonize/tile/{z}/{x}/{y}.pbf`
+        `${url}/481a8105-233f-47a1-a830-e7dbb653e93e/polygonize/tile/{z}/{x}/{y}.pbf`
       ]
     },
     before: 'ndvi_layer'
+  },
+  {
+    layer: {
+      id: 'vectorFill_layer',
+      type: 'fill',
+      source: 'vectorLine_layer',
+      'source-layer': 'vector',
+      paint: {
+        'fill-opacity': 0
+      },
+      layout: {
+        visibility: 'none'
+      },
+      minzoom: 8,
+      maxzoom: 0
+    }
   },
   {
     layer: {
