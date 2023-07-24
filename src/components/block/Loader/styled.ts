@@ -12,7 +12,6 @@ export const Wrapper = styled.div<ILoader>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 100%;
   height: ${p => p.height ?? '100%'};
 `
 
@@ -48,10 +47,12 @@ export const Content = styled.div`
     0%,
     100% {
       transform: scale(0);
+      transform: scale(0);
     }
 
     50% {
       border: 5px solid ${PALETTE.white};
+      transform: scale(1);
       transform: scale(1);
     }
   }
@@ -60,10 +61,12 @@ export const Content = styled.div`
     0%,
     100% {
       transform: scale(0);
+      transform: scale(0);
     }
 
     50% {
       border: 5px solid ${PALETTE.white};
+      transform: scale(1);
       transform: scale(1);
     }
   }
@@ -75,12 +78,16 @@ export const BounceFirst = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: ${p => (p.color ?? `${PALETTE.primary}`)};
+  background-color: ${p => (p.color ?? `${PALETTE.green1}`)};
   border: 5px solid ${PALETTE.white};
   border-radius: 50%;
   box-shadow: 0 0 21px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 21px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 21px 3px rgba(0, 0, 0, 0.2);
   opacity: 0.8;
   animation: sk-doublebounce 2s infinite ease-in-out;
+  animation: sk-doublebounce 2s infinite ease-in-out;
+  animation-delay: -1s;
   animation-delay: -1s;
 `
 
@@ -90,10 +97,13 @@ export const BounceSecond = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: ${p => (p.color ?? `${PALETTE.primary}`)};
+  background-color: ${p => (p.color ?? `${PALETTE.green1}`)};
   border: 5px solid ${PALETTE.white};
   border-radius: 50%;
   box-shadow: 0 0 21px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 21px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 21px 3px rgba(0, 0, 0, 0.2);
   opacity: 0.8;
+  animation: sk-doublebounce 2s infinite ease-in-out;
   animation: sk-doublebounce 2s infinite ease-in-out;
 `

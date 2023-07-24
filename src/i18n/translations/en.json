@@ -45,6 +45,8 @@
     "weather": {
       "title": "Weather",
       "wind": "Wind",
+      "now": "Now",
+      "week": "For a week",
       "humidity": "Humidity",
       "dewpoint": "Dew point",
       "pressure": "Pressure",
@@ -53,7 +55,7 @@
     "status": {
       "title": "General condition of the field",
       "fact": "Fact",
-      "target": "Цель",
+      "goal": "Цель",
       "vegetation": "Vegetation",
       "humidity": "Humidity",
       "pests": "Pests",
@@ -62,12 +64,45 @@
       "following": "Following the schedule",
       "forecast": "Yield forecast"
     },
+    "chart": {
+      "title":"Summary Chart"
+    },
+    "plan":{
+      "title":"Work plan",
+      "more": "Show more "
+    },
     "services": {
-      "title": "Services",
-      "Pest": "Pest control"
+      "title": "Услуги",
+      "pest":{
+        "name":"Pest control",
+        "description":"Gets rid of pests within 24 hours"
+      },
+      "fertilizer":{
+        "name":"Spot fertilizer",
+        "description":"Apply fertilizer only where it is needed"
+      },
+      "inspection":{
+        "name":"Field inspection",
+        "description":"Fixing any deviations by the scout group"
+      },
+      "secure":{
+        "name":"Drone Security",
+        "description":"24/7 or fixed time"
+      }
     },
     "notes": {
       "title": "Notes"
+    },
+    "information": {
+      "title": "Detailed information",
+      "culture":"Culture",
+      "sort":"Sort",
+      "sowing":"Sowing date",
+      "plnned_maturation_day":"Planned ripening date",
+      "projected_maturation_day":"Projected date of maturation",
+      "planned_yield":"Planned yield",
+      "projected_yield":"Projected yield",
+      "area":"Area"
     }
   }
 }

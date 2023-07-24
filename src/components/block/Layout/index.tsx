@@ -33,12 +33,18 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
   const [t] = useTranslation()
   const navigate = useNavigate()
   const isDev = process.env.NODE_ENV === 'development'
-  const isUserRepo = window.location.href.includes('/user')
   const host = isDev ? `http://${process.env.LOCAL_IP ?? ''}:${process.env.AUTH_PORT ?? ''}` : `https://${process.env.HOST ?? ''}`
 
   window.addEventListener('resize', () => { setCollapsed(false) })
 
   const onRoute = (url: string): void => {
+    const APP = process.env.APP_NAME ?? ''
+    const isCurrentRepo = window.location.href.includes(`/${APP}`)
+    const isUserRepo = window.location.href.includes('/user')
+    if (isCurrentRepo && !url.includes('/user')) {
+      navigate(url)
+      return
+    }
     isUserRepo ? navigate(url) : window.location.href = `${host}${url}`
   }
 
@@ -49,7 +55,7 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
       {collapsed && innerWidth < Number(BREAKPOINTS.medium.replace('px', '')) && (
         <Overlay onClick={() => { setCollapsed(false) }}/>
       )}
-      <Sider collapsed={collapsed}>
+      <Sider>
         <Logo>
           <LogoSvg />
           {collapsed && t('words.app')}
@@ -78,7 +84,7 @@ export const Layout: React.FC<ILayout> = memo(({ header, menu, children }) => {
         </Footer>
         <Company collapsed={collapsed}>
           <Info>
-            DA ©
+            Т1 Агро ©
           </Info>
           <Info>
             2023

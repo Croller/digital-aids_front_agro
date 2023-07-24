@@ -1,8 +1,9 @@
 /* eslint-disable max-len */
-import React, { memo, useState } from 'react'
+import React, { useState } from 'react'
 import { TriangleSvg } from '@/assets/images'
 import { getDicValue } from '@/utils/dictionary'
 import { MapBoxStatic } from '@/components/ui/MapBox'
+import { observer } from 'mobx-react'
 import { type TFeature } from '@/types/geojson'
 import { type TGroupField } from '@/types/field'
 import {
@@ -20,19 +21,20 @@ import {
 
 interface IFieldsGroup {
   group: TGroupField
+  selected?: TFeature | null
   features: TFeature[]
   culture: TEnum[]
+  onClick: (obj: TFeature) => void
 }
 
-export const FieldsGroup: React.FC<IFieldsGroup> = memo(({ group, features, culture }) => {
+export const FieldsGroup: React.FC<IFieldsGroup> = observer(({ group, selected, features, culture, onClick }) => {
   const [collapsed, setCollapsed] = useState(false)
-  const [active, setActive] = useState<string | null>(null)
 
-  const groupFeatures = features.filter(f => f.properties.group_id === group.id)
+  const groupFeatures = features.filter(f => f?.properties?.group_id === group.id)
 
-  const setActiveId = (e: React.MouseEvent<HTMLDivElement>, id: string): void => {
+  const setActiveId = (e: React.MouseEvent<HTMLDivElement>, feature: TFeature): void => {
     e.stopPropagation()
-    setActive(id)
+    onClick(feature)
   }
 
   return (
@@ -47,8 +49,8 @@ export const FieldsGroup: React.FC<IFieldsGroup> = memo(({ group, features, cult
         {groupFeatures.map((feature: TFeature, f: number) => (
           <Field
             key={`_field_${f + 1}`}
-            active={feature.properties.id === active}
-            onClick={(e) => setActiveId(e, feature.properties.id)}
+            active={feature.properties.id === selected?.properties?.id}
+            onClick={(e) => setActiveId(e, feature)}
           >
             <Img src={MapBoxStatic(feature)} />
             <Info>

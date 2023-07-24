@@ -7,7 +7,7 @@ export const Wrapper = styled.div<{ collapsed: boolean }>`
 
   > aside {
     display: ${p => p.collapsed ? 'block' : 'none'};
-    width: 14.875rem;
+    width: 250px;
 
     @media screen and (min-width: ${BREAKPOINTS.medium}) {
       display: flex;
@@ -18,8 +18,16 @@ export const Wrapper = styled.div<{ collapsed: boolean }>`
   > section {
     margin-left: 0px;
 
+    > header {
+      left: 0px;
+
+      @media screen and (min-width: ${BREAKPOINTS.medium}) {
+        left: ${p => p.collapsed ? '14.875rem' : '60px'};
+      }
+    }
+
     @media screen and (min-width: ${BREAKPOINTS.medium}) {
-      margin-left: ${p => p.collapsed ? '15.875rem' : '60px'};
+      margin-left: ${p => p.collapsed ? '14.875rem' : '60px'};
     }
   }
 `
@@ -39,23 +47,19 @@ export const Overlay = styled.div`
   }
 `
 
-export const Sider = styled.aside<{ collapsed: boolean }>`
+export const Sider = styled.aside`
   position: fixed;
   top: 0;
   bottom: 0;
   z-index: 1002;
   display: none;
   flex-direction: column;
-  align-items: ${p => p.collapsed ? 'flex-start' : 'center'};
+  align-items: center;
   justify-content: space-around;
-  width: 14.875rem;
+  max-width: 13.875rem;
   margin-top: 0;
-  padding: .5rem;
+  padding: 1rem .5rem;
   background-color: ${THEME.slider.bg};
-
-  > div:first-child > svg {
-    margin-right: ${p => p.collapsed ? '.66rem' : '0'};
-  }
 
   @media screen and (min-width: ${BREAKPOINTS.medium}) {
     display: flex;
@@ -66,9 +70,7 @@ export const Logo = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  box-sizing: border-box;
   width: 100%;
-  padding: .5rem;
   color: ${PALETTE.black};
   font-size: 1.875rem;
   font-family: ${FONTS.medium};
@@ -76,16 +78,17 @@ export const Logo = styled.div`
   > svg {
     width: 2.24888rem;
     height: 2.24888rem;
-    margin-right: .66rem;
+    margin-right: .48em;
+    margin-left: .5rem;
   }
 `
 
 export const Menu = styled.div<{ collapsed: boolean }>`
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
   width: 100%;
   margin-top: 1.5rem;
+  padding: 0 .5rem;
 
   > div {
     justify-content: ${p => p.collapsed ? 'flex-start' : 'center'};
@@ -100,24 +103,36 @@ export const Menu = styled.div<{ collapsed: boolean }>`
 
 export const Footer = styled(Menu)`
   margin-top: auto;
-
-  span {
-    font-size: 1rem;
-  }
 `
 
 export const Item = styled.div<{ active: boolean }>`
   display: flex;
-  align-items: center;
   justify-content: center;
-  box-sizing: border-box;
-  padding: .5rem;
-  color: ${PALETTE.black};
-  font-size: 1.1875rem;
+  align-items: center;
+  font-size: 1rem;
   font-family: ${FONTS.medium};
+  color: ${PALETTE.black};
   background-color: transparent;
-  border-radius: 0.375rem;
   cursor: pointer;
+  padding: .5rem;
+  border-radius: 0.375rem;
+
+  &:hover {
+    background-color: ${PALETTE.white};
+
+    > span {
+      color: ${PALETTE.primary};
+    }
+  }
+
+  > svg {
+    width: 1.5rem;
+    height: 1.5rem;
+
+    path {
+      fill: ${PALETTE.icon};
+    }
+  }
 
   ${p => p.active && css`
     background-color: ${PALETTE.white};
@@ -132,23 +147,6 @@ export const Item = styled.div<{ active: boolean }>`
       }
     }
   `}
-
-  > svg {
-    width: 1.5rem;
-    height: 1.5rem;
-
-    path {
-      fill: ${PALETTE.icon};
-    }
-  }
-
-  &:hover {
-    background-color: ${PALETTE.white};
-
-    > span {
-      color: ${PALETTE.primary};
-    }
-  }
 `
 
 export const Avatar = styled.div<{ url: string }>`
@@ -170,10 +168,10 @@ export const Company = styled.div<{ collapsed: boolean }>`
   display: flex;
   flex-direction: row;
   justify-content: ${p => p.collapsed ? 'space-between' : 'center'};
-  box-sizing: border-box;
   width: 100%;
   margin-top: .5rem;
-  padding: .5rem;
+  padding: 0 .5rem;
+
 
   > div:last-child {
     display: ${p => p.collapsed ? 'block' : 'none'};
@@ -182,13 +180,29 @@ export const Company = styled.div<{ collapsed: boolean }>`
 `
 
 export const Info = styled.div`
+  padding: 0 .5rem;
   color: ${PALETTE.icon};
   font-size: 0.75rem;
   font-family: ${FONTS.regular};
 `
 
 export const Container = styled.section`
+  max-height: 100%;
   background-color: ${THEME.bg};
+`
+
+export const Header = styled.header`
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  padding: 0 1.25rem 0 calc(1.25rem / 2);
+  background-color: ${PALETTE.white};
+  box-shadow: ${THEME.shadow};
 `
 
 export const Content = styled.div`

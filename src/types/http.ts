@@ -12,7 +12,7 @@ export type TResponseData = {
   rules?: TRule[]
   error?: TError
   success?: boolean
-  group_field?: TGroupField[]
+  group_fields?: TGroupField[]
   fields?: TFeature[]
   culture?: TEnum[]
 }

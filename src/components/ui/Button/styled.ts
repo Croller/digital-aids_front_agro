@@ -6,13 +6,13 @@ export const ButtonStyled = styled.button<{ theme: string }>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  padding: ${THEME.button.padding};
+  color: ${THEME.button.font.color};
   font-size: ${THEME.button.font.size};
   font-family: ${THEME.button.font.family};
-  color: ${THEME.button.font.color};
-  padding: ${THEME.button.padding};
   background-color: ${THEME.button.bg};
-  border-radius: ${THEME.button.border.radius};
   border-width: 0;
+  border-radius: ${THEME.button.border.radius};
   cursor: pointer;
 
   &:focus {
@@ -56,15 +56,15 @@ export const ButtonStyled = styled.button<{ theme: string }>`
   `}
 
   ${p => p.theme === 'link' && css`
-    padding: ${THEME.button.link.padding};
-    color: ${THEME.button.link.font.color};
-    background-color: ${THEME.button.link.bg};
+  padding: ${THEME.button.link.padding};
+  color: ${THEME.button.link.font.color};
+  background-color: ${THEME.button.link.bg};
 
-    > svg {
-      path {
-        fill: ${THEME.button.link.font.color};
-      }
+  > svg {
+    path {
+      fill: ${THEME.button.link.font.color};
     }
+  }
   `}
 
 `

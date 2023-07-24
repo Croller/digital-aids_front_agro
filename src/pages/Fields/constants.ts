@@ -11,7 +11,7 @@ export const layersConfig: TLayer[] = [
       layout: {
         visibility: 'visible'
       },
-      minzoom: 8,
+      minzoom: 10,
       maxzoom: 0
     },
     source: {
@@ -20,7 +20,7 @@ export const layersConfig: TLayer[] = [
       scheme: 'tms',
       bounds: [0, 0, 0, 0],
       tiles: [
-        `${url}/c34d6454-9a81-4ce9-92a9-4236506214da/ndvi/tile/{z}/{x}/{y}.png`
+        `${url}/481a8105-233f-47a1-a830-e7dbb653e93e/ndvi/tile/{z}/{x}/{y}.png`
       ]
     }
   },
@@ -37,36 +37,31 @@ export const layersConfig: TLayer[] = [
       layout: {
         visibility: 'none'
       },
-      minzoom: 8,
+      minzoom: 10,
       maxzoom: 0
     },
     source: {
       type: 'vector',
       tiles: [
-        `${url}/c34d6454-9a81-4ce9-92a9-4236506214da/polygonize/tile/{z}/{x}/{y}.pbf`
+        `${url}/481a8105-233f-47a1-a830-e7dbb653e93e/polygonize/tile/{z}/{x}/{y}.pbf`
       ]
     },
     before: 'ndvi_layer'
   },
   {
     layer: {
-      id: 'ndvi_layer',
-      type: 'raster',
-      source: 'ndvi_layer',
-      layout: {
-        visibility: 'visible'
+      id: 'vectorFill_layer',
+      type: 'fill',
+      source: 'vectorLine_layer',
+      'source-layer': 'vector',
+      paint: {
+        'fill-opacity': 0
       },
-      minzoom: 8,
+      layout: {
+        visibility: 'none'
+      },
+      minzoom: 10,
       maxzoom: 0
-    },
-    source: {
-      type: 'raster',
-      tileSize: 256,
-      scheme: 'tms',
-      bounds: [0, 0, 0, 0],
-      tiles: [
-        `${url}/c34d6454-9a81-4ce9-92a9-4236506214da/ndvi/tile/{z}/{x}/{y}.png`
-      ]
     }
   },
   {
@@ -106,6 +101,24 @@ export const layersConfig: TLayer[] = [
   },
   {
     layer: {
+      id: 'fieldFill_select',
+      type: 'fill',
+      source: 'fieldLine_layer',
+      filter: ['==', 'id', ''],
+      paint: {
+        'fill-color': '#00FFFF',
+        'fill-opacity': 0.4
+      },
+      layout: {
+        visibility: 'none'
+      },
+      minzoom: 10,
+      maxzoom: 0
+    },
+    before: 'vectorLine_layer'
+  },
+  {
+    layer: {
       id: 'vectorFill_select',
       type: 'fill',
       source: 'vectorLine_layer',
@@ -118,7 +131,7 @@ export const layersConfig: TLayer[] = [
       layout: {
         visibility: 'none'
       },
-      minzoom: 8,
+      minzoom: 10,
       maxzoom: 0
     },
     before: 'vectorLine_layer'
