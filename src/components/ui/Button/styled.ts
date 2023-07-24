@@ -6,14 +6,14 @@ export const ButtonStyled = styled.button<{ theme: string }>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  padding: ${THEME.button.padding};
+  color: ${THEME.button.font.color};
   font-size: ${THEME.button.font.size};
   font-family: ${THEME.button.font.family};
-  color: ${THEME.button.font.color};
-  padding: ${THEME.button.padding};
   background-color: ${THEME.button.bg};
+  border-width: 0;
   border-radius: ${THEME.button.border.radius};
   cursor: pointer;
-  border-width: 0;
 
   &:focus {
     outline: none;
@@ -51,18 +51,6 @@ export const ButtonStyled = styled.button<{ theme: string }>`
     > svg {
       path {
         fill: ${THEME.button.text.font.color};
-      }
-    }
-  `}
-
-  ${p => p.theme === 'negative_text' && css`
-    padding: ${THEME.button.negative_text.padding};
-    color: ${THEME.button.negative_text.font.color};
-    background-color: ${THEME.button.negative_text.bg};
-
-    > svg {
-      path {
-        fill: ${THEME.button.negative_text.font.color};
       }
     }
   `}

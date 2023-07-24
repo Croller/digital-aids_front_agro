@@ -13,20 +13,26 @@ export const PALETTE = {
   white: '#FFFFFF',
   black: '#000000',
   bg: '#F3F3F6',
-  primary: '#405189',
+  primary: '#00AAE6',
   heading: '#495057',
   overlay: '#21252959',
   text: '#212529',
   red: '#DD584D',
+  yellow: '#FC0',
   green: '#219653',
+  light_green: '#20BF06',
+  blue: '#0073FA',
+  light_blue: '#009DE6',
   grey: '#F7F7F8',
+  deep_grey: '#232323',
+  dark_grey: '#151515',
   icon: '#8496A8',
   note: '#8496A8',
   border: '#E9EBEC',
   hover: '#F3F6F9'
 }
 
-const fontsCommon = '\'Source Sans Pro\', Helvetica, sans-serif'
+const fontsCommon = "'Source Sans Pro', Helvetica, sans-serif"
 export const FONTS = {
   light: `'MontserratLight', ${fontsCommon}`,
   lightItalic: `'MontserratLightItalic', ${fontsCommon}`,

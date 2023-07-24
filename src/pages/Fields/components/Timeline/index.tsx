@@ -53,10 +53,10 @@ export const Timeline: React.FC<ITimeLine> = memo(({ dates, selectDate }) => {
         ))}
       </DatesList>
       <Controls>
-        <Back onClick={back} theme={'negative_text'}>
+        <Back onClick={back} theme={'text'}>
           <ArrowSvg />
         </Back>
-        <Forward onClick={forward} theme={'negative_text'}>
+        <Forward onClick={forward} theme={'text'}>
           <ArrowSvg />
         </Forward>
       </Controls>

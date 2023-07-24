@@ -4,7 +4,7 @@ import { WorkPlan } from './components/WorkPlan'
 import { FieldCondition } from './components/FieldCondition'
 import { SummaryChart } from './components/SummaryChart'
 import { Services } from './components/Services'
-import { DetailedInformation } from './components/DetailedInformation'
+import { Details } from './components/Details'
 import { Notes } from './components/Notes'
 import { CloseSvg } from '@/assets/images'
 import { type TFeature } from '@/types/geojson'
@@ -29,25 +29,29 @@ interface IInfoCard {
 export const InfoCard: React.FC<IInfoCard> = memo(({ feature, culture, onClose }) => (
   <Wrapper>
     <Header>
-      <H1>Поле 1</H1>
+      <H1>
+        Поле 1
+      </H1>
       <CloseSvg onClick={onClose} />
     </Header>
     <FieldType>
       <BlueDot />
       <FieldTypeText>
         {getDicValue(feature.properties.culture_key, culture)}
-        <Divider>|</Divider>
+        <Divider>
+          |
+        </Divider>
         {feature.properties.square.toFixed(2)}
       </FieldTypeText>
     </FieldType>
-    <WeatherInfo />
+    <WeatherInfo feature={feature} />
     <Section>
       <FieldCondition />
       <WorkPlan />
     </Section>
     <SummaryChart />
-    <Notes/>
-    <Services/>
-    <DetailedInformation/>
+    <Notes />
+    <Services />
+    <Details />
   </Wrapper>
 ))

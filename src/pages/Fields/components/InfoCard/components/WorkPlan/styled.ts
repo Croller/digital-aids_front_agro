@@ -22,24 +22,33 @@ export const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.94rem;
 `
 
 export const H3 = styled.h3`
   margin: 0;
   color: ${PALETTE.black};
-  font-weight: 500;
   font-size: 1.125rem;
   font-family: ${FONTS.medium};
-  font-style: normal;
   line-height: 110%;
   letter-spacing: -0.0225rem;
 `
 
-export const DayPlan = styled.div`
+export const DayPlanList = styled.ul`
+  margin: 0.94rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  > li {
+    &:first-child {
+      margin: 0;
+    }
+  }
+`
+
+export const DayPlan = styled.li`
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.69rem;
+  margin-top: 0.69rem;
 `
 
 export const Day = styled.div`
@@ -94,12 +103,13 @@ export const EndTime = styled.span`
   padding: 0.0625rem 0.25rem;
   color: ${PALETTE.light_green};
   font-family: unset;
-  background: ${PALETTE.timerBg};
+  background: #20BF0626;
   border-radius: 2.5rem;
   fill: ${PALETTE.light_green};
 `
 
 export const ShowMore = styled.div`
+  margin-top: 0.69rem;
   color: ${PALETTE.light_blue};
   font-size: 0.875rem;
   font-family: ${FONTS.regular};

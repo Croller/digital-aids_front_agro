@@ -10,6 +10,7 @@ import {
   Description,
   ServicesList,
   Row,
+  IconWrapper,
   ColoredBugSvg
 } from './styled'
 
@@ -21,15 +22,23 @@ export const Services: React.FC = memo(() => {
       <ServicesList>
         <Row>
           <Service>
-            <ColoredBugSvg color={PALETTE.light_green} />
-            <Name>{t('fields.services.pest.name')}</Name>
+            <IconWrapper>
+              <ColoredBugSvg color={PALETTE.light_green} />
+            </IconWrapper>
+            <Name>
+              {t('fields.services.pest.name')}
+            </Name>
             <Description>
               {t('fields.services.pest.description')}
             </Description>
           </Service>
           <Service>
-            <TargetSvg />
-            <Name>{t('fields.services.fertilizer.name')}</Name>
+            <IconWrapper>
+              <TargetSvg />
+            </IconWrapper>
+            <Name>
+              {t('fields.services.fertilizer.name')}
+            </Name>
             <Description>
               {t('fields.services.fertilizer.description')}
             </Description>
@@ -37,15 +46,23 @@ export const Services: React.FC = memo(() => {
         </Row>
         <Row>
           <Service>
-            <ViewSvg />
-            <Name>{t('fields.services.inspection.name')}</Name>
+            <IconWrapper>
+              <ViewSvg />
+            </IconWrapper>
+            <Name>
+              {t('fields.services.inspection.name')}
+            </Name>
             <Description>
               {t('fields.services.inspection.description')}
             </Description>
           </Service>
           <Service>
-            <ColoredBugSvg color={PALETTE.black} />
-            <Name>{t('fields.services.secure.name')}</Name>
+            <IconWrapper>
+              <ColoredBugSvg color={PALETTE.black} />
+            </IconWrapper>
+            <Name>
+              {t('fields.services.secure.name')}
+            </Name>
             <Description>
               {t('fields.services.secure.description')}
             </Description>

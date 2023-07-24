@@ -3,19 +3,17 @@ import { getDomain } from '@/utils/url'
 import { type TResponse } from '@/types/http'
 
 export class Request {
-  language: string = 'en'
   instance = axios.create({
     baseURL: process.env.VITE_APP_API_URL,
-    withCredentials: true,
+    withCredentials: false,
     headers: {
-      'Accept-Language': 'en'
+      'Accept-Language': 'ru'
     }
   })
 
   getUrl = (url: string): string => `${getDomain()}/api/${url}`
 
-  setToken = (token: string | null, language: string = 'en'): void => {
-    if (!token) return
+  setHeaders = (token: string, language: string | null = 'ru'): void => {
     this.instance.interceptors.request.use((config: any) => {
       config.headers = {
         'Accept-Language': language,
@@ -23,10 +21,6 @@ export class Request {
       }
       return config
     })
-  }
-
-  setLanguage = (language: string = 'en'): void => {
-    this.language = language
   }
 
   private readonly responseBody = (response: TResponse): any => {
@@ -37,8 +31,8 @@ export class Request {
       return resp
     }
 
-    if (resp.token) {
-      this.setToken(resp.token)
+    if (resp.user && resp.token) {
+      this.setHeaders(resp.token, resp.user.language)
     }
 
     return resp

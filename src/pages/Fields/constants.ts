@@ -11,7 +11,7 @@ export const layersConfig: TLayer[] = [
       layout: {
         visibility: 'visible'
       },
-      minzoom: 8,
+      minzoom: 10,
       maxzoom: 0
     },
     source: {
@@ -37,7 +37,7 @@ export const layersConfig: TLayer[] = [
       layout: {
         visibility: 'none'
       },
-      minzoom: 8,
+      minzoom: 10,
       maxzoom: 0
     },
     source: {
@@ -60,29 +60,8 @@ export const layersConfig: TLayer[] = [
       layout: {
         visibility: 'none'
       },
-      minzoom: 8,
+      minzoom: 10,
       maxzoom: 0
-    }
-  },
-  {
-    layer: {
-      id: 'ndvi_layer',
-      type: 'raster',
-      source: 'ndvi_layer',
-      layout: {
-        visibility: 'visible'
-      },
-      minzoom: 8,
-      maxzoom: 0
-    },
-    source: {
-      type: 'raster',
-      tileSize: 256,
-      scheme: 'tms',
-      bounds: [0, 0, 0, 0],
-      tiles: [
-        `${url}/c34d6454-9a81-4ce9-92a9-4236506214da/ndvi/tile/{z}/{x}/{y}.png`
-      ]
     }
   },
   {
@@ -122,6 +101,24 @@ export const layersConfig: TLayer[] = [
   },
   {
     layer: {
+      id: 'fieldFill_select',
+      type: 'fill',
+      source: 'fieldLine_layer',
+      filter: ['==', 'id', ''],
+      paint: {
+        'fill-color': '#00FFFF',
+        'fill-opacity': 0.4
+      },
+      layout: {
+        visibility: 'none'
+      },
+      minzoom: 10,
+      maxzoom: 0
+    },
+    before: 'vectorLine_layer'
+  },
+  {
+    layer: {
       id: 'vectorFill_select',
       type: 'fill',
       source: 'vectorLine_layer',
@@ -134,7 +131,7 @@ export const layersConfig: TLayer[] = [
       layout: {
         visibility: 'none'
       },
-      minzoom: 8,
+      minzoom: 10,
       maxzoom: 0
     },
     before: 'vectorLine_layer'

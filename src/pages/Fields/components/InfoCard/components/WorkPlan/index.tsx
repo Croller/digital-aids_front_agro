@@ -14,7 +14,8 @@ import {
   FieldName,
   EndTime,
   ShowMore,
-  SvgWrapper
+  SvgWrapper,
+  DayPlanList
 } from './styled'
 
 const mockedWorkPlanArray = [
@@ -71,32 +72,39 @@ export const WorkPlan: React.FC = memo(() => {
   return (
     <Wrapper>
       <Header>
-        <H3>{t('fields.plan.title')}</H3>
+        <H3>
+          {t('fields.plan.title')}
+        </H3>
         <SvgWrapper>
           <PlusSvg />
         </SvgWrapper>
       </Header>
-      {mockedWorkPlanArray.map((day) => (
-        <DayPlan key={day.date}>
-          <Day>{day.date}</Day>
-          {day.tasks.map((el) => (
-            <Task key={el.task}>
-              <TaskDescription>
-                <TaskCheckboxWrapper>
-                  <TaskCheckbox label={el.task} value={el.isDone} isBlocked={!!el.endTime} />
-                  <FieldName>{el.object}</FieldName>
-                </TaskCheckboxWrapper>
-                {/* {Проблема отображения  "1:0" из-за шрифта} */}
-                {el.endTime &&
-                  <EndTime>
-                    {el.endTime}
-                  </EndTime>}
-              </TaskDescription>
-            </Task>
-          ))}
-        </DayPlan>
-      ))}
-      <ShowMore>{`${t('fields.plan.more')} 8`}</ShowMore>
+      <DayPlanList>
+        {mockedWorkPlanArray.map((day, i) => (
+          <DayPlan key={`_day_${i + 1}`}>
+            <Day>{day.date}</Day>
+            {day.tasks.map((el, i) => (
+              <Task key={`_task_${i + 1}`}>
+                <TaskDescription>
+                  <TaskCheckboxWrapper>
+                    <TaskCheckbox onChange={() => null} label={el.task} value={el.isDone} isBlocked={!!el.endTime} />
+                    <FieldName>
+                      {el.object}
+                    </FieldName>
+                  </TaskCheckboxWrapper>
+                  {/* {Проблема отображения  "1:0" из-за шрифта} */}
+                  {el.endTime &&
+                    <EndTime>
+                      {el.endTime}
+                    </EndTime>}
+                </TaskDescription>
+              </Task>
+            ))}
+          </DayPlan>
+        ))}</DayPlanList>
+      <ShowMore>
+        {`${t('fields.plan.more')} 8`}
+      </ShowMore>
     </Wrapper>
   )
 }

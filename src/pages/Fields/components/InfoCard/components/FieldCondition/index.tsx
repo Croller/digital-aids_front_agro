@@ -10,6 +10,7 @@ import {
   Percents,
   PercentText,
   Table,
+  TableBody,
   TableRow,
   TableHeader,
   TableData
@@ -33,19 +34,19 @@ const getMockedTableDataArray = (t: TFunction<'translation', undefined, 'transla
     parameter: t('fields.status.humidity'),
     fact: '8%',
     goal: '26%',
-    color: PALETTE.attention
+    color: '#FA4B14'
   },
   {
     parameter: t('fields.status.pests'),
     fact: '2,9%',
     goal: '0%',
-    color: PALETTE.warning
+    color: '#FFA800'
   },
   {
     parameter: t('fields.status.diseases'),
     fact: '0,1%',
     goal: '0%',
-    color: PALETTE.warning
+    color: '#FFA800'
   },
   {
     parameter: t('fields.status.relief'),
@@ -77,21 +78,35 @@ export const FieldCondition: React.FC = memo(() => {
       </Header>
       <Percents>
         <GoodSvg />
-        <PercentText>82%</PercentText>
+        <PercentText>
+          82%
+        </PercentText>
       </Percents>
       <Table>
-        <TableRow>
-          <TableHeader />
-          <TableHeader>{t('fields.status.fact')}</TableHeader>
-          <TableHeader>{t('fields.status.goal')}</TableHeader>
-        </TableRow>
-        {getMockedTableDataArray(t).map((el) => (
+        <TableBody>
           <TableRow>
-            <TableData textAlign={'start'}>{el.parameter}</TableData>
-            <TableData color={el.color}>{el.fact}</TableData>
-            <TableData color={PALETTE.note}>{el.goal}</TableData>
+            <TableHeader />
+            <TableHeader>
+              {t('fields.status.fact')}
+            </TableHeader>
+            <TableHeader>
+              {t('fields.status.goal')}
+            </TableHeader>
           </TableRow>
-        ))}
+          {getMockedTableDataArray(t).map((el, i) => (
+            <TableRow key={`_data_${i + 1}`} >
+              <TableData>
+                {el.parameter}
+              </TableData>
+              <TableData color={el.color}>
+                {el.fact}
+              </TableData>
+              <TableData color={PALETTE.note}>
+                {el.goal}
+              </TableData>
+            </TableRow>
+          ))}
+        </TableBody>
       </Table>
     </Wrapper>
   )

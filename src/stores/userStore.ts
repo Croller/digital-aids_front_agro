@@ -1,9 +1,10 @@
+import translate from '@/i18n'
 import { makeAutoObservable } from 'mobx'
 import { request } from '@/services/request'
 import { AuthServices } from '@/services/auth'
+import { getCookies, setCookies } from '@/utils/cookies'
 import { type TRule, type TUser } from '@/types/user'
 import { type TResponseData } from '@/types/http'
-import { getCookies } from '@/utils/cookies'
 
 export class UserStore {
   token: string | null = null
@@ -37,11 +38,15 @@ export class UserStore {
 
   init = (): void => {
     const [path, pathToken] = window.location.href.split('?token=')
+    const lng = getCookies('cr_lng')
+    const token = getCookies('cr_token') ?? pathToken
 
-    if (pathToken) {
-      this.setToken(pathToken)
+    token && request.setHeaders(token, lng)
+    lng && translate.changeLanguage(lng)
+
+    if (token) {
       this.authServices.fetchAuth()
-      window.history.pushState('', '', path)
+      pathToken && window.history.pushState('', '', path)
     } else {
       const { href } = window.location
       window.location.href = `https://${process.env.HOST ?? ''}/user/auth?redirect=${href}`
@@ -50,7 +55,13 @@ export class UserStore {
 
   setToken = (token: string | null = null): void => {
     this.token = token
-    request.setToken(this.token)
+    setCookies({ cr_token: token })
+  }
+
+  setLanguage = (lng: string): void => {
+    this.user.language = lng
+    translate.changeLanguage(lng)
+    setCookies({ cr_lng: lng })
   }
 
   setLoading = (bool: boolean): void => {
@@ -70,7 +81,9 @@ export class UserStore {
     if (resp.token) {
       this.setToken(resp.token)
     }
-    if (resp.user) this.user = resp.user
+    if (resp.user) {
+      this.user = resp.user
+    }
     if (resp.rules) this.rules = resp.rules
     if (resp.success) this.success = resp.success
     if (resp.error) {

@@ -4,10 +4,12 @@ import { type TGroupField } from '@/types/field'
 import { type TResponseData } from '@/types/http'
 import { type RootStore } from './rootStore'
 import { type TFeature } from '@/types/geojson'
+import { type TOWCurrent } from '@/types/openweather'
 
 export class FieldStore {
   fields: TFeature[] | null = null
   group_fields: TGroupField[] | null = null
+  weatherCurrent: TOWCurrent | null = null
   loading: boolean = false
 
   fieldServices: FiledServices

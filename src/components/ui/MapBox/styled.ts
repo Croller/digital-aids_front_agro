@@ -32,10 +32,10 @@ export const Scale = styled.div`
   bottom: 0;
   min-width: 90px;
   text-align: center;
+  z-index: 100;
   border-top-left-radius: 0.2rem;
   border-bottom-right-radius: 0.75rem;
   padding: 5px 10px;
-  z-index: 100;
   font-size: 12px;
 `
 

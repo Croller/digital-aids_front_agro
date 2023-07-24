@@ -57,9 +57,19 @@ export const Controls = styled.div`
 export const Forward = styled(Button)`
   height: 1.5rem;
   margin-left: 0.25rem;
+  > svg {
+      path {
+        fill: ${PALETTE.white};
+      }
+    }
 `
 
 export const Back = styled(Button)`
   height: 1.5rem;
   transform: rotate(180deg);
+  > svg {
+      path {
+        fill: ${PALETTE.white};
+      }
+    }
 `

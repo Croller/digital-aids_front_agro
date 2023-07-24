@@ -45,17 +45,21 @@ const getMockedDetails = (t: TFunction<'translation', undefined, 'translation'>)
   }
 ]
 
-export const DetailedInformation: React.FC = memo(() => {
+export const Details: React.FC = memo(() => {
   const { t } = useTranslation()
 
   return (
     <Wrapper>
       <H1>{t('fields.information.title')}</H1>
       <DetailsList>
-        {getMockedDetails(t).map((el) =>
-          <Detail>
-            <Name>{el.name}</Name>
-            <Value>{el.value}</Value>
+        {getMockedDetails(t).map((el, i) =>
+          <Detail key={`_detail_${i + 1}`}>
+            <Name>
+              {el.name}
+            </Name>
+            <Value>
+              {el.value}
+            </Value>
           </Detail>
         )}
       </DetailsList>

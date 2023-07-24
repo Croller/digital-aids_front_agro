@@ -7,16 +7,16 @@ import { type TFeature } from '@/types/geojson'
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  height: calc(100vh - .5rem);
-  column-gap: .25rem;
+  height: calc(100vh - 0.5rem);
+  column-gap: 0.25rem;
 `
 
 export const LeftPanel = styled.div<{ existFields: boolean }>`
   display: flex;
-  flex-direction: ${p => p.existFields ? 'column' : 'unset'};
+  flex-direction: ${(p) => (p.existFields ? 'column' : 'unset')};
   width: 100%;
   max-width: 29.5rem;
-  row-gap: .25rem;
+  row-gap: 0.25rem;
 `
 
 export const Block = styled.div`
@@ -45,21 +45,21 @@ export const Note = styled.p`
   font-family: ${FONTS.regular};
 `
 
-export const MapboxWrapper = styled.div <{ info: TFeature | null }>`
+export const MapboxWrapper = styled.div<{ info: TFeature | null }>`
   position: relative;
   display: block;
   align-items: center;
   width: 100%;
 
-  ${p => p.info && css`
+  ${(p) => p.info && css`
     position: relative;
     display: flex;
     flex-direction: column;
-    row-gap: .25rem;
+    row-gap: 0.25rem;
   `}
 `
 
-export const MapboxStyled = styled(MapBox)`S
+export const MapboxStyled = styled(MapBox)`
   canvas {
     border-radius: 0.75rem;
   }

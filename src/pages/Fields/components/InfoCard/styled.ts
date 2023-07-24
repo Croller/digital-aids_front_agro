@@ -16,8 +16,6 @@ export const Header = styled.div`
   align-items: center;
   align-self: stretch;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
-
   > svg {
     cursor: pointer;
   }
@@ -41,7 +39,7 @@ export const FieldType = styled.div`
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
 `
 
 export const FieldTypeText = styled.div`
@@ -57,4 +55,5 @@ export const Divider = styled.div`
 
 export const Section = styled.section`
   display: flex;
+  margin-top: 1rem;
 `
