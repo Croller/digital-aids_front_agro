@@ -90,7 +90,6 @@
     "mapbox-gl": "2.14.1",
     "mobx-react": "7.6.0",
     "moment": "2.29.4",
-    "node-sass": "8.0.0",
     "react-i18next": "12.2.1",
     "react-router-dom": "6.10.0",
     "react-svg-loader": "3.0.3",
