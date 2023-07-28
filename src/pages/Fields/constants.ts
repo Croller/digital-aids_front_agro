@@ -1,8 +1,8 @@
-import { type TLayer } from '@/components/ui/MapBox/type'
+import { type TMapLayer } from '@/components/ui/MapBox/type'
 
 const url = `https://${process.env.HOST ?? ''}/static/satellite`
 
-export const layersConfig: TLayer[] = [
+export const layersConfig: TMapLayer[] = [
   {
     layer: {
       id: 'ndvi_layer',

@@ -7,7 +7,7 @@ import { mapStyleConfig, styleImage } from './constants'
 import { Style } from './components/Style'
 import { Navigate } from './components/Navigate'
 import { getGeoJson } from './utils/getGeoJson'
-import { type TMapClick, type TLayer, type TCoords } from '@/components/ui/MapBox/type'
+import { type TMapClick, type TMapLayer, type TMapCoords } from '@/components/ui/MapBox/type'
 import { type TFeature } from '@/types/geojson'
 import {
   Wrapper,
@@ -24,7 +24,7 @@ interface IMapBox {
   showStyle?: boolean
   showNav?: boolean
   zoomOnClick?: boolean
-  layers?: TLayer[]
+  layers?: TMapLayer[]
   selected?: any[] | null
   zoomTo?: any[] | null
   defaultStyle?: string | null
@@ -74,7 +74,7 @@ export const MapBox: React.FC<IMapBox> = ({
   const ref = useRef(null)
   const [map, setMap] = useState<Map | null>(null)
   const [isLoad, setIsLoad] = useState<boolean>(false)
-  const [coords, setCoords] = useState<TCoords>({ x: 0, y: 0 })
+  const [coords, setCoords] = useState<TMapCoords>({ x: 0, y: 0 })
   const [scale, setScale] = useState<number>(0)
 
   const mapStyle = {
@@ -194,11 +194,11 @@ export const MapBox: React.FC<IMapBox> = ({
     setIsLoad(true)
   }
 
-  const setLayerVisibility = (item: TLayer): void => {
+  const setLayerVisibility = (item: TMapLayer): void => {
     map?.setLayoutProperty(item.layer.id, 'visibility', item.layer.layout.visibility)
   }
 
-  const setLayerConfig = (item: TLayer): void => {
+  const setLayerConfig = (item: TMapLayer): void => {
     setLayerVisibility(item)
 
     map?.on('mousemove', item.layer.id, () => {
@@ -211,7 +211,7 @@ export const MapBox: React.FC<IMapBox> = ({
     })
   }
 
-  const setLayers = (layers: TLayer[]): void => {
+  const setLayers = (layers: TMapLayer[]): void => {
     console.log('mapbox layers', layers)
     layers.forEach((item) => {
       const before = item.before ?? ''

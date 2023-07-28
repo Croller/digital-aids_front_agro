@@ -1,6 +1,6 @@
 import { type Feature, type FeatureCollection } from '@turf/turf'
 
-export type TLayer = {
+export type TMapLayer = {
   layer: {
     id: string
     type: 'raster' | 'fill' | 'line' | 'sky' | 'circle'
@@ -38,13 +38,13 @@ export type TLayer = {
   before?: string
 }
 
-export type TCoords = {
+export type TMapCoords = {
   x: number
   y: number
 }
 
 export type TMapClick = {
-  point: TCoords
+  point: TMapCoords
   features: any[] | null
   color: string | null
 }

@@ -15,7 +15,7 @@ import { area } from '@turf/turf'
 import { observer } from 'mobx-react'
 import * as turf from '@turf/turf'
 import { ChevronSvg } from '@/assets/images'
-import { type TLayer, type TMapClick } from '@/components/ui/MapBox/type'
+import { type TMapLayer, type TMapClick } from '@/components/ui/MapBox/type'
 import { type TFeature } from '@/types/geojson'
 import {
   Wrapper,
@@ -45,7 +45,7 @@ export default observer((): React.ReactElement => {
   const { fieldStore: { fields, group_fields, create }, dictionaryStore: { culture } } = useStores()
   const [eventCreate, setEventCreate] = useState<string | null>(null)
   const [selected, setSelected] = useState<any[] | null>(null)
-  const [layers, setLayers] = useState<TLayer[]>(layersConfig)
+  const [layers, setLayers] = useState<TMapLayer[]>(layersConfig)
   const [isAdd, setIsAdd] = useState<boolean>(false)
   const [info, setInfo] = useState<TFeature | null>(null)
 
