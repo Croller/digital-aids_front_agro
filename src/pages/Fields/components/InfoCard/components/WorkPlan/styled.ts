@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 export const SvgWrapper = styled.div`
   width: 24px;
   height: 24px;
-  background-color: ${PALETTE.light_blue};
+  background-color: ${PALETTE.blue_light};
   border-radius: 1.5rem;
 `
 
@@ -101,16 +101,16 @@ export const EndTime = styled.span`
   align-items: center;
   margin-top: 0.31rem;
   padding: 0.0625rem 0.25rem;
-  color: ${PALETTE.light_green};
+  color: ${PALETTE.green_light};
   font-family: unset;
   background: #20BF0626;
   border-radius: 2.5rem;
-  fill: ${PALETTE.light_green};
+  fill: ${PALETTE.green_light};
 `
 
 export const ShowMore = styled.div`
   margin-top: 0.69rem;
-  color: ${PALETTE.light_blue};
+  color: ${PALETTE.blue_light};
   font-size: 0.875rem;
   font-family: ${FONTS.regular};
 `

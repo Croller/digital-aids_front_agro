@@ -40,7 +40,7 @@ export const SwitchItem = styled.div<{ active?: boolean }>`
   align-items: center;
   justify-content: center;
   padding: 0.25rem 0.5rem;
-  color: ${(p) => (p.active ? `${PALETTE.dark_grey}` : `${PALETTE.note}`)};
+  color: ${(p) => (p.active ? `${PALETTE.grey_dark}` : `${PALETTE.note}`)};
   font-size: 0.75rem;
   font-family: ${FONTS.regular};
   line-height: 120%;

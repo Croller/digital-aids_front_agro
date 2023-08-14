@@ -14,7 +14,7 @@ export const TimelineBody = styled.div`
   height: 2.25rem;
   padding: 0rem 0.375rem;
   overflow: hidden;
-  background: ${PALETTE.deep_grey};
+  background: ${PALETTE.grey_deep};
   border-radius: 1.625rem;
   transform: translate(-50%, -50%);
 `

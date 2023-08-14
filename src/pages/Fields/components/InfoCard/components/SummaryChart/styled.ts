@@ -60,7 +60,7 @@ export const ColorDot = styled.div<{ color?: string }>`
 
 export const Name = styled.span`
   display: flex;
-  color: ${PALETTE.dark_grey};
+  color: ${PALETTE.grey_dark};
   font-size: 0.75rem;
   font-family: ${FONTS.regular};
   line-height: 120%;

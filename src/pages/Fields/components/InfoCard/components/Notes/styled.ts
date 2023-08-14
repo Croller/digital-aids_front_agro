@@ -65,6 +65,6 @@ export const NotesPlusSvg = styled(PlusSvg)`
   width: 2rem;
   height: 2rem;
   margin-left: 0.5rem;
-  background-color: ${PALETTE.light_blue};
+  background-color: ${PALETTE.blue_light};
   border-radius: 2rem;
 `

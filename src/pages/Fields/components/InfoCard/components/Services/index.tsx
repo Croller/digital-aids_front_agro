@@ -23,7 +23,7 @@ export const Services: React.FC = memo(() => {
         <Row>
           <Service>
             <IconWrapper>
-              <ColoredBugSvg color={PALETTE.light_green} />
+              <ColoredBugSvg color={PALETTE.green_light} />
             </IconWrapper>
             <Name>
               {t('fields.services.pest.name')}

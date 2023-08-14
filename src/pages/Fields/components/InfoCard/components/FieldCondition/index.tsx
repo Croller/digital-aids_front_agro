@@ -28,7 +28,7 @@ const getMockedTableDataArray = (t: TFunction<'translation', undefined, 'transla
     parameter: t('fields.status.vegetation'),
     fact: '79%',
     goal: '84%',
-    color: PALETTE.light_green
+    color: PALETTE.green_light
   },
   {
     parameter: t('fields.status.humidity'),
@@ -52,19 +52,19 @@ const getMockedTableDataArray = (t: TFunction<'translation', undefined, 'transla
     parameter: t('fields.status.relief'),
     fact: '0,9%',
     goal: '0%',
-    color: PALETTE.light_green
+    color: PALETTE.green_light
   },
   {
     parameter: t('fields.status.following'),
     fact: '79%',
     goal: '100%',
-    color: PALETTE.light_green
+    color: PALETTE.green_light
   },
   {
     parameter: t('fields.status.forecast'),
     fact: '118%',
     goal: '100%',
-    color: PALETTE.light_green
+    color: PALETTE.green_light
   }
 ]
 

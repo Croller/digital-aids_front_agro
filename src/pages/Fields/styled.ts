@@ -77,7 +77,7 @@ export const Select = styled.div`
   color: ${PALETTE.white};
   font-size: 1rem;
   font-family: ${FONTS.medium};
-  background: ${PALETTE.deep_grey};
+  background: ${PALETTE.grey_deep};
   border-radius: 1.625rem;
   cursor: pointer;
 
@@ -98,6 +98,6 @@ export const Calendar = styled(CalendarSvg)`
   gap: 0.375rem;
   align-items: flex-start;
   padding: 0.375rem;
-  background: ${PALETTE.deep_grey};
+  background: ${PALETTE.grey_deep};
   border-radius: 6.875rem;
 `
